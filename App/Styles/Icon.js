@@ -11,6 +11,13 @@ const Icon = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 10,
   },
+  iconContainerBottom0: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+  },
   iconTouch: {
     width: Dimensions.get('window').width * 0.14,
   },
@@ -20,6 +27,9 @@ const Icon = StyleSheet.create({
   },
   iconTouchTop20: {
     marginTop: 20
+  },
+  iconTouchBottom20: {
+    marginBottom: 20
   },
   iconColumnStyle: {
     margin: 10,

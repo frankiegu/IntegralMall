@@ -3,9 +3,9 @@
  */
 
 import {AppRegistry} from 'react-native';
-// import Main from './App/Demo/Navigation/Navigation';
-import Main from './App/Demo/Navigation/ReactNavigation';
-// import Main from './Main';
 import {name as appName} from './app.json';
+// import Root from './App/Demo/StickyHeader/StickyHeader';
+// import Root from './Main';
+import Root from './App/Demo/Navigation/Root';
 
-AppRegistry.registerComponent(appName, () => Main);
+AppRegistry.registerComponent(appName, () => Root);

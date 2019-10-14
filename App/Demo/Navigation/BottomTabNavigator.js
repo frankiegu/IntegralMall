@@ -1,8 +1,12 @@
 import React from 'react';
 import { Button, View, Text } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import Navigation from './Navigation'
+import Home from './Home'
+import Classify from './Classify'
 import User from './User'
+import lotteryDetails from './lotteryDetails';
+import BottomTabNavigatorScreen from './BottomTabNavigator';
 class DetailsScreen extends React.Component {
   render() {
     return (
@@ -34,7 +38,7 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <Navigation />
+      <Home {...this.props} />
     );
   }
 }
@@ -105,7 +109,33 @@ class UserScreen extends React.Component {
 
   render() {
     return (
-      <User />
+      <User {...this.props} />
+    );
+  }
+}
+
+class ClassifyScreen extends React.Component {
+  static navigationOptions = ({navigation, screenProps}) => ({
+    headerTitle: (
+      <Text allowFontScaling={false} style={{
+        fontSize: 17,
+        fontWeight: '600',
+        color: 'rgba(0, 0, 0, 1)',
+        textAlign: 'center',
+        marginHorizontal: 16
+      }}>分类</Text>
+    ),
+    tabBarVisible: false,
+    headerTitleStyle: {color: '#000000'},
+    headerStyle: {
+      backgroundColor: '#ffd600',
+      borderBottomWidth: 0
+    },
+  });
+
+  render() {
+    return (
+      <Classify {...this.props} />
     );
   }
 }
@@ -113,10 +143,7 @@ class UserScreen extends React.Component {
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Details: DetailsScreen,
-});
-
-const ClassifyStack = createStackNavigator({
-  Settings: SettingsUpScreen
+  lotteryDetails: { screen: lotteryDetails },
 });
 
 const SettingsStack = createStackNavigator({
@@ -127,42 +154,81 @@ const CartStack = createStackNavigator({
   Settings: SettingsUpScreen
 });
 
+const ClassifyStack = createStackNavigator({
+  Settings: ClassifyScreen
+});
+
 const UserStack = createStackNavigator({
   User: UserScreen,
 });
 
-export default createBottomTabNavigator(
+const BottomTabNavigator = createBottomTabNavigator(
   {
     Home: {
        screen: HomeStack,
        navigationOptions: {
-          tabBarLabel: '首页'
+          tabBarLabel: '首页',
+          tabBarIcon: ({tintColor, focused}) => (
+            <Ionicons
+              name={focused ? 'md-home' : 'md-home'}
+              size={26}
+              style={{color: tintColor}}
+            />
+          ),
        },
     },
-    ClassifyStack: {
-       screen: SettingsStack,
+    Classify: {
+       screen: ClassifyStack,
        navigationOptions: {
-          tabBarLabel: '分类'
+          tabBarLabel: '分类',
+          tabBarIcon: ({tintColor, focused}) => (
+            <Ionicons
+              name={focused ? 'md-list' : 'md-list'}
+              size={26}
+              style={{color: tintColor}}
+            />
+          ),
        },
     },
     Settings: {
        screen: SettingsStack,
        navigationOptions: {
-          tabBarLabel: '生活'
+          tabBarLabel: '生活',
+          tabBarIcon: ({tintColor, focused}) => (
+            <Ionicons
+              name={focused ? 'md-disc' : 'md-disc'}
+              size={26}
+              style={{color: tintColor}}
+            />
+          ),
        },
     },
     CartStack: {
        screen: SettingsStack,
        navigationOptions: {
-          tabBarLabel: '购物车'
+          tabBarLabel: '购物车',
+          tabBarIcon: ({tintColor, focused}) => (
+            <Ionicons
+              name={focused ? 'md-cart' : 'md-cart'}
+              size={26}
+              style={{color: tintColor}}
+            />
+          ),
        },
     },
     User: {
        screen: UserStack,
        navigationOptions: {
-          tabBarLabel: '我的'
+          tabBarLabel: '我的',
+          tabBarIcon: ({tintColor, focused}) => (
+            <Ionicons
+              name={focused ? 'md-person' : 'md-person'}
+              size={26}
+              style={{color: tintColor}}
+            />
+          ),
        },
-    }
+    },
   },
   {
     mode: 'modal',
@@ -170,3 +236,5 @@ export default createBottomTabNavigator(
     initialRouteName: 'Home'
   }
 );
+
+export default HomeStack

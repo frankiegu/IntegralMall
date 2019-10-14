@@ -16,8 +16,6 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import { createStackNavigator } from 'react-navigation-stack';
-
 class User extends React.Component {
   constructor(props) {
     super(props);
