@@ -16,7 +16,35 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-class User extends React.Component {
+class MaterialIcon extends React.Component {
+  static defaultProps = {
+    customStyle: '',
+    className: '',
+    icon: '',
+    size: 24,
+    color: ''
+  }
+
+  render() {
+    const { customStyle, className, icon, size, color } = this.props
+
+    const rootStyle = {
+      fontSize: `${parseInt(size) * 2}`,
+      color
+    }
+
+    return (
+      <Text
+        style={[MaterialIcon, 'material-icons']}
+        style={this.mergeStyle(rootStyle, customStyle)}
+      >
+        {icon}
+      </Text>
+    )
+  }
+}
+
+class LotteryDetails extends React.Component {
   constructor(props) {
     super(props);
 
@@ -100,4 +128,4 @@ const styles = {
   },
 }
 
-module.exports = User;
+module.exports = LotteryDetails;

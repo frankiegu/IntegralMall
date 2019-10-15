@@ -18,7 +18,7 @@ import Home from './Home'
 import Classify from './Classify'
 import Life from './Life'
 import User from './User'
-import lotteryDetails from './lotteryDetails';
+import LotteryDetails from './LotteryDetails';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 class SettingsScreen extends React.Component {
   render() {
@@ -334,7 +334,7 @@ const BottomNavigatorScreen = createBottomTabNavigator({
 {
   mode: 'card',
   headerMode: 'none',
-  initialRouteName: 'User'
+  initialRouteName: 'Home'
 });
 
 const stackNavigator = createStackNavigator({
@@ -345,7 +345,7 @@ const stackNavigator = createStackNavigator({
     }
   },
   DetailsScreen: { screen: DetailsScreen },
-  lotteryDetails: { screen: lotteryDetails },
+  LotteryDetails: { screen: LotteryDetails },
   AnimatedTurnTableDraw: { screen: AnimatedTurnTableDraw },
 })
 

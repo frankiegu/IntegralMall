@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import StickyHeader from 'react-native-stickyheader';
-import lotteryDetails from './lotteryDetails';
+import LotteryDetails from './LotteryDetails';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 import {
   Text,
@@ -140,7 +140,7 @@ class Home extends React.Component {
                       <TouchableHighlight
                         key={key}
                         style={styles.swiperTouch}
-                        underlayColor='transparent'
+                        activeOpacity={0.9}
                       >
                         <Image resizeMode='cover' style={styles.swiperImage} source={{uri: item._embedded['wp:featuredmedia'][0].media_details.sizes['medium_large'].source_url}} />
                       </TouchableHighlight>
@@ -157,7 +157,8 @@ class Home extends React.Component {
                       <TouchableHighlight
                         key={key}
                         style={iconStyle.iconTouch}
-                        underlayColor='transparent'
+                        underlayColor="rgba(255, 255, 255, 0.85)"
+                        activeOpacity={0.85}
                         onPress={() => {
                           this.props.navigation.navigate(item.route)
                         }}
@@ -186,7 +187,8 @@ class Home extends React.Component {
                 renderItem={({item, index}) =>
                   <TouchableHighlight
                     style={[styles.listTouch, this.state.active === item.id ? styles.listTouchActive : '']}
-                    underlayColor="rgba(34, 26, 38, 0.5)"
+                    underlayColor="rgba(255, 255, 255, 0.85)"
+                    activeOpacity={0.9}
                     onPress={() => this.fetchDataDetail(item.id)}
                   >
                     <>
@@ -207,9 +209,10 @@ class Home extends React.Component {
                 underlayColor='transparent'
                   style={[styles.lotteryTouch, index % 2 ? styles.lotteryTouchmarginLeft10 : '']}
                   onPress={() => {
-                    this.props.navigation.navigate('lotteryDetails', { lid: item.lottery_id })
+                    this.props.navigation.navigate('LotteryDetails', { lid: item.lottery_id })
                   }}
-                  underlayColor="rgba(34, 26, 38, 0.5)"
+                  underlayColor="rgba(255, 255, 255, 0.85)"
+                  activeOpacity={0.9}
                 >
                   <>
                     <Image resizeMode='cover' style={styles.lotteryLottery_img} source={{uri: item.lottery_img}} />
