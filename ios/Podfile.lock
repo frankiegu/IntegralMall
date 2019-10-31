@@ -182,6 +182,16 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
   - React-jsinspector (0.61.2)
+  - react-native-camera (3.7.2):
+    - React
+    - react-native-camera/RCT (= 3.7.2)
+    - react-native-camera/RN (= 3.7.2)
+  - react-native-camera/RCT (3.7.2):
+    - React
+  - react-native-camera/RN (3.7.2):
+    - React
+  - react-native-webview (7.4.2):
+    - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
   - React-RCTAnimation (0.61.2):
@@ -219,9 +229,13 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.2)
   - RNGestureHandler (1.4.1):
     - React
+  - RNI18n (2.0.15):
+    - React
   - RNReanimated (1.3.0):
     - React
   - RNScreens (2.0.0-alpha.3):
+    - React
+  - RNSVG (9.12.0):
     - React
   - RNVectorIcons (4.6.0):
     - React
@@ -244,6 +258,8 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -256,8 +272,10 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -294,6 +312,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
     :path: "../node_modules/react-native/Libraries/ActionSheetIOS"
   React-RCTAnimation:
@@ -316,10 +338,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -341,6 +367,8 @@ SPEC CHECKSUMS:
   React-jsi: 32285a21b1b24c36060493ed3057a34677d58d09
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
+  react-native-camera: 92877108e4c4d1d5a3f1c6f8733f1877ab1e8c1a
+  react-native-webview: 5c7578eb1ee5daf16e4c84a500becaa2038db828
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e
@@ -352,8 +380,10 @@ SPEC CHECKSUMS:
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNScreens: 402a99b0a27c0c32f079cec12d3ccbd35e20cd7f
+  RNSVG: 75670614bca635d3dd64bc267bc199e539cb4fa9
   RNVectorIcons: a3c395829c56e2cb054a0730126298bf805a2dca
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
