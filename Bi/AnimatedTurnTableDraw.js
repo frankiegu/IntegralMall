@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   Text,
+  Alert,
   TouchableHighlight
 } from "react-native"
 
@@ -106,7 +107,13 @@ export default class AnimatedTurnTableDraw extends React.Component {
   };
 
   changeValue = (postion) => {
-    alert("定位到了" + postion + "上了");
+    Alert.alert(
+      `提示`,
+      "定位到了" + postion + "上了",
+      [
+        {text: '确定'}
+      ]
+    );
   };
 
   render() {

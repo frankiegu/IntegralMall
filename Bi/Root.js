@@ -3,6 +3,7 @@ import {
   Button,
   View,
   Text,
+  Alert,
   TouchableHighlight,
   TextInput,
   Dimensions,
@@ -20,8 +21,10 @@ import Classify from './Classify'
 import Trend from './Trend'
 import LifeTab from './Life'
 import PnameDetail from './PnameDetail'
+import Web from './Mobile/Web'
 import User from './Mobile/User'
 import Login from './Mobile/Login'
+import Search from './Mobile/Search'
 import Balance from './Mobile/Balance'
 import Register from './Mobile/Register'
 import ReRegister from './Mobile/ReRegister'
@@ -52,7 +55,7 @@ class HomeScreen extends React.Component {
           color: 'rgba(255, 255, 255, 1)',
           textAlign: 'center',
           marginHorizontal: 16
-        }}>Wallet</Text>
+        }}>绿钻信用</Text>
       </TouchableHighlight>
     ),
     headerRight: (
@@ -72,7 +75,7 @@ class HomeScreen extends React.Component {
     ),
     tabBarVisible: false,
     headerStyle: {
-      backgroundColor: '#1e88e5',
+      backgroundColor: '#03d2a6',
       borderBottomWidth: 0,
       elevation: 0,
     },
@@ -103,7 +106,7 @@ class LifeScreen extends React.Component {
     ),
     headerRight: (
       <TouchableHighlight
-        style={{right: 10}}
+        style={{right: 10, display: 'none'}}
         underlayColor='transparent'
       >
         <Ionicons
@@ -115,7 +118,7 @@ class LifeScreen extends React.Component {
     ),
     tabBarVisible: false,
     headerStyle: {
-      backgroundColor: '#1e88e5',
+      backgroundColor: '#03d2a6',
       borderBottomWidth: 0,
       elevation: 0,
     },
@@ -165,7 +168,7 @@ class UserScreen extends React.Component {
     headerTitle: null,
     tabBarVisible: false,
     headerStyle: {
-      backgroundColor: '#1e88e5',
+      backgroundColor: '#03d2a6',
       borderBottomWidth: 0,
       elevation: 0,
     },
@@ -202,7 +205,7 @@ class ClassifyScreen extends React.Component {
     tabBarVisible: false,
     headerTitleStyle: {color: '#FFFFFF'},
     headerStyle: {
-      backgroundColor: '#1e88e5',
+      backgroundColor: '#03d2a6',
       borderBottomWidth: 0
     },
   });
@@ -274,7 +277,10 @@ const BottomNavigatorScreen = createBottomTabNavigator({
 {
   mode: 'card',
   headerMode: 'screen',
-  initialRouteName: 'Home'
+  initialRouteName: 'Home',
+  tabBarOptions: {
+    activeTintColor: '#07969c',
+  }
 });
 
 const stackNavigator = createStackNavigator({
@@ -303,7 +309,9 @@ const stackNavigator = createStackNavigator({
   RecordDetail: { screen: RecordDetail },
   PnameDetail: { screen: PnameDetail },
   Trend: { screen: Trend },
+  Search: { screen: Search },
   GiveQRcode: { screen: GiveQRcode },
+  Web: { screen: Web },
 })
 
 module.exports = stackNavigator;

@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -45,6 +46,17 @@ class Trend extends React.Component {
     }, 1000);
   }
 
+  componentDidMount() {
+    this.interval = this.props.navigation.addListener('didFocus', () => {
+      this.fetchDataDetail();
+    })
+  }
+
+  componentWillUnmount() {
+    this.fetchDataDetail();
+    this.interval.remove();
+  }
+
   fetchDataDetail() {
     fetch(`http://47.94.150.170:8080/v1/price/coinRank`, {
       method: 'POST',
@@ -53,7 +65,7 @@ class Trend extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "coinNames": ["ETH", "BTC", "LTC", "BHC"]
+        "coinNames": ["BTC", "ETH", "XRP", "BCH", "USDT", "LTC", "EOS", "BNB", "BSV", "XLM", "TRX", "ADA", "XMR", "LEO", "OKB", "HT", "LINK", "MIOTA", "ALGO", "NEO"]
       })
     })
     .then(response => response.json())
@@ -81,6 +93,7 @@ class Trend extends React.Component {
           />
         }
       >
+        <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
         <FlatList
           style={styles.items}
           data={this.state.coinrank != null ? this.state.coinrank.Data : null}
@@ -101,9 +114,9 @@ class Trend extends React.Component {
               style={styles.item}
               underlayColor="rgba(255, 255, 255, 1)"
               onPress={() => {
-                this.props.navigation.navigate('PnameDetail', {
-                  item: item
-                })
+                // this.props.navigation.navigate('PnameDetail', {
+                //   item: item
+                // })
               }}
             >
               <>
@@ -112,7 +125,7 @@ class Trend extends React.Component {
                 </View>
                 <View style={styles.vol}>
                   <Text allowFontScaling={false} style={styles.name}>¥ {item.current_price}</Text>
-                  <Text allowFontScaling={false} style={[styles.percent, {backgroundColor: item.change_percent > 0 ? 'blue' : 'rgb(255, 50, 50)'} ]}>{item.change_percent}%</Text>
+                  <Text allowFontScaling={false} style={[styles.percent, {backgroundColor: item.change_percent > 0 ? '#03d2a6' : 'rgb(255, 50, 50)'} ]}>{item.change_percent}%</Text>
                 </View>
               </>
             </TouchableHighlight>

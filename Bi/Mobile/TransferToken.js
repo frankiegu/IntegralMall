@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   StatusBarManager,
   ScrollView,
@@ -71,7 +72,8 @@ class TransferToken extends React.Component {
       amount: null,
       rec: null,
       balance: null,
-      status: false
+      status: false,
+      statusLoading: false
     };
 
 
@@ -107,6 +109,9 @@ class TransferToken extends React.Component {
   }
 
   fetch() {
+    this.setState({
+      statusLoading: true
+    })
     fetch(`http://47.94.150.170:8080/v1/token/transferToken`, {
       method: 'POST',
       headers: {
@@ -123,156 +128,281 @@ class TransferToken extends React.Component {
     })
     .then(response => response.json())
     .then(responseData => {
-      alert(responseData.data.Message)
+      Alert.alert(
+        `提示`,
+        responseData.data.Message,
+        [
+          {text: '确定'}
+        ]
+      );
+      this.setState({
+        statusLoading: false
+      })
       this.props.navigation.goBack();
     })
     .catch((error) => {
       console.log('err: ', error)
-      alert('请确认填写信息是否有误')
+      Alert.alert(
+        `提示`,
+        '请确认填写信息是否有误',
+        [
+          {text: '确定'}
+        ]
+      );
+      this.setState({
+        statusLoading: false
+      })
     })
     .done();
   }
 
   render() {
-    return (
-      <ScrollView style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <View style={[styles.container, {padding: 10}]}>
-          <View style={styles.textForm}>
-            <Text allowFontScaling={false} style={styles.textLable}>收款方</Text>
-            <TextInput
-              allowFontScaling={false}
-              style={styles.textInput}
-              placeholder="收款方Address"
-              clearButtonMode="while-editing"
-              keyboardType="ascii-capable"
-              defaultValue=""
-              placeholderTextColor="#CCC"
-              onChangeText={(params) => {
-                this.setState({
-                  to: params
-                });
-              }}
-            />
-          </View>
-          <View style={styles.textForm}>
-            <View style={styles.textContainer}>
-              <Text allowFontScaling={false} style={styles.textLable}>转账数量</Text>
-              <Text allowFontScaling={false} style={styles.textLable}>{this.props.navigation.state.params.title} 余额：{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
+    if (!this.state.status) {
+
+      return (
+        <ScrollView style={styles.container}>
+          <StatusBar barStyle="dark-content" />
+          <View style={[styles.container, {padding: 10}]}>
+            <View style={styles.textForm}>
+              <Text allowFontScaling={false} style={styles.textLable}>收款方</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder="收款方Address"
+                clearButtonMode="while-editing"
+                keyboardType="ascii-capable"
+                defaultValue=""
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    to: params
+                  });
+                }}
+              />
             </View>
-            <TextInput
-              allowFontScaling={false}
-              style={styles.textInput}
-              placeholder="转账数量"
-              clearButtonMode="while-editing"
-              keyboardType="numeric"
-              defaultValue=""
-              placeholderTextColor="#CCC"
-              onChangeText={(params) => {
-                this.setState({
-                  amount: params
-                });
-              }}
-            />
-          </View>
-          <View style={styles.textForm}>
-            <Text allowFontScaling={false} style={styles.textLable}>转账备注</Text>
-            <TextInput
-              allowFontScaling={false}
-              style={styles.textInput}
-              placeholder="选填"
-              clearButtonMode="while-editing"
-              defaultValue=""
-              placeholderTextColor="#CCC"
-              onChangeText={(params) => {
-                this.setState({
-                  rec: params
-                });
-              }}
-            />
-          </View>
-          <TouchableHighlight
-            underlayColor='transparent'
-            style={{backgroundColor: '#1052fa', padding: 13, borderRadius: 0, marginBottom: 20}}
-            onPress={() => {
-              if (this.state.to && this.state.amount) {
-                this.setState({
-                  status: true
-                })
-              } else {
-                alert('请确认填写信息是否有误')
-                this.setState({
-                  status: false
-                })
-              }
-            }}
-          >
-            <>
-              <Text allowFontScaling={false} numberOfLines={1} style={{
-                fontSize: 14,
-                fontWeight: '600',
-                color: 'rgba(255, 255, 255, 0.9)',
-                textAlign: 'center',
-                marginHorizontal: 16
-              }}>确认</Text>
-            </>
-          </TouchableHighlight>
-        </View>
-        <View
-          style={[styles.container, {
-            position: 'absolute',
-            width: Dimensions.get('window').width,
-            backgroundColor: 'rgba(0, 0, 0, 0.44)',
-            display: this.state.status ? 'flex' : 'none'
-          }]}
-          onPress={() => {
-            this.setState({
-              status: false
-            })
-          }}
-        >
-          <View style={styles.footerMain}>
-            <View style={styles.footerMainNumber}>
-              <Text allowFontScaling={false} style={styles.footerMainCoin}>15</Text>
-              <Text allowFontScaling={false} style={styles.footerMainText}>{this.props.navigation.state.params.title}</Text>
+            <View style={styles.textForm}>
+              <View style={styles.textContainer}>
+                <Text allowFontScaling={false} style={styles.textLable}>转账数量</Text>
+                <Text allowFontScaling={false} style={styles.textLable}>{this.props.navigation.state.params.title} 余额：{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
+              </View>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder="转账数量"
+                clearButtonMode="while-editing"
+                keyboardType="numeric"
+                defaultValue=""
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    amount: params
+                  });
+                }}
+              />
             </View>
-            <View style={styles.footerMainList}>
-              <Text allowFontScaling={false} style={styles.footerMainTitle}>支付信息</Text>
-              <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.props.navigation.state.params.title} 转账信息</Text>
-            </View>
-            <View style={styles.footerMainList}>
-              <Text allowFontScaling={false} style={styles.footerMainTitle}>付款方</Text>
-              <Text allowFontScaling={false} style={styles.footerMainSubTitleRight}>{this.props.navigation.state.params.address}</Text>
-            </View>
-            <View style={styles.footerMainList}>
-              <Text allowFontScaling={false} style={styles.footerMainTitle}>收款方</Text>
-              <Text allowFontScaling={false} style={styles.footerMainSubTitleRight}>{this.state.to}</Text>
-            </View>
-            <View style={styles.footerMainList}>
-              <Text allowFontScaling={false} style={styles.footerMainTitle}>备注</Text>
-              <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.state.rec}</Text>
+            <View style={styles.textForm}>
+              <Text allowFontScaling={false} style={styles.textLable}>转账备注</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder="选填"
+                clearButtonMode="while-editing"
+                defaultValue=""
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    rec: params
+                  });
+                }}
+              />
             </View>
             <TouchableHighlight
               underlayColor='transparent'
-              style={{backgroundColor: '#1052fa', padding: 13, borderRadius: 0, marginTop: 20, marginBottom: 20}}
+              style={styles.touchableHighlight}
               onPress={() => {
-                this.fetch()
+                if (this.state.to && this.state.amount) {
+                  this.setState({
+                    status: true
+                  })
+                } else {
+                  Alert.alert(
+                    `提示`,
+                    '请确认填写信息是否有误',
+                    [
+                      {text: '确定'}
+                    ]
+                  );
+                  this.setState({
+                    status: false
+                  })
+                }
               }}
             >
               <>
-                <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={{
+                <Text allowFontScaling={false} numberOfLines={1} style={{
                   fontSize: 14,
                   fontWeight: '600',
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>确认转账</Text>
+                }}>确认</Text>
               </>
             </TouchableHighlight>
           </View>
-        </View>
-      </ScrollView>
-    );
+        </ScrollView>
+      );
+    } else {
+      return (
+        <ScrollView style={styles.container}>
+          <StatusBar barStyle="dark-content" />
+          <View style={[styles.container, {padding: 10}]}>
+            <View style={styles.textForm}>
+              <Text allowFontScaling={false} style={styles.textLable}>收款方</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder="收款方Address"
+                clearButtonMode="while-editing"
+                keyboardType="ascii-capable"
+                defaultValue={this.state.to}
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    to: params
+                  });
+                }}
+              />
+            </View>
+            <View style={styles.textForm}>
+              <View style={styles.textContainer}>
+                <Text allowFontScaling={false} style={styles.textLable}>转账数量</Text>
+                <Text allowFontScaling={false} style={styles.textLable}>{this.props.navigation.state.params.title} 余额：{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
+              </View>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder="转账数量"
+                clearButtonMode="while-editing"
+                keyboardType="numeric"
+                defaultValue={this.state.amount}
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    amount: params
+                  });
+                }}
+              />
+            </View>
+            <View style={styles.textForm}>
+              <Text allowFontScaling={false} style={styles.textLable}>转账备注</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder="选填"
+                clearButtonMode="while-editing"
+                defaultValue={this.state.rec}
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    rec: params
+                  });
+                }}
+              />
+            </View>
+            <TouchableHighlight
+              underlayColor='transparent'
+              style={styles.touchableHighlight}
+              onPress={() => {
+                if (this.state.to && this.state.amount) {
+                  this.setState({
+                    status: true
+                  })
+                } else {
+                  Alert.alert(
+                    `提示`,
+                    '请确认填写信息是否有误',
+                    [
+                      {text: '确定'}
+                    ]
+                  );
+                  this.setState({
+                    status: false
+                  })
+                }
+              }}
+            >
+              <>
+                <Text allowFontScaling={false} numberOfLines={1} style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textAlign: 'center',
+                  marginHorizontal: 16
+                }}>确认</Text>
+              </>
+            </TouchableHighlight>
+          </View>
+          <View
+            style={[styles.container, {
+              position: 'absolute',
+              width: Dimensions.get('window').width,
+              backgroundColor: 'rgba(0, 0, 0, 0.44)',
+              display: this.state.status ? 'flex' : 'none'
+            }]}
+            onPress={() => {
+              this.setState({
+                status: false
+              })
+            }}
+          >
+            <View style={styles.footerMain}>
+              <View style={styles.footerMainNumber}>
+                <Text allowFontScaling={false} style={styles.footerMainCoin}>{this.state.amount}</Text>
+                <Text allowFontScaling={false} style={styles.footerMainText}>{this.props.navigation.state.params.title}</Text>
+              </View>
+              <View style={styles.footerMainList}>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>支付信息</Text>
+                <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.props.navigation.state.params.title} 转账信息</Text>
+              </View>
+              <View style={styles.footerMainList}>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>付款方</Text>
+                <Text allowFontScaling={false} style={styles.footerMainSubTitleRight}>{this.props.navigation.state.params.address}</Text>
+              </View>
+              <View style={styles.footerMainList}>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>收款方</Text>
+                <Text allowFontScaling={false} style={styles.footerMainSubTitleRight}>{this.state.to}</Text>
+              </View>
+              <View style={styles.footerMainList}>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>备注</Text>
+                <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.state.rec}</Text>
+              </View>
+              <TouchableHighlight
+                underlayColor='transparent'
+                style={styles.touchableHighlight}
+                onPress={() => {
+                  !this.state.statusLoading ? this.fetch() : null
+                }}
+              >
+                <>
+                  <ActivityIndicator
+                    style={{display: this.state.statusLoading ? 'flex' : 'none'}}
+                    size="small"
+                    color="#FFF"
+                  />
+                  <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    textAlign: 'center',
+                    marginHorizontal: 16
+                  }}>确认转账</Text>
+                </>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </ScrollView>
+      );
+    }
   }
 }
 
@@ -332,6 +462,16 @@ const styles = {
   footerMainSubTitleRight: {
     width: '70%',
     textAlign: 'right'
+  },
+  touchableHighlight: {
+    backgroundColor: '#1052fa',
+    padding: 13,
+    borderRadius: 0,
+    marginBottom: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   }
 }
 

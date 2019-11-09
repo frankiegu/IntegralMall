@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -52,7 +53,8 @@ class GiveRedEnvelopes extends React.Component {
       account: this.props.navigation.state.params.address,
       balance: null,
       amount: null,
-      balanceData: null
+      balanceData: null,
+      statusLoading: false
     };
 
     this.balance(this.state.tokenKey, this.state.account)
@@ -87,6 +89,9 @@ class GiveRedEnvelopes extends React.Component {
   }
 
   fetch() {
+    this.setState({
+      statusLoading: true
+    })
     fetch(`http://47.94.150.170:8080/v1/resk/hairRedEnvelopes`, {
       method: 'POST',
       headers: {
@@ -102,27 +107,11 @@ class GiveRedEnvelopes extends React.Component {
     })
     .then(response => response.json())
     .then(responseData => {
-      // {
-      //   "Code": 200,
-      //   "Data": {
-      //     "TokenSymbol": "ETH",
-      //     "creation_time": 1571993566,
-      //     "currency_key": "cd31d018981e80b07b89315e09845a6814a3610bd457b2810a925d91fb26fe38",
-      //     "expiration_state": false,
-      //     "expiration_time": 1572079966,
-      //     "is_complete": false,
-      //     "issuer_address": "0x758a70adbe79a864e52cd05636fc173d86848d50",
-      //     "red_env_account_list": {},
-      //     "red_env_balance": 5.987654209136963,
-      //     "red_env_remaining_quantity": 3,
-      //     "red_env_total_amount": 5.987654209136963,
-      //     "red_env_total_quantity": 3,
-      //     "red_envelopes_id": "4ce57ac3441040ae54c4c08bd80e953c7b6624a0c9697f18567fb8b1104405a2"
-      //   },
-      //   "Message": "红包发放成功",
-      //   "Status": false
-      // }
-      if (responseData.data.Code) {
+      console.log(responseData.data);
+      this.setState({
+        statusLoading: false
+      })
+      if (responseData.data.Code == 200) {
         this.props.navigation.navigate('GiveQRcode', {
           title: this.props.navigation.state.params.title,
           tokenKey: this.props.navigation.state.params.tokenKey,
@@ -130,11 +119,20 @@ class GiveRedEnvelopes extends React.Component {
           red_envelopes_id: responseData.data.Data.red_envelopes_id
         })
       } else {
-        alert('失败')
+        Alert.alert(
+          `提示`,
+          responseData.data.Message || '操作失败',
+          [
+            {text: '确定'},
+          ]
+        );
       }
     })
     .catch((error) => {
       console.log('err: ', error)
+      this.setState({
+        statusLoading: false
+      })
     })
     .done();
   }
@@ -152,7 +150,7 @@ class GiveRedEnvelopes extends React.Component {
             <TextInput
               allowFontScaling={false}
               style={styles.textInput}
-              placeholder="balance"
+              placeholder="填写金额"
               clearButtonMode="while-editing"
               keyboardType="ascii-capable"
               defaultValue=""
@@ -183,12 +181,17 @@ class GiveRedEnvelopes extends React.Component {
           </View>
           <TouchableHighlight
             underlayColor='transparent'
-            style={{backgroundColor: '#1052fa', padding: 13, borderRadius: 0, marginBottom: 20}}
+            style={[styles.touchableHighlight, {backgroundColor: 'rgb(242, 46, 46)'}]}
             onPress={() => {
-              this.fetch()
+              !this.state.statusLoading ? this.fetch() : null
             }}
           >
             <>
+              <ActivityIndicator
+                style={{display: this.state.statusLoading ? 'flex' : 'none'}}
+                size="small"
+                color="#FFF"
+              />
               <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={{
                 fontSize: 14,
                 fontWeight: '600',
@@ -227,6 +230,16 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  touchableHighlight: {
+    backgroundColor: 'rgb(255, 50, 50)',
+    padding: 13,
+    borderRadius: 0,
+    marginBottom: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   }
 }
 

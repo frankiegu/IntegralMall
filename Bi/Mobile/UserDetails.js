@@ -69,7 +69,13 @@ class UserDetails extends React.Component {
   async clipboardString(string) {
     Clipboard.setString(string);
     let str = await Clipboard.getString()
-    alert('已复制文本')
+    Alert.alert(
+      `提示`,
+      '已复制文本',
+      [
+        {text: '确定'},
+      ]
+    );
   }
 
   fetchUserinfo() {
@@ -85,13 +91,18 @@ class UserDetails extends React.Component {
     })
     .then(response => response.json())
     .then(responseData => {
-      console.log(responseData.data)
       if (responseData.data.Code == 200) {
         this.setState({
           account: responseData.data.Data
         })
       } else {
-        alert(responseData.data.Message)
+        Alert.alert(
+          `提示`,
+          responseData.data.Message,
+          [
+            {text: '确定'}
+          ]
+        );
       }
     })
     .catch((error) => {
@@ -126,7 +137,7 @@ class UserDetails extends React.Component {
         automaticallyAdjustContentInsets={true}
         style={{position: 'relative', flex: 1}}
       >
-        <StatusBar barStyle="dark-content" />
+        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <View style={styles.container}>
           <View style={styles.lists}>
             <View style={styles.list}>

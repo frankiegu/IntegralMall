@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -47,7 +48,8 @@ class PnameDetail extends React.Component {
     headerTitleStyle: {color: '#FFFFFF'},
     headerStyle: {
       backgroundColor: '#ffffff',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0,
     },
   });
 

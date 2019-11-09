@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -79,9 +80,13 @@ class Login extends React.Component {
           smsCodeStatus: true
         })
       } else {
-        alert(
-          responseData.data.Message
-        )
+        Alert.alert(
+          `提示`,
+          responseData.data.Message,
+          [
+            {text: '确定'}
+          ]
+        );
         this.setState({
           smsCodeStatus: false
         })
@@ -114,7 +119,13 @@ class Login extends React.Component {
         this.props.navigation.goBack();
         // this.props.navigation.state.params.refresh();
       } else {
-        alert(responseData.data.Message)
+        Alert.alert(
+          `提示`,
+          responseData.data.Message,
+          [
+            {text: '确定'}
+          ]
+        );
       }
     })
     .catch((error) => {
@@ -154,8 +165,10 @@ class Login extends React.Component {
                   style={styles.textInput}
                   placeholder="请输入密码"
                   clearButtonMode="while-editing"
+                  password={true}
                   defaultValue=""
                   placeholderTextColor="#CCC"
+                  secureTextEntry
                   onChangeText={(params) => {
                     this.setState({
                       password: params
@@ -166,7 +179,7 @@ class Login extends React.Component {
                 <View style={styles.textSubmitFoot}>
                   <TouchableHighlight
                     underlayColor='transparent'
-                    style={{backgroundColor: '#1052fa', padding: 10, borderRadius: 20}}
+                    style={{backgroundColor: '#04c2ad', padding: 10, borderRadius: 20}}
                     onPress={() => {
                       this.fetchLogin()
                     }}
@@ -193,7 +206,7 @@ class Login extends React.Component {
             <View style={styles.container}>
               <KeyboardAvoidingView
                 behavior="padding"
-                style={{width: '100%', alignItems: 'center'}}
+                style={{width: '100%', height: '100%', alignItems: 'center'}}
                 keyboardVerticalOffset={120}
               >
                 <TextInput
@@ -228,7 +241,7 @@ class Login extends React.Component {
                 <View style={styles.textSubmitFoot}>
                   <TouchableHighlight
                     underlayColor='transparent'
-                    style={{backgroundColor: '#1052fa', padding: 10, borderRadius: 20, display: this.state.smsCodeStatus ? 'none' : 'flex'}}
+                    style={{backgroundColor: '#04c2ad', padding: 10, borderRadius: 20, display: this.state.smsCodeStatus ? 'none' : 'flex'}}
                     onPress={() => {
                       this.sendSms()
                     }}
@@ -245,7 +258,7 @@ class Login extends React.Component {
                   </TouchableHighlight>
                   <TouchableHighlight
                     underlayColor='transparent'
-                    style={{backgroundColor: '#1052fa', padding: 10, borderRadius: 20, display: this.state.smsCodeStatus ? 'flex' : 'none'}}
+                    style={{backgroundColor: '#04c2ad', padding: 10, borderRadius: 20, display: this.state.smsCodeStatus ? 'flex' : 'none'}}
                     onPress={() => {
                       this.fetchLogin()
                     }}
@@ -291,6 +304,7 @@ const styles = {
     borderWidth: 1,
     padding: 12,
     margin: 20,
+    height: 43,
     borderRadius: 12,
     textAlign: 'center'
   },

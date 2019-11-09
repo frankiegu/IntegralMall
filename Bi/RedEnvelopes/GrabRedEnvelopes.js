@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -36,12 +37,15 @@ class GrabRedEnvelopes extends React.Component {
       </TouchableHighlight>
     ),
     tabBarVisible: false,
-    headerTitleStyle: {color: '#FFFFFF'},
+    headerTitleStyle: {
+      color: '#FFFFFF'
+    },
     headerStyle: {
-      backgroundColor: '#1e88e5',
+      backgroundColor: '#ec6863',
       borderBottomWidth: 0,
       elevation: 0,
     },
+    headerTintColor: '#FFFFFF'
   });
 
   constructor(props) {
@@ -51,7 +55,8 @@ class GrabRedEnvelopes extends React.Component {
       tokenKey: null,
       account: this.props.navigation.state.params.account || this.props.navigation.state.params.address,
       red_envelopes_id: this.props.navigation.state.params.red_envelopes_id || null,
-      detail: null
+      detail: null,
+      statusLoading: false
     };
   }
 
@@ -71,6 +76,9 @@ class GrabRedEnvelopes extends React.Component {
   }
 
   fetch() {
+    this.setState({
+      statusLoading: true
+    })
     fetch(`http://47.94.150.170:8080/v1/resk/receiveRedEnvelopes`, {
       method: 'POST',
       headers: {
@@ -84,22 +92,28 @@ class GrabRedEnvelopes extends React.Component {
     })
     .then(response => response.json())
     .then(responseData => {
-      alert(responseData.data.Message)
+      Alert.alert(
+        `提示`,
+        responseData.data.Message,
+        [
+          {text: '确定'}
+        ]
+      );
       let detail = [], i = 0
       Object.keys(responseData.data.Data.red_env_account_list).forEach((key) => {
         responseData.data.Data.red_env_account_list[key].time = this.timeFormat(responseData.data.Data.red_env_account_list[key].time)
-        console.log(responseData.data.Data.red_env_account_list[key])
         detail[i++] = responseData.data.Data.red_env_account_list[key]
       });
-      console.log(detail)
       this.setState({
-        detail: detail
+        detail: detail,
+        statusLoading: false
       })
     })
     .catch((error) => {
       console.log('err: ', error)
       this.setState({
-        detail: null
+        detail: null,
+        statusLoading: false
       })
     })
     .done();
@@ -113,13 +127,19 @@ class GrabRedEnvelopes extends React.Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        reskID: this.state.reskID,
+        reskID: this.state.red_envelopes_id,
         account: this.state.account
       })
     })
     .then(response => response.json())
     .then(responseData => {
-      alert(responseData.data.Message)
+      Alert.alert(
+        `提示`,
+        responseData.data.Message,
+        [
+          {text: '确定'}
+        ]
+      );
     })
     .catch((error) => {
       console.log('err: ', error)
@@ -130,7 +150,8 @@ class GrabRedEnvelopes extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <StatusBar backgroundColor="#1e88e5" barStyle="light-content" />
+        <StatusBar backgroundColor="#ec6863" barStyle="light-content" />
+        <Image style={styles.backgroundImage} source={require('../imgs/back.jpeg')} />
         <View style={styles.backgroundColor}>
           <View style={styles.textForm}>
             <TextInput
@@ -143,7 +164,7 @@ class GrabRedEnvelopes extends React.Component {
               placeholderTextColor="#CCC"
               onChangeText={(params) => {
                 this.setState({
-                  reskID: params
+                  red_envelopes_id: params
                 });
               }}
             />
@@ -155,7 +176,14 @@ class GrabRedEnvelopes extends React.Component {
               this.fetch()
             }}
           >
-            <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={styles.buttonText}>抢红包</Text>
+            <>
+              <ActivityIndicator
+                style={{display: this.state.statusLoading ? 'flex' : 'none'}}
+                size="small"
+                color="#FFF"
+              />
+              <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={styles.buttonText}>领取</Text>
+            </>
           </TouchableHighlight>
         </View>
         {
@@ -193,28 +221,32 @@ class GrabRedEnvelopes extends React.Component {
 const styles = {
   container: {
     position: 'relative',
-    flex: 1,
     height: Dimensions.get('window').height,
+    backgroundColor: '#ec6863',
   },
   backgroundColor: {
-    backgroundColor: '#1e88e5',
+    position: 'relative',
+    top: -70
   },
   textForm: {
     backgroundColor: '#FFF',
-    margin: 20,
-    paddingTop: 15,
-    paddingBottom: 15,
+    margin: 20
   },
   textInput: {
     textAlign: 'center',
     color: '#000',
+    padding: 15,
   },
   button: {
-    backgroundColor: '#1052fa',
+    backgroundColor: 'rgb(255, 50, 50)',
     padding: 15,
     borderRadius: 0,
     margin: 20,
-    marginTop: 0
+    marginTop: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
   buttonText: {
     fontSize: 14,
@@ -224,7 +256,6 @@ const styles = {
     marginHorizontal: 16,
   },
   containerMainContent: {
-    backgroundColor: '#FFF',
     paddingTop: 15,
     paddingLeft: 20,
     paddingBottom: 15,
@@ -232,7 +263,11 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
+  },
+  backgroundImage: {
+    width: Dimensions.get('window').width,
+    height: 250,
   },
   lotteryLottery_time: {
     color: '#CCC',
@@ -240,6 +275,12 @@ const styles = {
   },
   lotteryFinish_quantity: {
     textAlign: 'right'
+  },
+  lotteryLottery_name: {
+    color: '#FFF'
+  },
+  lotteryFinish_quantity: {
+    color: '#FFF'
   }
 }
 

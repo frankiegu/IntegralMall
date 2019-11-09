@@ -7,6 +7,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -45,6 +46,7 @@ class Receivables extends React.Component {
     headerStyle: {
       elevation: 0,
     },
+    headerTintColor: '#FFFFFF'
   });
 
   constructor(props) {
@@ -117,7 +119,7 @@ class Receivables extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#ffffff" barStyle="light-content" />
+        <StatusBar barStyle="dark-content" />
         <RNCamera
           ref={ref => {
             this.camera = ref;

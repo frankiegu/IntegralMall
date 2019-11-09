@@ -6,12 +6,14 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
   FlatList,
   Platform,
   Animated,
+  SafeView,
   AsyncStorage,
   SectionList,
   RefreshControl,
@@ -83,17 +85,189 @@ class Home extends React.Component {
       isRefreshing: false
     };
 
+    this.loginfo()
+  }
+
+  loginfo() {
     AsyncStorage.getItem('loginfo')
     .then((response) => {
-      this.setState({
-        loginfo: JSON.parse(response)
-      })
-      this.fetchUserinfo(this.state.loginfo.Address, this.state.lists);
+      response = JSON.parse(response)
+      if (response == null) {
+        this.setState({
+          loginfo: null,
+          lists: [
+            {
+              id: 0,
+              icon: icons['btc'],
+              name: 'BTC',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 1,
+              icon: icons.usdt,
+              name: 'USDT',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 2,
+              icon: icons.xrp,
+              name: 'XRP',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 3,
+              icon: icons.eth,
+              name: 'ETH',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 4,
+              icon: icons.eos,
+              name: 'EOS',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 5,
+              icon: icons.ltc,
+              name: 'LTC',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 6,
+              icon: icons.ada,
+              name: 'ADA',
+              tokenKey: null,
+              number: 0
+            },
+          ],
+        })
+      }
+
+      if (this.state.loginfo != null) {
+        this.setState({
+          loginfo: response,
+          lists: [
+            {
+              id: 0,
+              icon: icons['btc'],
+              name: 'BTC',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 1,
+              icon: icons.usdt,
+              name: 'USDT',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 2,
+              icon: icons.xrp,
+              name: 'XRP',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 3,
+              icon: icons.eth,
+              name: 'ETH',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 4,
+              icon: icons.eos,
+              name: 'EOS',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 5,
+              icon: icons.ltc,
+              name: 'LTC',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 6,
+              icon: icons.ada,
+              name: 'ADA',
+              tokenKey: null,
+              number: 0
+            },
+          ]
+        })
+        this.fetchUserinfo(response.Address, this.state.lists);
+        return
+      }
+
+      if (response != null) {
+        this.setState({
+          loginfo: response,
+          lists: [
+            {
+              id: 0,
+              icon: icons['btc'],
+              name: 'BTC',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 1,
+              icon: icons.usdt,
+              name: 'USDT',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 2,
+              icon: icons.xrp,
+              name: 'XRP',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 3,
+              icon: icons.eth,
+              name: 'ETH',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 4,
+              icon: icons.eos,
+              name: 'EOS',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 5,
+              icon: icons.ltc,
+              name: 'LTC',
+              tokenKey: null,
+              number: 0
+            },
+            {
+              id: 6,
+              icon: icons.ada,
+              name: 'ADA',
+              tokenKey: null,
+              number: 0
+            },
+          ],
+        })
+        this.fetchUserinfo(response.Address, this.state.lists);
+      }
     })
     .catch((error) => {
-      this.setState({
-        loginfo: null
-      })
+      console.log(error)
     })
     .done();
   }
@@ -127,27 +301,18 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    var self = this;
-    this.listener = DeviceEventEmitter.addListener('homeFetch', () => {
-      AsyncStorage.getItem('loginfo')
-      .then((response) => {
-        console.log(JSON.parse(response))
-        this.setState({
-          loginfo: JSON.parse(response)
-        })
-        this.fetchUserinfo(this.state.loginfo.Address, this.state.lists);
-      })
-      .catch((error) => {
-        this.setState({
-          loginfo: null
-        })
-      })
-      .done();
-    });
+    this.interval = this.props.navigation.addListener('didFocus', () => {
+      this.loginfo()
+    })
+  }
+
+  componentWillUnmount() {
+    this.loginfo()
+    this.interval.remove();
   }
 
   fetchUserinfo(address, lists) {
-    let items = [], index = 0
+    let items = [], index = 0, other = [], otherIndex = 0
     // let items = lists
     fetch(`http://47.94.150.170:8080/v1/token/showAccount`, {
       method: 'POST',
@@ -176,8 +341,17 @@ class Home extends React.Component {
             }
           })
         });
+
+        for(var i in items) {
+          for(var j in lists) {
+            if(items[i].id == lists[j].id) {
+              lists.splice(j, 1)
+            }
+          }
+        }
+
         this.setState({
-          data: items,
+          data: items.concat(lists),
           lists: [],
           account: responseData.data.Data
         })
@@ -192,20 +366,10 @@ class Home extends React.Component {
   }
 
   render() {
-    if (this.state.lists.length) {
+    if (this.state.loginfo == null) {
       return (
-        <ScrollView
-          automaticallyAdjustContentInsets={true}
-          refreshControl = {
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={this.onRefresh.bind(this)}
-              tintColor="#000"
-              title="下拉刷新"
-            />
-          }
-        >
-          <StatusBar backgroundColor="#1e88e5" barStyle="light-content" />
+        <ScrollView>
+          <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
           <Animated.ScrollView
             onScroll={
               Animated.event(
@@ -270,20 +434,10 @@ class Home extends React.Component {
           </Animated.ScrollView>
         </ScrollView>
       );
-    } else if (this.state.data.length) {
+    } else {
       return (
-        <ScrollView
-          automaticallyAdjustContentInsets={true}
-          refreshControl = {
-            <RefreshControl
-              refreshing={this.state.isRefreshing}
-              onRefresh={this.onRefresh.bind(this)}
-              tintColor="#000"
-              title="下拉刷新"
-            />
-          }
-        >
-          <StatusBar backgroundColor="blue" barStyle="light-content" />
+        <ScrollView>
+          <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
           <Animated.ScrollView
             onScroll={
               Animated.event(
@@ -324,7 +478,7 @@ class Home extends React.Component {
                   underlayColor='transparent'
                   style={[styles.lotteryTouch]}
                   onPress={() => {
-                    this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address })
+                    item.number != 0.00 ? this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address }) : null
                   }}
                   underlayColor="rgba(255, 255, 255, 1)"
                   activeOpacity={1}
@@ -361,7 +515,7 @@ const styles = {
   },
   backgroundSwiper: {
     position: 'absolute',
-    backgroundColor: '#1e88e5',
+    backgroundColor: '#03d2a6',
     top: -Dimensions.get('window').width * 1.4,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width * 2,
@@ -474,7 +628,7 @@ const styles = {
     borderRadius: 10,
   },
   listContainerDidWill: {
-    backgroundColor: '#1e88e5',
+    backgroundColor: '#03d2a6',
     borderRadius: 0,
     marginLeft: 0,
     width: Dimensions.get('window').width

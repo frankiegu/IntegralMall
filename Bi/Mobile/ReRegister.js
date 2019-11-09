@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -67,16 +68,16 @@ class Login extends React.Component {
     })
     .then(response => response.json())
     .then(responseData => {
-      alert(responseData.data.Message)
+      Alert.alert(
+        `提示`,
+        responseData.data.Message,
+        [
+          {text: '确定'}
+        ]
+      );
       if (responseData.data.Code == 200) {
         AsyncStorage.setItem('registerinfo', JSON.stringify(responseData.data.Data));
       }
-      // this.props.navigation.navigate('Root')
-      // if (responseData.data.Code == 200) {
-      //   this.props.navigation.navigate('Root')
-      // } else {
-      //   alert('创建失败')
-      // }
     })
     .catch((error) => {
       console.log('err: ', error)
@@ -91,7 +92,7 @@ class Login extends React.Component {
           <KeyboardAvoidingView
             behavior="padding"
             style={{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-around'}}
-            keyboardVerticalOffset={120}
+            keyboardVerticalOffset={60}
           >
           <View style={{width: '100%', padding: 20, alignItems: 'center'}}>
             <TextInput
@@ -113,6 +114,7 @@ class Login extends React.Component {
               keyboardType="numeric"
               defaultValue=""
               placeholderTextColor="#CCC"
+              secureTextEntry
               onChangeText={(params) => {
                 this.setState({
                   password: params
@@ -136,7 +138,7 @@ class Login extends React.Component {
           </View>
             <TouchableHighlight
               underlayColor='transparent'
-              style={{backgroundColor: '#1052fa', padding: 10, borderRadius: 20}}
+              style={{backgroundColor: '#04c2ad', padding: 10, borderRadius: 20}}
               onPress={() => {
                 this.registered()
               }}
@@ -172,7 +174,8 @@ const styles = {
     padding: 12,
     margin: 20,
     borderRadius: 12,
-    textAlign: 'center'
+    textAlign: 'center',
+    height: 43,
   }
 }
 

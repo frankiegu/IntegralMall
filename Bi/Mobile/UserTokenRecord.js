@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -69,7 +70,13 @@ class UserTokenRecord extends React.Component {
     })
     .then(response => response.json())
     .then(responseData => {
-      alert(responseData.data.Message)
+      Alert.alert(
+        `提示`,
+        responseData.data.Message,
+        [
+          {text: '确定'}
+        ]
+      );
     })
     .catch((error) => {
       console.log('err: ', error)
@@ -136,7 +143,7 @@ class UserTokenRecord extends React.Component {
         </View>
         <TouchableHighlight
           underlayColor='transparent'
-          style={{backgroundColor: '#1052fa', padding: 10, borderRadius: 20}}
+          style={{backgroundColor: '#04c2ad', padding: 10, borderRadius: 20}}
           onPress={() => {
             this.fetch()
           }}

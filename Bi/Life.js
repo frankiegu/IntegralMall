@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -277,7 +278,7 @@ const LifeTab = createMaterialTopTabNavigator({
 }, {
   tabBarOptions: {
     style: {
-      backgroundColor: '#1e88e5',
+      backgroundColor: '#03d2a6',
     },
     labelStyle: {
       color: "#ffffff",

@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -32,12 +33,9 @@ class User extends React.Component {
   }
 
   componentDidMount() {
-    var self = this;
     this.listener = DeviceEventEmitter.addListener('Change', () => {
       this.fetchLoginfo()
     });
-
-    // DeviceEventEmitter.emit('homeFetch');
   }
 
   componentWillUnmount() {
@@ -65,10 +63,11 @@ class User extends React.Component {
         <ScrollView
           contentContainerStyle={styles.container}
         >
+          <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
           <View style={styles.backgroundSwiper}></View>
           <TouchableHighlight
             style={styles.userContainer}
-            underlayColor="#1e88e5"
+            underlayColor="#03d2a6"
             activeOpacity={1}
             onPress={() => {
               this.props.navigation.navigate('UserDetails', { address: this.state.loginfo.Address })
@@ -98,9 +97,9 @@ class User extends React.Component {
                   <Ionicons
                     name={'ios-paper'}
                     size={30}
-                    style={{marginTop: 10, marginBottom: 10}}
+                    style={{marginTop: 10, marginBottom: 10, color: '#1052fa'}}
                   />
-                  <Text allowFontScaling={false} style={styles.text}>地址簿</Text>
+                  <Text allowFontScaling={false} style={[styles.text, {color: '#1052fa'}]}>地址簿</Text>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
@@ -115,9 +114,9 @@ class User extends React.Component {
                   <Ionicons
                     name={'md-heart'}
                     size={30}
-                    style={{marginTop: 10, marginBottom: 10}}
+                    style={{marginTop: 10, marginBottom: 10, color: 'rgb(255, 50, 50)'}}
                   />
-                  <Text allowFontScaling={false} style={styles.text}>领红包</Text>
+                  <Text allowFontScaling={false} style={[styles.text, {color: 'rgb(255, 50, 50)'}]}>领红包</Text>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
@@ -132,9 +131,9 @@ class User extends React.Component {
                   <Ionicons
                     name={'md-notifications-outline'}
                     size={30}
-                    style={{marginTop: 10, marginBottom: 10}}
+                    style={{marginTop: 10, marginBottom: 10, color: '#18bba9'}}
                   />
-                  <Text allowFontScaling={false} style={styles.text}>消息</Text>
+                  <Text allowFontScaling={false} style={[styles.text, {color: '#18bba9'}]}>消息</Text>
                 </View>
               </TouchableHighlight>
             </View>
@@ -179,19 +178,9 @@ class User extends React.Component {
                 style={styles.list}
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
-              >
-                <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>使用设置</Text>
-                  <Ionicons
-                    name={'ios-arrow-forward'}
-                    size={20}
-                  />
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={styles.list}
-                underlayColor="rgba(255, 255, 255, 1)"
-                activeOpacity={1}
+                onPress={() => {
+                  this.props.navigation.navigate('Web', {title: '用户协议', uri: 'http://47.94.150.170/html/useragreement.html'})
+                }}
               >
                 <View style={styles.listRows}>
                   <Text allowFontScaling={false} style={styles.text}>用户协议</Text>
@@ -205,6 +194,41 @@ class User extends React.Component {
                 style={styles.list}
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
+                onPress={() => {
+                  this.props.navigation.navigate('Web', {title: '隐私条款', uri: 'http://47.94.150.170/html/privacy.html'})
+                }}
+              >
+                <View style={styles.listRows}>
+                  <Text allowFontScaling={false} style={styles.text}>隐私条款</Text>
+                  <Ionicons
+                    name={'ios-arrow-forward'}
+                    size={20}
+                  />
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.list}
+                underlayColor="rgba(255, 255, 255, 1)"
+                activeOpacity={1}
+                onPress={() => {
+                  this.props.navigation.navigate('Web', {title: '法律声明', uri: 'http://47.94.150.170/html/legal.html'})
+                }}
+              >
+                <View style={styles.listRows}>
+                  <Text allowFontScaling={false} style={styles.text}>法律声明</Text>
+                  <Ionicons
+                    name={'ios-arrow-forward'}
+                    size={20}
+                  />
+                </View>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.list}
+                underlayColor="rgba(255, 255, 255, 1)"
+                activeOpacity={1}
+                onPress={() => {
+                  this.props.navigation.navigate('Web', {title: '帮助中心', uri: 'http://47.94.150.170/html/help.html'})
+                }}
               >
                 <View style={styles.listRows}>
                   <Text allowFontScaling={false} style={styles.text}>帮助中心</Text>
@@ -218,19 +242,9 @@ class User extends React.Component {
                 style={styles.list}
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
-              >
-                <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>用户反馈</Text>
-                  <Ionicons
-                    name={'ios-arrow-forward'}
-                    size={20}
-                  />
-                </View>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={styles.list}
-                underlayColor="rgba(255, 255, 255, 1)"
-                activeOpacity={1}
+                onPress={() => {
+                  this.props.navigation.navigate('Web', {title: '关于我们', uri: 'http://47.94.150.170/html/about.html'})
+                }}
               >
                 <View style={styles.listRows}>
                   <Text allowFontScaling={false} style={styles.text}>关于我们</Text>
@@ -247,33 +261,48 @@ class User extends React.Component {
     } else {
       return (
         <ScrollView
-          contentContainerStyle={styles.container}
+          contentContainerStyle={[{padding: 10, display: 'flex', justifyContent: 'space-between', flex: 1}]}
         >
-          <View style={styles.backgroundSwiper}></View>
-          <TouchableHighlight
-            style={styles.userContainer}
-            underlayColor="#1e88e5"
-            activeOpacity={1}
-            onPress={() => {
-              this.props.navigation.navigate('Login')
-            }}
-          >
-            <View style={styles.userInfo}>
-              <Text allowFontScaling={false} style={styles.userInfotext}>登录</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.userContainer}
-            underlayColor="#1e88e5"
-            activeOpacity={1}
-            onPress={() => {
-              this.props.navigation.navigate('Register')
-            }}
-          >
-            <View style={styles.userInfo}>
-              <Text allowFontScaling={false} style={styles.userInfotext}>注册</Text>
-            </View>
-          </TouchableHighlight>
+          <View style={styles.containerLogo}>
+            <Image style={styles.logo} source={require('../imgs/logo.png')} />
+            <Text style={styles.logoDec}>欢迎使用绿钻信用</Text>
+          </View>
+          <View>
+            <TouchableHighlight
+              underlayColor='transparent'
+              style={{backgroundColor: '#04c2ad', padding: 13, borderRadius: 0, marginBottom: 20}}
+              onPress={() => {
+                this.props.navigation.navigate('Login')
+              }}
+            >
+              <>
+                <Text allowFontScaling={false} numberOfLines={1} style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textAlign: 'center',
+                  marginHorizontal: 16
+                }}>登录</Text>
+              </>
+            </TouchableHighlight>
+            <TouchableHighlight
+              underlayColor='transparent'
+              style={{backgroundColor: '#797979', padding: 13, borderRadius: 0, marginBottom: 20}}
+              onPress={() => {
+                this.props.navigation.navigate('Register')
+              }}
+            >
+              <>
+                <Text allowFontScaling={false} numberOfLines={1} style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textAlign: 'center',
+                  marginHorizontal: 16
+                }}>注册</Text>
+              </>
+            </TouchableHighlight>
+          </View>
         </ScrollView>
       );
     }
@@ -284,9 +313,24 @@ const styles = {
   container: {
     position: 'relative',
   },
+  containerLogo: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop: '20%',
+  },
+  logo: {
+    width: 80,
+    height: 80,
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  logoDec: {
+    fontSize: 14
+  },
   backgroundSwiper: {
     position: 'absolute',
-    backgroundColor: '#1e88e5',
+    backgroundColor: '#03d2a6',
     top: -Dimensions.get('window').width * 1.4,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width * 1.85,
@@ -297,7 +341,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#1e88e5',
+    backgroundColor: '#03d2a6',
   },
   userAvatarTouch: {
 

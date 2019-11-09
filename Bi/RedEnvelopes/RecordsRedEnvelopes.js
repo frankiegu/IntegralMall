@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -145,7 +146,9 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: Dimensions.get('window').width
+    width: Dimensions.get('window').width,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(240, 240, 240, 0.75)'
   },
   lotteryLottery_time: {
     color: '#CCC',

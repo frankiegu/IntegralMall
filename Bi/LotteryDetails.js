@@ -13,6 +13,7 @@ import {
   SectionList,
   Platform,
   Switch,
+  Alert,
   Clipboard,
   AsyncStorage,
   RefreshControl,
@@ -40,7 +41,7 @@ class LotteryDetails extends React.Component {
     ),
     headerRight: (
       <TouchableHighlight
-        style={{right: 10}}
+        style={{paddingLeft: 10, paddingRight: 10, display: 'none'}}
         underlayColor='transparent'
         underlayColor="rgba(255, 255, 255, 1)"
         activeOpacity={1}
@@ -80,11 +81,14 @@ class LotteryDetails extends React.Component {
   }
 
   componentDidMount() {
-    var self = this;
     this.listener = DeviceEventEmitter.addListener('changeBalance', () => {
       this.balance(this.props.navigation.state.params.tokenKey, this.props.navigation.state.params.address)
     });
   }
+
+  // componentWillUnmount() {
+  //   DeviceEventEmitter.emit('userChange');
+  // }
 
   fetchUserTokenRecord(tokenKey, key, start, end, status) {
     fetch(`http://47.94.150.170:8080/v1/token/userTokenRecord`, {
@@ -96,8 +100,8 @@ class LotteryDetails extends React.Component {
       body: JSON.stringify({
         "tokenKey": tokenKey,
         "account": key,
-        "start": start,
-        "end": end
+        "start": start || '0',
+        "end": end || '0'
       })
     })
     .then(response => response.json())
@@ -126,7 +130,13 @@ class LotteryDetails extends React.Component {
   async clipboardString(string) {
     Clipboard.setString(string);
     let str = await Clipboard.getString()
-    alert('已复制文本')
+    Alert.alert(
+      `提示`,
+      '已复制文本',
+      [
+        {text: '确定'},
+      ]
+    );
   }
 
   balance(tokenKey, account) {
@@ -174,7 +184,7 @@ class LotteryDetails extends React.Component {
       this.setState({
         loginfo: JSON.parse(response)
       })
-      this.fetchUserTokenRecord(this.props.navigation.state.params.tokenKey, this.state.loginfo.Address, "0", "9", "all")
+      this.fetchUserTokenRecord(this.props.navigation.state.params.tokenKey, this.state.loginfo.Address, "0", null, "all")
     })
     .catch((error) => {
       this.setState({
@@ -205,7 +215,7 @@ class LotteryDetails extends React.Component {
           >
             <>
               <View style={styles.swiperCoin}>
-                <Text allowFontScaling={false} style={styles.swiperCoinNumber}>{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey].toFixed(2) : '0.00'}</Text>
+                <Text allowFontScaling={false} style={styles.swiperCoinNumber} numberOfLines={3}>{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey].toFixed(2) : '0.00'}</Text>
                 <Text allowFontScaling={false} style={styles.swiperCoinMark}></Text>
               </View>
               <Text allowFontScaling={false} style={styles.swiperTotal}>总资产</Text>
@@ -254,6 +264,28 @@ class LotteryDetails extends React.Component {
                       size={18}
                       color='#FFF'
                     />
+                  </>
+                </TouchableHighlight>
+              </View>
+              <View style={styles.swiperButtons}>
+                <TouchableHighlight
+                  style={[styles.swiperButton, styles.swiperButtonTransferAccounts, {width: '100%', justifyContent: 'center', backgroundColor: 'rgb(255, 50, 50)'}]}
+                  activeOpacity={0.9}
+                  onPress={() => {
+                    this.props.navigation.navigate('GiveRedEnvelopes', {
+                      title: this.props.navigation.state.params.title,
+                      tokenKey: this.props.navigation.state.params.tokenKey,
+                      address: this.props.navigation.state.params.address
+                    })
+                  }}
+                >
+                  <>
+                    <Ionicons
+                      name={'md-document'}
+                      size={20}
+                      color='#FFF'
+                    />
+                    <Text allowFontScaling={false} style={{color: '#FFF', marginLeft: 30}}>{this.props.navigation.state.params.title} 红包发放</Text>
                   </>
                 </TouchableHighlight>
               </View>
@@ -321,7 +353,7 @@ class LotteryDetails extends React.Component {
                             </View>
                           </View>
                           <View style={styles.lotteryFoot}>
-                            <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.Value && item.Value.To.toUpperCase() == this.state.loginfo.Address.toUpperCase() ? '+' : '-'}{item.Value.Amount}</Text>
+                            <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.Value && item.Value.To.toUpperCase() == this.state.loginfo.Address.toUpperCase() ? '+' : '-'}{item.Value.Amount.toFixed(2)}</Text>
                           </View>
                         </View>
                       </TouchableHighlight>
@@ -361,7 +393,7 @@ class LotteryDetails extends React.Component {
                             </View>
                           </View>
                           <View style={styles.lotteryFoot}>
-                            <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.Value && item.Value.To.toUpperCase() == this.state.loginfo.Address.toUpperCase() ? '+' : '-'}{item.Value.Amount}</Text>
+                            <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.Value && item.Value.To.toUpperCase() == this.state.loginfo.Address.toUpperCase() ? '+' : '-'}{item.Value.Amount.toFixed(2)}</Text>
                           </View>
                         </View>
                       </TouchableHighlight>
@@ -401,7 +433,7 @@ class LotteryDetails extends React.Component {
                             </View>
                           </View>
                           <View style={styles.lotteryFoot}>
-                            <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.Value && item.Value.To.toUpperCase() == this.state.loginfo.Address.toUpperCase() ? '+' : '-'}{item.Value.Amount}</Text>
+                            <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.Value && item.Value.To.toUpperCase() == this.state.loginfo.Address.toUpperCase() ? '+' : '-'}{item.Value.Amount.toFixed(2)}</Text>
                           </View>
                         </View>
                       </TouchableHighlight>
@@ -420,6 +452,7 @@ class LotteryDetails extends React.Component {
 const styles = {
   container: {
     position: 'relative',
+    marginBottom: '5%'
   },
   swiperContainer: {
     justifyContent: 'center',
@@ -446,8 +479,7 @@ const styles = {
   swiperCoinNumber: {
     height: 55,
     lineHeight: 55,
-    fontSize: 56,
-    marginRight: 10,
+    fontSize: 50,
     color: '#000',
     fontWeight: '400',
   },
@@ -550,7 +582,7 @@ const styles = {
     justifyContent: 'space-between',
   },
   icons: {
-    backgroundColor: '#297340',
+    backgroundColor: '#1052fa',
     height: 35,
     width: 35,
     marginRight: 10,
@@ -559,7 +591,7 @@ const styles = {
     justifyContent: 'center'
   },
   iconsUndo: {
-    backgroundColor: '#009cff',
+    backgroundColor: '#04c2ad',
     height: 35,
     width: 35,
     marginRight: 10,

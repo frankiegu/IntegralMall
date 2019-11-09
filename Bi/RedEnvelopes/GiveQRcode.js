@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -52,8 +53,6 @@ class GiveQRcode extends React.Component {
         params: this.props.navigation.state.params
       }
     };
-
-    console.log(this.props.navigation.state.params)
   }
 
   componentWillUnmount() {
@@ -63,7 +62,13 @@ class GiveQRcode extends React.Component {
   async clipboardString(string) {
     Clipboard.setString(string);
     let str = await Clipboard.getString()
-    alert('已复制文本')
+    Alert.alert(
+      `提示`,
+      '已复制文本',
+      [
+        {text: '确定'},
+      ]
+    );
   }
 
   render() {
@@ -71,21 +76,31 @@ class GiveQRcode extends React.Component {
       <View style={styles.container}>
         <View style={styles.QRCodeString}>
           <QRCode
-            value={`http://47.94.150.170:8080?reskid=${this.state.QRCodeString.params.red_envelopes_id}`}
+            value={`http://47.94.150.170/resk/?reskid=${this.state.QRCodeString.params.red_envelopes_id}`}
             size={240}
           />
         </View>
-        <View>
+        <View style={{marginTop: 100, alignItems: 'center'}}>
+          <Text style={{fontSize: 18, marginBottom: 5}}>红包 ID</Text>
           <TouchableHighlight style={styles.swiperButtonInput}
             onPress={() => {
-            this.clipboardString(`http://47.94.150.170:8080?reskid=${this.state.QRCodeString.params.red_envelopes_id}`)
+            this.clipboardString(`${this.state.QRCodeString.params.red_envelopes_id}`)
           }}>
             <Text allowFontScaling={false} style={styles.swiperButtonsText} numberOfLines={1}>
-              http://47.94.150.170:8080?reskid={this.state.QRCodeString.params.red_envelopes_id}
+              {this.state.QRCodeString.params.red_envelopes_id}
+            </Text>
+          </TouchableHighlight>
+          <Text style={{fontSize: 18, marginBottom: 5}}>红包链接</Text>
+          <TouchableHighlight style={[styles.swiperButtonInput, {backgroundColor: 'rgb(255, 50, 50)'}]}
+            onPress={() => {
+            this.clipboardString(`http://47.94.150.170/resk/?reskid=${this.state.QRCodeString.params.red_envelopes_id}`)
+          }}>
+            <Text allowFontScaling={false} style={styles.swiperButtonsText} numberOfLines={1}>
+              http://47.94.150.170/resk/?reskid={this.state.QRCodeString.params.red_envelopes_id}
             </Text>
           </TouchableHighlight>
           <View>
-            <Text style={styles.swiperDesText} allowFontScaling={false}>扫描二维码、复制链接抢红包</Text>
+            <Text style={[styles.swiperDesText, {fontSize: 18}]} allowFontScaling={false}>扫描二维码，复制链接、ID 抢红包</Text>
           </View>
         </View>
       </View>
@@ -106,11 +121,12 @@ const styles = {
     borderRadius: 3
   },
   swiperButtonInput: {
+    display: 'flex',
+    alignItems: 'flex-end',
     textAlign: 'center',
     backgroundColor: '#CCC',
     backgroundColor: '#999',
     borderRadius: 20,
-    marginTop: 60,
     marginBottom: 20,
     width: '90%',
   },

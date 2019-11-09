@@ -6,6 +6,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
@@ -69,9 +70,13 @@ class Register extends React.Component {
       if (responseData.data.Code == 200) {
         this.props.navigation.navigate('ReRegister', { phone: this.state.mobile })
       } else {
-        alert(
-          responseData.data.Message
-        )
+        Alert.alert(
+          `提示`,
+          responseData.data.Message,
+          [
+            {text: '确定'}
+          ]
+        );
       }
     })
     .catch((error) => {
@@ -87,7 +92,7 @@ class Register extends React.Component {
         <KeyboardAvoidingView
           behavior="padding"
           style={{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-around'}}
-          keyboardVerticalOffset={120}
+          keyboardVerticalOffset={60}
         >
           <TextInput
             allowFontScaling={false}
@@ -105,7 +110,7 @@ class Register extends React.Component {
           />
           <TouchableHighlight
             underlayColor='transparent'
-            style={{backgroundColor: '#1052fa', padding: 10, borderRadius: 20}}
+            style={{backgroundColor: '#04c2ad', padding: 10, borderRadius: 20}}
             onPress={() => {
               this.sendSms()
             }}
@@ -142,7 +147,8 @@ const styles = {
     padding: 12,
     margin: 20,
     borderRadius: 12,
-    textAlign: 'center'
+    textAlign: 'center',
+    height: 43,
   }
 }
 
