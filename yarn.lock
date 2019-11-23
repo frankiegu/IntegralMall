@@ -5325,6 +5325,11 @@ react-native-camera@^3.7.2:
   dependencies:
     prop-types "^15.6.2"
 
+react-native-device-info@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.npm.taobao.org/react-native-device-info/download/react-native-device-info-5.3.0.tgz#ca0386310f59ccce458e1cea39b9f5b8f8d02098"
+  integrity sha1-ygOGMQ9ZzM5FjhzqObn1uPjQIJg=
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/react-native-dismiss-keyboard/download/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"

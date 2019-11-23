@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { I18n } from './i18n/index';
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -43,6 +44,8 @@ import Message from './Message';
 import MessageTab from './MessageTab';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 
+import { i18n } from './i18n/index';
+
 class HomeScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
@@ -55,7 +58,7 @@ class HomeScreen extends React.Component {
           color: 'rgba(255, 255, 255, 1)',
           textAlign: 'center',
           marginHorizontal: 16
-        }}>绿钻信用</Text>
+        }}>{I18n.t('nav_bar.home')}</Text>
       </TouchableHighlight>
     ),
     headerRight: (
@@ -102,7 +105,7 @@ class LifeScreen extends React.Component {
         color: 'rgba(255, 255, 255, 1)',
         textAlign: 'center',
         marginHorizontal: 16
-      }}>市场</Text>
+      }}>{I18n.t('nav_bar.classify')}</Text>
     ),
     headerRight: (
       <TouchableHighlight
@@ -237,7 +240,7 @@ const BottomNavigatorScreen = createBottomTabNavigator({
   Home: {
      screen: HomeStack,
      navigationOptions: {
-        tabBarLabel: '首页',
+        tabBarLabel: I18n.t('tab_bar.home'),
         tabBarIcon: ({tintColor, focused}) => (
           <Ionicons
             name={focused ? 'md-home' : 'md-home'}
@@ -250,7 +253,7 @@ const BottomNavigatorScreen = createBottomTabNavigator({
   Life: {
      screen: LifeStack,
      navigationOptions: {
-        tabBarLabel: '市场',
+        tabBarLabel: I18n.t('tab_bar.classify'),
         tabBarIcon: ({tintColor, focused}) => (
           <Ionicons
             name={focused ? 'md-podium' : 'md-podium'}
@@ -263,7 +266,7 @@ const BottomNavigatorScreen = createBottomTabNavigator({
   User: {
      screen: UserStack,
      navigationOptions: {
-        tabBarLabel: '我的',
+        tabBarLabel: I18n.t('tab_bar.my'),
         tabBarIcon: ({tintColor, focused}) => (
           <Ionicons
             name={focused ? 'md-person' : 'md-person'}

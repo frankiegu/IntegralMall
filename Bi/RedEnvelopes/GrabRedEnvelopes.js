@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -33,7 +34,7 @@ class GrabRedEnvelopes extends React.Component {
           color: 'rgba(255, 255, 255, 1)',
           textAlign: 'center',
           marginHorizontal: 16
-        }}>领红包</Text>
+        }}>{I18n.t('receive.title')}</Text>
       </TouchableHighlight>
     ),
     tabBarVisible: false,
@@ -93,10 +94,10 @@ class GrabRedEnvelopes extends React.Component {
     .then(response => response.json())
     .then(responseData => {
       Alert.alert(
-        `提示`,
+        I18n.t('alert.title'),
         responseData.data.Message,
         [
-          {text: '确定'}
+          {text: I18n.t('alert.prompt')}
         ]
       );
       let detail = [], i = 0
@@ -134,10 +135,10 @@ class GrabRedEnvelopes extends React.Component {
     .then(response => response.json())
     .then(responseData => {
       Alert.alert(
-        `提示`,
+        I18n.t('alert.title'),
         responseData.data.Message,
         [
-          {text: '确定'}
+          {text: I18n.t('alert.prompt')}
         ]
       );
     })
@@ -157,7 +158,7 @@ class GrabRedEnvelopes extends React.Component {
             <TextInput
               allowFontScaling={false}
               style={styles.textInput}
-              placeholder="输入红包 ID"
+              placeholder={I18n.t('receive.input')}
               clearButtonMode="while-editing"
               keyboardType="ascii-capable"
               defaultValue={this.state.red_envelopes_id}
@@ -182,7 +183,7 @@ class GrabRedEnvelopes extends React.Component {
                 size="small"
                 color="#FFF"
               />
-              <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={styles.buttonText}>领取</Text>
+              <Text allowFontScaling={false} allowFontScaling={false} numberOfLines={1} style={styles.buttonText}>{I18n.t('receive.packet')}</Text>
             </>
           </TouchableHighlight>
         </View>

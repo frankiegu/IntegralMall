@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -34,7 +35,7 @@ class Login extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>注册</Text>
+          }}>{I18n.t('create.title')}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -69,10 +70,10 @@ class Login extends React.Component {
     .then(response => response.json())
     .then(responseData => {
       Alert.alert(
-        `提示`,
+        I18n.t('alert.title'),
         responseData.data.Message,
         [
-          {text: '确定'}
+          {text: I18n.t('alert.prompt')}
         ]
       );
       if (responseData.data.Code == 200) {
@@ -90,51 +91,63 @@ class Login extends React.Component {
       <View style={styles.container}>
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
           <KeyboardAvoidingView
-            behavior="padding"
-            style={{width: '100%', height: '100%', alignItems: 'center', justifyContent: 'space-around'}}
-            keyboardVerticalOffset={60}
+            style={{width: '100%', height: '100%', alignItems: 'center'}}
+            keyboardVerticalOffset={10}
           >
+          <View style={styles.containerLogo}>
+            <Image style={styles.logo} source={require('../imgs/logo.png')} />
+            <Text style={styles.logoDec}>{I18n.t('my.welcome')}</Text>
+          </View>
           <View style={{width: '100%', padding: 20, alignItems: 'center'}}>
-            <TextInput
-              allowFontScaling={false}
-              style={styles.textInput}
-              placeholder="请输入手机号"
-              clearButtonMode="while-editing"
-              keyboardType="numeric"
-              defaultValue=""
-              placeholderTextColor="#CCC"
-              editable={false}
-              value={this.props.navigation.state.params.phone}
-            />
-            <TextInput
-              allowFontScaling={false}
-              style={styles.textInput}
-              placeholder="请输入密码"
-              clearButtonMode="while-editing"
-              keyboardType="numeric"
-              defaultValue=""
-              placeholderTextColor="#CCC"
-              secureTextEntry
-              onChangeText={(params) => {
-                this.setState({
-                  password: params
-                });
-              }}
-            />
-            <TextInput
-              allowFontScaling={false}
-              style={styles.textInput}
-              placeholder="请输入验证码"
-              clearButtonMode="while-editing"
-              keyboardType="numeric"
-              defaultValue=""
-              placeholderTextColor="#CCC"
-              onChangeText={(params) => {
-                this.setState({
-                  smsCode: params
-                });
-              }}
-            />
+            <View style={styles.textInputContainer}>
+              <Text>{I18n.t('login.phone')}</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder={I18n.t('login.phone_required')}
+                clearButtonMode="while-editing"
+                keyboardType="numeric"
+                defaultValue=""
+                placeholderTextColor="#CCC"
+                editable={false}
+                value={this.props.navigation.state.params.phone}
+              />
+            </View>
+            <View style={styles.textInputContainer}>
+              <Text>{I18n.t('login.password')}</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder={I18n.t('login.password_required')}
+                clearButtonMode="while-editing"
+                keyboardType="numeric"
+                defaultValue=""
+                placeholderTextColor="#CCC"
+                secureTextEntry
+                onChangeText={(params) => {
+                  this.setState({
+                    password: params
+                  });
+                }}
+              />
+            </View>
+            <View style={styles.textInputContainer}>
+              <Text>{I18n.t('login.verification')}</Text>
+              <TextInput
+                allowFontScaling={false}
+                style={styles.textInput}
+                placeholder={I18n.t('login.verification_required')}
+                clearButtonMode="while-editing"
+                keyboardType="numeric"
+                defaultValue=""
+                placeholderTextColor="#CCC"
+                onChangeText={(params) => {
+                  this.setState({
+                    smsCode: params
+                  });
+                }}
+              />
+            </View>
           </View>
             <TouchableHighlight
               underlayColor='transparent'
@@ -150,7 +163,7 @@ class Login extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>创建账户</Text>
+                }}>{I18n.t('create.text')}</Text>
               </>
             </TouchableHighlight>
           </KeyboardAvoidingView>
@@ -165,6 +178,8 @@ const styles = {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
+    padding: 10,
+    width: '100%'
   },
   textInput: {
     width: '100%',
@@ -172,11 +187,37 @@ const styles = {
     color: '#111',
     borderWidth: 1,
     padding: 12,
-    margin: 20,
-    borderRadius: 12,
-    textAlign: 'center',
     height: 43,
-  }
+    marginTop: 10,
+    fontWeight: '700',
+    borderRadius: 12,
+    color: '#111',
+    textAlign: 'center'
+  },
+  textSubmitFoot: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  textInputContainer: {
+    width: '100%',
+    marginBottom: 30,
+  },
+  containerLogo: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  logoDec: {
+    fontSize: 14
+  },
 }
 
 module.exports = Login;

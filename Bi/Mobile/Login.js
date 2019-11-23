@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -35,7 +36,7 @@ class Login extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>登录</Text>
+          }}>{I18n.t('login.title')}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -81,10 +82,10 @@ class Login extends React.Component {
         })
       } else {
         Alert.alert(
-          `提示`,
+          I18n.t('alert.title'),
           responseData.data.Message,
           [
-            {text: '确定'}
+            {text: I18n.t('alert.prompt')}
           ]
         );
         this.setState({
@@ -120,10 +121,10 @@ class Login extends React.Component {
         // this.props.navigation.state.params.refresh();
       } else {
         Alert.alert(
-          `提示`,
+          I18n.t('alert.title'),
           responseData.data.Message,
           [
-            {text: '确定'}
+            {text: I18n.t('alert.prompt')}
           ]
         );
       }
@@ -142,40 +143,49 @@ class Login extends React.Component {
           this.state.status == 'phone' ? (
             <View style={styles.container}>
               <KeyboardAvoidingView
-                behavior="padding"
                 style={{width: '100%', height: '100%', alignItems: 'center'}}
-                keyboardVerticalOffset={200}
+                keyboardVerticalOffset={10}
               >
-                <TextInput
-                  allowFontScaling={false}
-                  style={styles.textInput}
-                  placeholder="请输入手机号"
-                  clearButtonMode="while-editing"
-                  keyboardType="numeric"
-                  defaultValue=""
-                  placeholderTextColor="#CCC"
-                  onChangeText={(params) => {
-                    this.setState({
-                      mobile: params
-                    });
-                  }}
-                />
-                <TextInput
-                  allowFontScaling={false}
-                  style={styles.textInput}
-                  placeholder="请输入密码"
-                  clearButtonMode="while-editing"
-                  password={true}
-                  defaultValue=""
-                  placeholderTextColor="#CCC"
-                  secureTextEntry
-                  onChangeText={(params) => {
-                    this.setState({
-                      password: params
-                    });
-                  }}
-                  onSubmitEditing={this.fetchLogin.bind(this)}
-                />
+                <View style={styles.containerLogo}>
+                  <Image style={styles.logo} source={require('../imgs/logo.png')} />
+                  <Text style={styles.logoDec}>{I18n.t('my.welcome')}</Text>
+                </View>
+                <View style={styles.textInputContainer}>
+                  <Text>{I18n.t('login.phone')}</Text>
+                  <TextInput
+                    allowFontScaling={false}
+                    style={styles.textInput}
+                    placeholder={I18n.t('login.phone_required')}
+                    clearButtonMode="while-editing"
+                    keyboardType="numeric"
+                    defaultValue={this.state.mobile}
+                    placeholderTextColor="#CCC"
+                    onChangeText={(params) => {
+                      this.setState({
+                        mobile: params
+                      });
+                    }}
+                  />
+                </View>
+                <View style={styles.textInputContainer}>
+                  <Text>{I18n.t('login.password')}</Text>
+                  <TextInput
+                    allowFontScaling={false}
+                    style={styles.textInput}
+                    placeholder={I18n.t('login.password_required')}
+                    clearButtonMode="while-editing"
+                    password={true}
+                    defaultValue=""
+                    placeholderTextColor="#CCC"
+                    secureTextEntry
+                    onChangeText={(params) => {
+                      this.setState({
+                        password: params
+                      });
+                    }}
+                    onSubmitEditing={this.fetchLogin.bind(this)}
+                  />
+                </View>
                 <View style={styles.textSubmitFoot}>
                   <TouchableHighlight
                     underlayColor='transparent'
@@ -191,31 +201,36 @@ class Login extends React.Component {
                         color: 'rgba(255, 255, 255, 0.9)',
                         textAlign: 'center',
                         marginHorizontal: 16
-                      }}>登录</Text>
+                      }}>{I18n.t('login.login')}</Text>
                     </>
                   </TouchableHighlight>
                   <Text onPress={() => {
                     this.setState({
                       status: 'sms'
                     })
-                  }}>短信登录</Text>
+                  }}>{I18n.t('login.message')}</Text>
                 </View>
               </KeyboardAvoidingView>
             </View>
           ) : (
             <View style={styles.container}>
               <KeyboardAvoidingView
-                behavior="padding"
                 style={{width: '100%', height: '100%', alignItems: 'center'}}
-                keyboardVerticalOffset={120}
+                keyboardVerticalOffset={10}
               >
+              <View style={styles.containerLogo}>
+                <Image style={styles.logo} source={require('../imgs/logo.png')} />
+                <Text style={styles.logoDec}>{I18n.t('my.welcome')}</Text>
+              </View>
+              <View style={styles.textInputContainer}>
+                <Text>{I18n.t('login.phone')}</Text>
                 <TextInput
                   allowFontScaling={false}
                   style={styles.textInput}
-                  placeholder="请输入手机号"
+                  placeholder={I18n.t('login.phone_required')}
                   clearButtonMode="while-editing"
                   keyboardType="numeric"
-                  defaultValue=""
+                  defaultValue={this.state.mobile}
                   placeholderTextColor="#CCC"
                   onChangeText={(params) => {
                     this.setState({
@@ -223,10 +238,13 @@ class Login extends React.Component {
                     });
                   }}
                 />
+              </View>
+              <View style={[styles.textInputContainer, {opacity: this.state.smsCodeStatus ? 1 : 0}]}>
+                <Text>{I18n.t('login.verification')}</Text>
                 <TextInput
                   allowFontScaling={false}
-                  style={[styles.textInput, {opacity: this.state.smsCodeStatus ? 1 : 0}]}
-                  placeholder="请输入验证码"
+                  style={styles.textInput}
+                  placeholder={I18n.t('login.verification_required')}
                   editable={this.state.smsCodeStatus}
                   clearButtonMode="while-editing"
                   defaultValue=""
@@ -238,6 +256,7 @@ class Login extends React.Component {
                   }}
                   onSubmitEditing={this.fetchLogin.bind(this)}
                 />
+              </View>
                 <View style={styles.textSubmitFoot}>
                   <TouchableHighlight
                     underlayColor='transparent'
@@ -253,7 +272,7 @@ class Login extends React.Component {
                         color: 'rgba(255, 255, 255, 0.9)',
                         textAlign: 'center',
                         marginHorizontal: 16
-                      }}>获取验证码</Text>
+                      }}>{I18n.t('login.code')}</Text>
                     </>
                   </TouchableHighlight>
                   <TouchableHighlight
@@ -270,14 +289,14 @@ class Login extends React.Component {
                         color: 'rgba(255, 255, 255, 0.9)',
                         textAlign: 'center',
                         marginHorizontal: 16
-                      }}>登录</Text>
+                      }}>{I18n.t('login.login')}</Text>
                     </>
                   </TouchableHighlight>
                   <Text onPress={() => {
                     this.setState({
                       status: 'phone'
                     })
-                  }}>密码登录</Text>
+                  }}>{I18n.t('login.pass')}</Text>
                 </View>
               </KeyboardAvoidingView>
             </View>
@@ -294,7 +313,7 @@ const styles = {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    padding: 20,
+    padding: 10,
     width: '100%'
   },
   textInput: {
@@ -303,16 +322,37 @@ const styles = {
     color: '#111',
     borderWidth: 1,
     padding: 12,
-    margin: 20,
     height: 43,
+    marginTop: 10,
+    fontWeight: '700',
     borderRadius: 12,
+    color: '#111',
     textAlign: 'center'
   },
   textSubmitFoot: {
     height: 200,
     alignItems: 'center',
     justifyContent: 'space-around',
-  }
+  },
+  textInputContainer: {
+    width: '100%',
+    marginBottom: 30
+  },
+  containerLogo: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    borderRadius: 10,
+    marginBottom: 10
+  },
+  logoDec: {
+    fontSize: 14
+  },
 }
 
 module.exports = Login;

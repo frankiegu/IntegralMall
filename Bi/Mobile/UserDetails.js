@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -13,6 +14,7 @@ import {
   SectionList,
   Platform,
   Alert,
+  Switch,
   Clipboard,
   AsyncStorage,
   RefreshControl,
@@ -34,7 +36,7 @@ class UserDetails extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>账户信息</Text>
+          }}>{I18n.t('set.title')}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -50,12 +52,25 @@ class UserDetails extends React.Component {
     this.state = {
       loginfo: [],
       account: [],
+      switch: false
     };
 
     AsyncStorage.getItem('loginfo')
     .then((response) => {
       this.setState({
         loginfo: JSON.parse(response)
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .done();
+
+    AsyncStorage.getItem('switch')
+    .then((response) => {
+      console.log(response)
+      this.setState({
+        switch: JSON.parse(response)
       })
     })
     .catch((error) => {
@@ -70,10 +85,10 @@ class UserDetails extends React.Component {
     Clipboard.setString(string);
     let str = await Clipboard.getString()
     Alert.alert(
-      `提示`,
-      '已复制文本',
+      I18n.t('alert.title'),
+      I18n.t('alert.text'),
       [
-        {text: '确定'},
+        {text: I18n.t('alert.prompt')}
       ]
     );
   }
@@ -97,10 +112,10 @@ class UserDetails extends React.Component {
         })
       } else {
         Alert.alert(
-          `提示`,
+          I18n.t('alert.title'),
           responseData.data.Message,
           [
-            {text: '确定'}
+            {text: I18n.t('alert.prompt')}
           ]
         );
       }
@@ -122,13 +137,24 @@ class UserDetails extends React.Component {
 
   out() {
     Alert.alert(
-      `注销`,
+      I18n.t('alert.cancellation'),
       '',
       [
-        {text: '取消'},
-        {text: '确定', onPress: () => this.clearStorage()},
+        {text: I18n.t('alert.cancel')},
+        {text: I18n.t('alert.prompt'), onPress: () => this.clearStorage()},
       ]
     );
+  }
+
+  switchValue() {
+    this.setState({
+      switch: !this.state.switch
+    })
+
+    console.log(!this.state.switch)
+
+    !this.state.switch ? I18n.locale = 'en' : I18n.locale = 'zh';
+    AsyncStorage.setItem('switch', !this.state.switch ? JSON.stringify(true) : JSON.stringify(false));
   }
 
   render() {
@@ -141,9 +167,11 @@ class UserDetails extends React.Component {
         <View style={styles.container}>
           <View style={styles.lists}>
             <View style={styles.list}>
-              <Text allowFontScaling={false} style={styles.text}>手机号</Text>
+              <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.phone')}</Text>
               <Text allowFontScaling={false} style={styles.text}>{this.state.loginfo.Phone}</Text>
             </View>
+          </View>
+          <View style={styles.lists}>
             <TouchableHighlight
               underlayColor='transparent'
               style={[styles.lotteryTouch]}
@@ -154,7 +182,7 @@ class UserDetails extends React.Component {
               activeOpacity={1}
             >
               <View style={styles.list}>
-                <Text allowFontScaling={false} style={styles.text}>私钥</Text>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.private')}</Text>
                 <Text allowFontScaling={false} style={styles.textRight} numberOfLines={1}>{this.state.loginfo.PrivateKeyStr}</Text>
               </View>
             </TouchableHighlight>
@@ -168,14 +196,14 @@ class UserDetails extends React.Component {
               activeOpacity={1}
             >
               <View style={styles.list}>
-                <Text allowFontScaling={false} style={styles.text}>公钥</Text>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.public')}</Text>
                 <Text allowFontScaling={false} style={styles.textRight} numberOfLines={1}>{this.state.loginfo.PublicKeyStr}</Text>
               </View>
             </TouchableHighlight>
           </View>
           <View style={styles.lists}>
             <View style={styles.list}>
-              <Text allowFontScaling={false} style={styles.text}>锁仓</Text>
+              <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.lock')}</Text>
               <Text allowFontScaling={false} style={styles.text}>{this.state.account.Frozen ? 'TRUE' : 'FALSE'}</Text>
             </View>
             <TouchableHighlight
@@ -188,7 +216,7 @@ class UserDetails extends React.Component {
               activeOpacity={1}
             >
               <View style={styles.list}>
-                <Text allowFontScaling={false} style={styles.text}>地址</Text>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.address')}</Text>
                 <Text allowFontScaling={false} style={styles.textRight} numberOfLines={1}>{this.state.account.Name}</Text>
               </View>
             </TouchableHighlight>
@@ -201,7 +229,24 @@ class UserDetails extends React.Component {
               activeOpacity={1}
             >
               <>
-                <Text allowFontScaling={false} style={[styles.text, styles.textRed]}>退出登录</Text>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.swtich')}</Text>
+                <Switch
+                 trackColor='#18bba9'
+                 value={this.state.switch == true}
+                 onValueChange={(e) => this.switchValue(e)}
+               />
+              </>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.lists}>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
+              onPress={this.out.bind(this)}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={[styles.text, styles.textRed]}>{I18n.t('set.logout')}</Text>
                 <Ionicons
                   style={styles.textRed}
                   name={'ios-arrow-forward'}

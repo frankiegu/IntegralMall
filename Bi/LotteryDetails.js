@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from './Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from './i18n/index';
 import {
   Text,
   View,
@@ -131,10 +132,10 @@ class LotteryDetails extends React.Component {
     Clipboard.setString(string);
     let str = await Clipboard.getString()
     Alert.alert(
-      `提示`,
-      '已复制文本',
+      I18n.t('alert.title'),
+      I18n.t('alert.text'),
       [
-        {text: '确定'},
+        {text: I18n.t('alert.prompt')}
       ]
     );
   }
@@ -218,7 +219,7 @@ class LotteryDetails extends React.Component {
                 <Text allowFontScaling={false} style={styles.swiperCoinNumber} numberOfLines={3}>{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey].toFixed(2) : '0.00'}</Text>
                 <Text allowFontScaling={false} style={styles.swiperCoinMark}></Text>
               </View>
-              <Text allowFontScaling={false} style={styles.swiperTotal}>总资产</Text>
+              <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('lottery_details.title')}</Text>
               <TouchableHighlight style={styles.swiperButtonInput}
                 onPress={() => {
                 this.clipboardString(this.props.navigation.state.params.tokenKey)
@@ -231,7 +232,8 @@ class LotteryDetails extends React.Component {
                   activeOpacity={0.9}
                   onPress={() => {
                     this.state.loginfo != null ? this.props.navigation.navigate('TransferToken', {
-                      title: this.props.navigation.state.params.title,
+                      title: this.props.navigation.state.params.title + ' ' + I18n.t('lottery_details.transfer_token'),
+                      record_detail: I18n.t('lottery_details.record_detail'),
                       tokenKey: this.props.navigation.state.params.tokenKey || '',
                       address: this.props.navigation.state.params.address
                     }) : null
@@ -243,7 +245,7 @@ class LotteryDetails extends React.Component {
                       size={18}
                       color='#FFF'
                     />
-                    <Text allowFontScaling={false} style={{color: '#FFF'}}>转账</Text>
+                    <Text allowFontScaling={false} style={{color: '#FFF'}}>{I18n.t('lottery_details.transfer_token')}</Text>
                   </>
                 </TouchableHighlight>
                 <TouchableHighlight
@@ -251,14 +253,15 @@ class LotteryDetails extends React.Component {
                   activeOpacity={0.9}
                   onPress={() => {
                     this.state.loginfo != null ? this.props.navigation.navigate('QRcodeReceivables', {
-                      title: this.props.navigation.state.params.title,
+                      title: this.props.navigation.state.params.title + ' ' + I18n.t('lottery_details.receivables'),
+                      record_detail: I18n.t('lottery_details.record_detail'),
                       tokenKey: this.props.navigation.state.params.tokenKey || '',
                       address: this.props.navigation.state.params.address
                     }) : null
                   }}
                 >
                   <>
-                    <Text allowFontScaling={false} style={{color: '#FFF'}}>收款</Text>
+                    <Text allowFontScaling={false} style={{color: '#FFF'}}>{I18n.t('lottery_details.receivables')}</Text>
                     <Ionicons
                       name={'md-qr-scanner'}
                       size={18}
@@ -273,7 +276,8 @@ class LotteryDetails extends React.Component {
                   activeOpacity={0.9}
                   onPress={() => {
                     this.props.navigation.navigate('GiveRedEnvelopes', {
-                      title: this.props.navigation.state.params.title,
+                      title: this.props.navigation.state.params.title + ' ' + I18n.t('lottery_details.packet'),
+                      record_detail: I18n.t('lottery_details.record_detail'),
                       tokenKey: this.props.navigation.state.params.tokenKey,
                       address: this.props.navigation.state.params.address
                     })
@@ -285,7 +289,7 @@ class LotteryDetails extends React.Component {
                       size={20}
                       color='#FFF'
                     />
-                    <Text allowFontScaling={false} style={{color: '#FFF', marginLeft: 30}}>{this.props.navigation.state.params.title} 红包发放</Text>
+                    <Text allowFontScaling={false} style={{color: '#FFF', marginLeft: 30}}>{this.props.navigation.state.params.title} {I18n.t('lottery_details.packet')}</Text>
                   </>
                 </TouchableHighlight>
               </View>
@@ -293,24 +297,24 @@ class LotteryDetails extends React.Component {
           </TouchableHighlight>
         </View>
         <View style={styles.container}>
-          <Text allowFontScaling={false} style={styles.subTitle}>交易记录</Text>
+          <Text allowFontScaling={false} style={styles.subTitle}>{I18n.t('lottery_details.record.title')}</Text>
           <View style={styles.containerMain}>
             <View style={styles.containerMainList}>
               <Text allowFontScaling={false} style={[styles.subTitleText, this.state.status == 'all' ? styles.subTitleTextActive : '']} onPress={() => {
                 this.setState({
                   status: 'all'
                 })
-              }}>全部</Text>
+              }}>{I18n.t('lottery_details.record.transaction_classification.classification_0')}</Text>
               <Text allowFontScaling={false} style={[styles.subTitleText, this.state.status == 'give' ? styles.subTitleTextActive : '']} onPress={() => {
                 this.setState({
                   status: 'give'
                 })
-              }}>转账</Text>
+              }}>{I18n.t('lottery_details.record.transaction_classification.classification_1')}</Text>
               <Text allowFontScaling={false} style={[styles.subTitleText, this.state.status == 'grab' ? styles.subTitleTextActive : '']} onPress={() => {
                 this.setState({
                   status: 'grab'
                 })
-              }}>收款</Text>
+              }}>{I18n.t('lottery_details.record.transaction_classification.classification_2')}</Text>
             </View>
             <View style={styles.containerFlatList}>
               <FlatList
@@ -326,6 +330,7 @@ class LotteryDetails extends React.Component {
                         onPress={() => {
                           this.state.loginfo != null ? this.props.navigation.navigate('RecordDetail', {
                             title: this.props.navigation.state.params.title,
+                            record_detail: I18n.t('lottery_details.record_detail'),
                             tokenKey: this.props.navigation.state.params.tokenKey,
                             address: this.props.navigation.state.params.address,
                             time: item.Time,
@@ -366,6 +371,7 @@ class LotteryDetails extends React.Component {
                         onPress={() => {
                           this.state.loginfo != null ? this.props.navigation.navigate('RecordDetail', {
                             title: this.props.navigation.state.params.title,
+                            record_detail: I18n.t('lottery_details.record_detail'),
                             tokenKey: this.props.navigation.state.params.tokenKey,
                             address: this.props.navigation.state.params.address,
                             time: item.Time,
@@ -406,6 +412,7 @@ class LotteryDetails extends React.Component {
                         onPress={() => {
                           this.state.loginfo != null ? this.props.navigation.navigate('RecordDetail', {
                             title: this.props.navigation.state.params.title,
+                            record_detail: I18n.t('lottery_details.record_detail'),
                             tokenKey: this.props.navigation.state.params.tokenKey,
                             address: this.props.navigation.state.params.address,
                             time: item.Time,
@@ -506,7 +513,9 @@ const styles = {
     marginBottom: 20
   },
   swiperButton: {
-    width: '43%',
+    width: '45%',
+    paddingLeft: 5,
+    paddingRight: 5,
     height: 45,
     borderRadius: 20,
     flexDirection: 'row',

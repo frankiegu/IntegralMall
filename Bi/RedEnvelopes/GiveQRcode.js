@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import QRCode from 'react-native-qrcode-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -34,7 +35,7 @@ class GiveQRcode extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{navigation.state.params.title} 红包二维码</Text>
+          }}>{navigation.state.params.title}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -63,10 +64,10 @@ class GiveQRcode extends React.Component {
     Clipboard.setString(string);
     let str = await Clipboard.getString()
     Alert.alert(
-      `提示`,
-      '已复制文本',
+      I18n.t('alert.title'),
+      I18n.t('alert.text'),
       [
-        {text: '确定'},
+        {text: I18n.t('alert.prompt')}
       ]
     );
   }
@@ -81,7 +82,7 @@ class GiveQRcode extends React.Component {
           />
         </View>
         <View style={{marginTop: 100, alignItems: 'center'}}>
-          <Text style={{fontSize: 18, marginBottom: 5}}>红包 ID</Text>
+          <Text style={{fontSize: 18, marginBottom: 5}}>{I18n.t('codeString.id')}</Text>
           <TouchableHighlight style={styles.swiperButtonInput}
             onPress={() => {
             this.clipboardString(`${this.state.QRCodeString.params.red_envelopes_id}`)
@@ -90,7 +91,7 @@ class GiveQRcode extends React.Component {
               {this.state.QRCodeString.params.red_envelopes_id}
             </Text>
           </TouchableHighlight>
-          <Text style={{fontSize: 18, marginBottom: 5}}>红包链接</Text>
+          <Text style={{fontSize: 18, marginBottom: 5}}>{I18n.t('codeString.link')}</Text>
           <TouchableHighlight style={[styles.swiperButtonInput, {backgroundColor: 'rgb(255, 50, 50)'}]}
             onPress={() => {
             this.clipboardString(`http://47.94.150.170/resk/?reskid=${this.state.QRCodeString.params.red_envelopes_id}`)
@@ -100,7 +101,7 @@ class GiveQRcode extends React.Component {
             </Text>
           </TouchableHighlight>
           <View>
-            <Text style={[styles.swiperDesText, {fontSize: 18}]} allowFontScaling={false}>扫描二维码，复制链接、ID 抢红包</Text>
+            <Text style={[styles.swiperDesText]} allowFontScaling={false}>{I18n.t('codeString.des')}</Text>
           </View>
         </View>
       </View>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import iconStyle from './Styles/Icon'
 import icons from './Styles/Icons'
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
+import { I18n } from './i18n/index';
+
 import {
   Text,
   View,
@@ -391,7 +393,7 @@ class Home extends React.Component {
                   activeOpacity={0.9}
                 >
                   <>
-                    <Text allowFontScaling={false} style={styles.swiperTotal}>GDCC 资产</Text>
+                    <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')}</Text>
                     <Text allowFontScaling={false} style={styles.swiperTotal}></Text>
                     <View style={styles.swiperCoin}>
                       <Text allowFontScaling={false} style={styles.swiperCoinNumber}>0.00</Text>
@@ -459,7 +461,7 @@ class Home extends React.Component {
                   activeOpacity={0.9}
                 >
                   <>
-                    <Text allowFontScaling={false} style={styles.swiperTotal}>GDCC 资产</Text>
+                    <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')}</Text>
                     <View style={styles.swiperCoin}>
                       <Text allowFontScaling={false} style={styles.swiperCoinNumber}>0.00</Text>
                       <Text allowFontScaling={false} style={styles.swiperCoinMark}></Text>

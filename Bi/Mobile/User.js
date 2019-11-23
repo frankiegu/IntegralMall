@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -90,7 +91,7 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
-
+                  this.props.navigation.navigate('RecordsRedEnvelopes', {account: this.state.loginfo.Address})
                 }}
               >
                 <View style={styles.blockRows}>
@@ -99,7 +100,7 @@ class User extends React.Component {
                     size={30}
                     style={{marginTop: 10, marginBottom: 10, color: '#1052fa'}}
                   />
-                  <Text allowFontScaling={false} style={[styles.text, {color: '#1052fa'}]}>地址簿</Text>
+                  <Text allowFontScaling={false} style={[styles.text, {color: '#1052fa'}]}>{I18n.t('my.record')}</Text>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
@@ -116,7 +117,7 @@ class User extends React.Component {
                     size={30}
                     style={{marginTop: 10, marginBottom: 10, color: 'rgb(255, 50, 50)'}}
                   />
-                  <Text allowFontScaling={false} style={[styles.text, {color: 'rgb(255, 50, 50)'}]}>领红包</Text>
+                  <Text allowFontScaling={false} style={[styles.text, {color: 'rgb(255, 50, 50)'}]}>{I18n.t('my.receive')}</Text>
                 </View>
               </TouchableHighlight>
               <TouchableHighlight
@@ -133,25 +134,7 @@ class User extends React.Component {
                     size={30}
                     style={{marginTop: 10, marginBottom: 10, color: '#18bba9'}}
                   />
-                  <Text allowFontScaling={false} style={[styles.text, {color: '#18bba9'}]}>消息</Text>
-                </View>
-              </TouchableHighlight>
-            </View>
-            <View style={styles.lists}>
-              <TouchableHighlight
-                style={styles.list}
-                underlayColor="rgba(255, 255, 255, 1)"
-                activeOpacity={1}
-                onPress={() => {
-                  this.props.navigation.navigate('RecordsRedEnvelopes', {account: this.state.loginfo.Address})
-                }}
-              >
-                <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>红包记录</Text>
-                  <Ionicons
-                    name={'ios-arrow-forward'}
-                    size={20}
-                  />
+                  <Text allowFontScaling={false} style={[styles.text, {color: '#18bba9'}]}>{I18n.t('my.message')}</Text>
                 </View>
               </TouchableHighlight>
             </View>
@@ -165,7 +148,7 @@ class User extends React.Component {
                 }}
               >
                 <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>扫描二维码</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.scanning')}</Text>
                   <Ionicons
                     name={'ios-arrow-forward'}
                     size={20}
@@ -179,11 +162,11 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
-                  this.props.navigation.navigate('Web', {title: '用户协议', uri: 'http://47.94.150.170/html/useragreement.html'})
+                  this.props.navigation.navigate('Web', {title: I18n.t('my.agreement'), uri: 'http://47.94.150.170/html/useragreement.html'})
                 }}
               >
                 <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>用户协议</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.agreement')}</Text>
                   <Ionicons
                     name={'ios-arrow-forward'}
                     size={20}
@@ -195,11 +178,11 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
-                  this.props.navigation.navigate('Web', {title: '隐私条款', uri: 'http://47.94.150.170/html/privacy.html'})
+                  this.props.navigation.navigate('Web', {title: I18n.t('my.clause'), uri: 'http://47.94.150.170/html/privacy.html'})
                 }}
               >
                 <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>隐私条款</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.clause')}</Text>
                   <Ionicons
                     name={'ios-arrow-forward'}
                     size={20}
@@ -211,11 +194,11 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
-                  this.props.navigation.navigate('Web', {title: '法律声明', uri: 'http://47.94.150.170/html/legal.html'})
+                  this.props.navigation.navigate('Web', {title: I18n.t('my.legal'), uri: 'http://47.94.150.170/html/legal.html'})
                 }}
               >
                 <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>法律声明</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.legal')}</Text>
                   <Ionicons
                     name={'ios-arrow-forward'}
                     size={20}
@@ -227,11 +210,11 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
-                  this.props.navigation.navigate('Web', {title: '帮助中心', uri: 'http://47.94.150.170/html/help.html'})
+                  this.props.navigation.navigate('Web', {title: I18n.t('my.help'), uri: 'http://47.94.150.170/html/help.html'})
                 }}
               >
                 <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>帮助中心</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.help')}</Text>
                   <Ionicons
                     name={'ios-arrow-forward'}
                     size={20}
@@ -243,11 +226,29 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
-                  this.props.navigation.navigate('Web', {title: '关于我们', uri: 'http://47.94.150.170/html/about.html'})
+                  this.props.navigation.navigate('Web', {title: I18n.t('my.about'), uri: 'http://47.94.150.170/html/about.html'})
                 }}
               >
                 <View style={styles.listRows}>
-                  <Text allowFontScaling={false} style={styles.text}>关于我们</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.about')}</Text>
+                  <Ionicons
+                    name={'ios-arrow-forward'}
+                    size={20}
+                  />
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.lists}>
+              <TouchableHighlight
+                style={styles.list}
+                underlayColor="rgba(255, 255, 255, 1)"
+                activeOpacity={1}
+                onPress={() => {
+                  this.props.navigation.navigate('UserDetails', { address: this.state.loginfo.Address })
+                }}
+              >
+                <View style={styles.listRows}>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.set')}</Text>
                   <Ionicons
                     name={'ios-arrow-forward'}
                     size={20}
@@ -265,7 +266,7 @@ class User extends React.Component {
         >
           <View style={styles.containerLogo}>
             <Image style={styles.logo} source={require('../imgs/logo.png')} />
-            <Text style={styles.logoDec}>欢迎使用绿钻信用</Text>
+            <Text style={styles.logoDec}>{I18n.t('my.welcome')}</Text>
           </View>
           <View>
             <TouchableHighlight
@@ -282,7 +283,7 @@ class User extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>登录</Text>
+                }}>{I18n.t('my.login')}</Text>
               </>
             </TouchableHighlight>
             <TouchableHighlight
@@ -299,7 +300,7 @@ class User extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>注册</Text>
+                }}>{I18n.t('my.register')}</Text>
               </>
             </TouchableHighlight>
           </View>

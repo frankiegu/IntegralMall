@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -35,7 +36,7 @@ class RecordDetail extends React.Component {
             fontWeight: '600',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{navigation.state.params.title} 交易详细</Text>
+          }}>{navigation.state.params.title} {navigation.state.params.record_detail}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -66,33 +67,33 @@ class RecordDetail extends React.Component {
         <StatusBar barStyle="dark-content" />
         <View style={styles.lists}>
           <View style={styles.list}>
-            <Text allowFontScaling={false} style={styles.text}>交易时间</Text>
+            <Text allowFontScaling={false} style={styles.text}>{I18n.t('record_detail.time')}</Text>
             <Text allowFontScaling={false} style={styles.text}>{this.props.navigation.state.params.time}</Text>
           </View>
           <View style={styles.list}>
-            <Text allowFontScaling={false} style={styles.text}>流水 ID</Text>
+            <Text allowFontScaling={false} style={styles.text}>{I18n.t('record_detail.id')}</Text>
             <Text allowFontScaling={false} style={styles.textRight}>{this.props.navigation.state.params.txid}</Text>
           </View>
         </View>
         <View style={styles.lists}>
           <View style={styles.list}>
-            <Text allowFontScaling={false} style={styles.text}>金额</Text>
+            <Text allowFontScaling={false} style={styles.text}>{I18n.t('record_detail.amount')}</Text>
             <Text allowFontScaling={false} style={styles.text}>{this.props.navigation.state.params.amount} {this.props.navigation.state.params.title}</Text>
           </View>
         </View>
         <View style={styles.lists}>
           <View style={styles.list}>
-            <Text allowFontScaling={false} style={styles.text}>付款地址</Text>
+            <Text allowFontScaling={false} style={styles.text}>{I18n.t('record_detail.address')}</Text>
             <Text allowFontScaling={false} style={styles.textRight}>{this.stringify(this.props.navigation.state.params.from)}</Text>
           </View>
           <View style={styles.list}>
-            <Text allowFontScaling={false} style={styles.text}>收款地址</Text>
+            <Text allowFontScaling={false} style={styles.text}>{I18n.t('record_detail.receipt')}</Text>
             <Text allowFontScaling={false} style={styles.textRight}>{this.stringify(this.props.navigation.state.params.to)}</Text>
           </View>
         </View>
         <View style={styles.lists}>
           <View style={styles.list}>
-            <Text allowFontScaling={false} style={styles.text}>备注</Text>
+            <Text allowFontScaling={false} style={styles.text}>{I18n.t('record_detail.remarks')}</Text>
             <Text allowFontScaling={false} style={styles.textRight}>{this.props.navigation.state.params.rec}</Text>
           </View>
         </View>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import QRCode from 'react-native-qrcode-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -33,7 +34,7 @@ class QRcodeReceivables extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{navigation.state.params.title} 收款</Text>
+          }}>{navigation.state.params.title}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -69,7 +70,7 @@ class QRcodeReceivables extends React.Component {
           />
         </View>
         <View>
-          <Text allowFontScaling={false}>扫描二维码付款</Text>
+          <Text allowFontScaling={false}>{I18n.t('codeReceivables.codeString')}</Text>
         </View>
       </View>
     );

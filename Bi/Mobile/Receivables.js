@@ -3,6 +3,7 @@ import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import { RNCamera } from 'react-native-camera';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -37,7 +38,7 @@ class Receivables extends React.Component {
             color: 'rgba(255, 255, 255, 0.9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>扫描二维码</Text>
+          }}>{I18n.t('qrcode.title')}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -141,7 +142,7 @@ class Receivables extends React.Component {
               <Text allowFontScaling={false} style={{width: 200, height: 1, backgroundColor: '#00ff00'}}></Text>
             </Animated.View>
             <View style={styles.rectangle} />
-            <Text allowFontScaling={false} style={styles.rectangleText}>将二维码放入框内，即可自动扫描</Text>
+            <Text allowFontScaling={false} style={styles.rectangleText}>{I18n.t('qrcode.text')}</Text>
           </View>
         </RNCamera>
         <Text allowFontScaling={false} style={[styles.rectangleText, styles.rectangleTextTitle]}>{this.state.transCode.title}</Text>

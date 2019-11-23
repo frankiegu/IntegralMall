@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Echarts from 'native-echarts';
 import StickyHeader from 'react-native-stickyheader';
+import { I18n } from './i18n/index';
 import {
   Text,
   View,
@@ -101,11 +102,11 @@ class Trend extends React.Component {
           ListHeaderComponent={({item, index}) =>
             <View style={styles.item}>
               <View style={styles.pnameercent}>
-                <Text allowFontScaling={false} style={[styles.name, {fontSize: 12}]}>币种</Text>
+                <Text allowFontScaling={false} style={[styles.name, {fontSize: 12}]}>{I18n.t('market.classify')}</Text>
               </View>
               <View style={styles.vol}>
-                <Text allowFontScaling={false} style={[styles.name, {fontSize: 12}]}>最新价格</Text>
-                <Text allowFontScaling={false} style={[styles.percent, {fontSize: 12, backgroundColor: '#FFF', padding: 0, color: '#000'}]}>涨跌 24h</Text>
+                <Text allowFontScaling={false} style={[styles.name, {fontSize: 12}]}>{I18n.t('market.amount')}</Text>
+                <Text allowFontScaling={false} style={[styles.percent, {fontSize: 12, backgroundColor: '#FFF', padding: 0, color: '#000'}]}>{I18n.t('market.gain')}</Text>
               </View>
             </View>
           }

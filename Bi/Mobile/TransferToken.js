@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -38,7 +39,7 @@ class TransferToken extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{navigation.state.params.title} 转账</Text>
+          }}>{navigation.state.params.title}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -129,10 +130,10 @@ class TransferToken extends React.Component {
     .then(response => response.json())
     .then(responseData => {
       Alert.alert(
-        `提示`,
+        I18n.t('alert.title'),
         responseData.data.Message,
         [
-          {text: '确定'}
+          {text: I18n.t('alert.prompt')}
         ]
       );
       this.setState({
@@ -143,10 +144,10 @@ class TransferToken extends React.Component {
     .catch((error) => {
       console.log('err: ', error)
       Alert.alert(
-        `提示`,
-        '请确认填写信息是否有误',
+        I18n.t('alert.title'),
+        I18n.t('alert.content'),
         [
-          {text: '确定'}
+          {text: I18n.t('alert.prompt')}
         ]
       );
       this.setState({
@@ -158,17 +159,16 @@ class TransferToken extends React.Component {
 
   render() {
     if (!this.state.status) {
-
       return (
         <ScrollView style={styles.container}>
           <StatusBar barStyle="dark-content" />
           <View style={[styles.container, {padding: 10}]}>
             <View style={styles.textForm}>
-              <Text allowFontScaling={false} style={styles.textLable}>收款方</Text>
+              <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('transfer.address')}</Text>
               <TextInput
                 allowFontScaling={false}
                 style={styles.textInput}
-                placeholder="收款方Address"
+                placeholder={I18n.t('transfer.required')}
                 clearButtonMode="while-editing"
                 keyboardType="ascii-capable"
                 defaultValue=""
@@ -182,13 +182,13 @@ class TransferToken extends React.Component {
             </View>
             <View style={styles.textForm}>
               <View style={styles.textContainer}>
-                <Text allowFontScaling={false} style={styles.textLable}>转账数量</Text>
-                <Text allowFontScaling={false} style={styles.textLable}>{this.props.navigation.state.params.title} 余额：{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
+                <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('transfer.number')}</Text>
+                <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('transfer.balance')}{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
               </View>
               <TextInput
                 allowFontScaling={false}
                 style={styles.textInput}
-                placeholder="转账数量"
+                placeholder={I18n.t('transfer.required')}
                 clearButtonMode="while-editing"
                 keyboardType="numeric"
                 defaultValue=""
@@ -201,11 +201,11 @@ class TransferToken extends React.Component {
               />
             </View>
             <View style={styles.textForm}>
-              <Text allowFontScaling={false} style={styles.textLable}>转账备注</Text>
+              <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('transfer.remarks')}</Text>
               <TextInput
                 allowFontScaling={false}
                 style={styles.textInput}
-                placeholder="选填"
+                placeholder={I18n.t('transfer.optional')}
                 clearButtonMode="while-editing"
                 defaultValue=""
                 placeholderTextColor="#CCC"
@@ -226,10 +226,10 @@ class TransferToken extends React.Component {
                   })
                 } else {
                   Alert.alert(
-                    `提示`,
-                    '请确认填写信息是否有误',
+                    I18n.t('alert.title'),
+                    I18n.t('alert.content'),
                     [
-                      {text: '确定'}
+                      {text: I18n.t('alert.prompt')}
                     ]
                   );
                   this.setState({
@@ -245,7 +245,7 @@ class TransferToken extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>确认</Text>
+                }}>{I18n.t('transfer.optional')}</Text>
               </>
             </TouchableHighlight>
           </View>
@@ -319,10 +319,10 @@ class TransferToken extends React.Component {
                   })
                 } else {
                   Alert.alert(
-                    `提示`,
-                    '请确认填写信息是否有误',
+                    I18n.t('alert.title'),
+                    I18n.t('alert.content'),
                     [
-                      {text: '确定'}
+                      {text: I18n.t('alert.prompt')}
                     ]
                   );
                   this.setState({
@@ -338,7 +338,7 @@ class TransferToken extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>确认</Text>
+                }}>{I18n.t('transfer.prompt')}</Text>
               </>
             </TouchableHighlight>
           </View>
@@ -361,19 +361,19 @@ class TransferToken extends React.Component {
                 <Text allowFontScaling={false} style={styles.footerMainText}>{this.props.navigation.state.params.title}</Text>
               </View>
               <View style={styles.footerMainList}>
-                <Text allowFontScaling={false} style={styles.footerMainTitle}>支付信息</Text>
-                <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.props.navigation.state.params.title} 转账信息</Text>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>{I18n.t('transfer.information')}</Text>
+                <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.props.navigation.state.params.title}</Text>
               </View>
               <View style={styles.footerMainList}>
-                <Text allowFontScaling={false} style={styles.footerMainTitle}>付款方</Text>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>{I18n.t('transfer.payment')}</Text>
                 <Text allowFontScaling={false} style={styles.footerMainSubTitleRight}>{this.props.navigation.state.params.address}</Text>
               </View>
               <View style={styles.footerMainList}>
-                <Text allowFontScaling={false} style={styles.footerMainTitle}>收款方</Text>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>{I18n.t('transfer.address')}</Text>
                 <Text allowFontScaling={false} style={styles.footerMainSubTitleRight}>{this.state.to}</Text>
               </View>
               <View style={styles.footerMainList}>
-                <Text allowFontScaling={false} style={styles.footerMainTitle}>备注</Text>
+                <Text allowFontScaling={false} style={styles.footerMainTitle}>{I18n.t('transfer.remarks')}</Text>
                 <Text allowFontScaling={false} style={styles.footerMainSubTitle}>{this.state.rec}</Text>
               </View>
               <TouchableHighlight
@@ -395,7 +395,7 @@ class TransferToken extends React.Component {
                     color: 'rgba(255, 255, 255, 0.9)',
                     textAlign: 'center',
                     marginHorizontal: 16
-                  }}>确认转账</Text>
+                  }}>{I18n.t('transfer._prompt')}</Text>
                 </>
               </TouchableHighlight>
             </View>

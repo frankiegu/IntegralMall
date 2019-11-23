@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -35,7 +36,7 @@ class GiveRedEnvelopes extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{navigation.state.params.title} 红包发放</Text>
+          }}>{navigation.state.params.title}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -113,17 +114,17 @@ class GiveRedEnvelopes extends React.Component {
       })
       if (responseData.data.Code == 200) {
         this.props.navigation.navigate('GiveQRcode', {
-          title: this.props.navigation.state.params.title,
+          title: this.props.navigation.state.params.title + ' ' + I18n.t('packet.codeString'),
           tokenKey: this.props.navigation.state.params.tokenKey,
           address: this.props.navigation.state.params.address,
           red_envelopes_id: responseData.data.Data.red_envelopes_id
         })
       } else {
         Alert.alert(
-          `提示`,
-          responseData.data.Message || '操作失败',
+          I18n.t('alert.title'),
+          responseData.data.Message || I18n.t('alert.error'),
           [
-            {text: '确定'},
+            {text: I18n.t('alert.prompt')}
           ]
         );
       }
@@ -144,13 +145,13 @@ class GiveRedEnvelopes extends React.Component {
         <KeyboardAvoidingView behavior='height' style={styles.behavior}>
           <View style={styles.textForm}>
             <View style={styles.textContainer}>
-              <Text allowFontScaling={false} style={styles.textLable}>发放金额</Text>
-              <Text allowFontScaling={false} style={styles.textLable}>{this.props.navigation.state.params.title} 余额：{this.state.balanceData != null ? this.state.balanceData.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
+              <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('packet.amount')}</Text>
+              <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('packet.balance')}{this.state.balanceData != null ? this.state.balanceData.Data[this.props.navigation.state.params.tokenKey] : ''}</Text>
             </View>
             <TextInput
               allowFontScaling={false}
               style={styles.textInput}
-              placeholder="填写金额"
+              placeholder={I18n.t('packet.required')}
               clearButtonMode="while-editing"
               keyboardType="ascii-capable"
               defaultValue=""
@@ -163,11 +164,11 @@ class GiveRedEnvelopes extends React.Component {
             />
           </View>
           <View style={styles.textForm}>
-            <Text allowFontScaling={false} style={styles.textLable}>红包数量</Text>
+            <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('packet.number')}</Text>
             <TextInput
               allowFontScaling={false}
               style={styles.textInput}
-              placeholder="红包数量"
+              placeholder={I18n.t('packet.required')}
               clearButtonMode="while-editing"
               keyboardType="numeric"
               defaultValue=""
@@ -198,7 +199,7 @@ class GiveRedEnvelopes extends React.Component {
                 color: 'rgba(255, 255, 255, 0.9)',
                 textAlign: 'center',
                 marginHorizontal: 16
-              }}>发红包</Text>
+              }}>{I18n.t('packet.pack')}</Text>
             </>
           </TouchableHighlight>
         </KeyboardAvoidingView>

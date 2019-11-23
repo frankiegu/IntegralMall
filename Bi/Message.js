@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { I18n } from './i18n/index';
 import {
   Text,
   View,
@@ -28,7 +29,7 @@ class Message extends React.Component {
         color: 'rgba(0, 0, 0, 1)',
         textAlign: 'center',
         marginHorizontal: 16
-      }}>消息</Text>
+      }}>{I18n.t('message.title')}</Text>
     ),
     tabBarVisible: false,
     headerTitleStyle: {color: '#FFFFFF'},
