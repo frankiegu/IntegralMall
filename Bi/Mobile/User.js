@@ -162,6 +162,24 @@ class User extends React.Component {
                 underlayColor="rgba(255, 255, 255, 1)"
                 activeOpacity={1}
                 onPress={() => {
+                  this.props.navigation.navigate('Information', {address: this.state.loginfo.Address})
+                }}
+              >
+                <View style={styles.listRows}>
+                  <Text allowFontScaling={false} style={styles.text}>{I18n.t('my.information')}</Text>
+                  <Ionicons
+                    name={'ios-arrow-forward'}
+                    size={20}
+                  />
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.lists}>
+              <TouchableHighlight
+                style={styles.list}
+                underlayColor="rgba(255, 255, 255, 1)"
+                activeOpacity={1}
+                onPress={() => {
                   this.props.navigation.navigate('Web', {title: I18n.t('my.agreement'), uri: 'http://47.94.150.170/html/useragreement.html'})
                 }}
               >

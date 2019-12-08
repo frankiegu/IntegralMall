@@ -1,10 +1,12 @@
 export default {
   nav_bar: {
     home: 'GDCC',
+    transaction: 'Transaction',
     classify: 'Prices'
   },
   tab_bar: {
     home: 'Home',
+    transaction: 'Transaction',
     classify: 'Prices',
     my: 'My'
   },
@@ -89,7 +91,8 @@ export default {
     set: 'My Setting',
     welcome: 'Welcome to Green Diamonds Credit Coin(GDCC)',
     login: 'Login',
-    register: 'Register'
+    register: 'Register',
+    information: 'Collection Information'
   },
   record: {
     title: 'Red Packet Records',
@@ -117,7 +120,13 @@ export default {
     lock: 'Lock cabin',
     swtich: 'Switch English',
     address: 'Address',
-    logout: 'Sign out'
+    logout: 'Sign out',
+    pass: 'Change Password',
+    wechat: 'Wechat Collection Information',
+    alipay: 'Alipay Collection Information',
+    unionpay: 'UnionPay Collection Information',
+    primary: 'Primary Certification',
+    senior: 'Senior Certification'
   },
   login: {
     title: 'Login',
@@ -139,5 +148,39 @@ export default {
   create: {
     title: 'Create',
     text: 'Create User'
+  },
+  change: {
+    title: 'Change Password',
+    password: 'New Password',
+    text: 'Confirm Revision'
+  },
+  wechat: {
+    title: 'Wechat Collection Information',
+    username: 'User',
+    account: 'Receiving Account',
+    code: 'WeChat Payment Code'
+  },
+  alipay: {
+    title: 'Alipay Collection Information',
+    code: 'Alipay Payment Code'
+  },
+  unionpay: {
+    title: 'UnionPay Collection Information',
+    number: 'Bank Card Number',
+    bank: 'Bank Name',
+    openAddr: 'Address of Opening Account'
+  },
+  certification: {
+    primary: 'Primary Certification',
+    senior: 'senior Certification',
+    name: 'Name',
+    card: 'ID card No.',
+    front: 'Upload ID card front photo',
+    upload: 'Confirm Upload',
+    back: 'Upload the back photo of ID card'
+  },
+  information: {
+    alipay: 'Alipay Payment Code',
+    wechat: 'Wechat Collection Code'
   }
 };

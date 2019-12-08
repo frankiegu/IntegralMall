@@ -5371,6 +5371,11 @@ react-native-i18n@^2.0.15:
   dependencies:
     i18n-js "3.0.11"
 
+react-native-image-crop-picker@^0.26.1:
+  version "0.26.1"
+  resolved "https://registry.npm.taobao.org/react-native-image-crop-picker/download/react-native-image-crop-picker-0.26.1.tgz#3499ff5d4a09c9a9e927eb4f6ff936015ff594f1"
+  integrity sha1-NJn/XUoJyanpJ+tPb/k2AV/1lPE=
+
 react-native-qrcode-svg@^5.2.0:
   version "5.2.0"
   resolved "https://registry.npm.taobao.org/react-native-qrcode-svg/download/react-native-qrcode-svg-5.2.0.tgz#013f7bb1d6e8de307fdca6141b4e815d861adf68"

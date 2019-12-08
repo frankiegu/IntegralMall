@@ -24,63 +24,65 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+const lists = [
+  {
+    id: 0,
+    icon: icons['btc'],
+    name: 'BTC',
+    tokenKey: null,
+    number: 0
+  },
+  {
+    id: 1,
+    icon: icons.usdt,
+    name: 'USDT',
+    tokenKey: null,
+    number: 0
+  },
+  {
+    id: 2,
+    icon: icons.xrp,
+    name: 'XRP',
+    tokenKey: null,
+    number: 0
+  },
+  {
+    id: 3,
+    icon: icons.eth,
+    name: 'ETH',
+    tokenKey: null,
+    number: 0
+  },
+  {
+    id: 4,
+    icon: icons.eos,
+    name: 'EOS',
+    tokenKey: null,
+    number: 0
+  },
+  {
+    id: 5,
+    icon: icons.ltc,
+    name: 'LTC',
+    tokenKey: null,
+    number: 0
+  },
+  {
+    id: 6,
+    icon: icons.ada,
+    name: 'ADA',
+    tokenKey: null,
+    number: 0
+  },
+];
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       scrollY: new Animated.Value(0),
-      lists: [
-        {
-          id: 0,
-          icon: icons['btc'],
-          name: 'BTC',
-          tokenKey: null,
-          number: 0
-        },
-        {
-          id: 1,
-          icon: icons.usdt,
-          name: 'USDT',
-          tokenKey: null,
-          number: 0
-        },
-        {
-          id: 2,
-          icon: icons.xrp,
-          name: 'XRP',
-          tokenKey: null,
-          number: 0
-        },
-        {
-          id: 3,
-          icon: icons.eth,
-          name: 'ETH',
-          tokenKey: null,
-          number: 0
-        },
-        {
-          id: 4,
-          icon: icons.eos,
-          name: 'EOS',
-          tokenKey: null,
-          number: 0
-        },
-        {
-          id: 5,
-          icon: icons.ltc,
-          name: 'LTC',
-          tokenKey: null,
-          number: 0
-        },
-        {
-          id: 6,
-          icon: icons.ada,
-          name: 'ADA',
-          tokenKey: null,
-          number: 0
-        },
-      ],
+      lists,
       loginfo: null,
       data: [],
       account: [],
@@ -97,6 +99,7 @@ class Home extends React.Component {
       if (response == null) {
         this.setState({
           loginfo: null,
+          gdcc: null,
           lists: [
             {
               id: 0,
@@ -329,25 +332,34 @@ class Home extends React.Component {
     .then(response => response.json())
     .then(responseData => {
       if (responseData.data.Code == 200) {
-        Object.keys(responseData.data.Data.BalanceOf).forEach((key) => {
-          let item = key.split('|'), keys = key
-          Object.keys(lists).forEach((key) => {
-            if (lists[key].name == item[1]) {
-              items[index++] = {
-                id: lists[key].id,
-                icon: lists[key].icon,
-                name: item[1],
-                tokenKey: item[0],
-                number: responseData.data.Data.BalanceOf[keys]
+        if (responseData.data.Data.balance_of == null) {
+          lists = lists;
+        } else {
+          Object.keys(responseData.data.Data.balance_of).forEach((key) => {
+            let item = key.split('|'), keys = key
+            Object.keys(lists).forEach((key) => {
+              if (lists[key].name == item[1]) {
+                items[index++] = {
+                  id: lists[key].id,
+                  icon: lists[key].icon,
+                  name: item[1],
+                  tokenKey: item[0],
+                  number: responseData.data.Data.balance_of[keys]
+                }
               }
-            }
-          })
-        });
+              if (responseData.data.Data.balance_of[keys].symbol == 'GDCC') {
+                this.setState({
+                  gdcc: responseData.data.Data.balance_of[keys]
+                })
+              }
+            })
+          });
 
-        for(var i in items) {
-          for(var j in lists) {
-            if(items[i].id == lists[j].id) {
-              lists.splice(j, 1)
+          for(var i in items) {
+            for(var j in lists) {
+              if(items[i].id == lists[j].id) {
+                lists.splice(j, 1)
+              }
             }
           }
         }
@@ -370,7 +382,7 @@ class Home extends React.Component {
   render() {
     if (this.state.loginfo == null) {
       return (
-        <ScrollView>
+        <>
           <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
           <Animated.ScrollView
             onScroll={
@@ -394,10 +406,8 @@ class Home extends React.Component {
                 >
                   <>
                     <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')}</Text>
-                    <Text allowFontScaling={false} style={styles.swiperTotal}></Text>
                     <View style={styles.swiperCoin}>
                       <Text allowFontScaling={false} style={styles.swiperCoinNumber}>0.00</Text>
-                      <Text allowFontScaling={false} style={styles.swiperCoinMark}></Text>
                     </View>
                   </>
                 </TouchableHighlight>
@@ -410,13 +420,12 @@ class Home extends React.Component {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) =>
                 <TouchableHighlight
-                  underlayColor='transparent'
                   style={[styles.lotteryTouch]}
                   onPress={() => {
                     this.state.loginfo != null ? this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address }) : null
                   }}
-                  underlayColor="rgba(255, 255, 255, 1)"
-                  activeOpacity={1}
+                  underlayColor="#03d2a6"
+                  activeOpacity={0}
                 >
                   <>
                     <View style={styles.lotteryHead}>
@@ -434,11 +443,11 @@ class Home extends React.Component {
               }
             />
           </Animated.ScrollView>
-        </ScrollView>
+        </>
       );
     } else {
       return (
-        <ScrollView>
+        <>
           <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
           <Animated.ScrollView
             onScroll={
@@ -454,21 +463,21 @@ class Home extends React.Component {
           >
             <View style={styles.backgroundSwiper}></View>
             <View style={styles.swiperContainer}>
-              <View
+              <TouchableHighlight
+                style={[styles.swiperTouch, styles.swiperAssets]}
+                onPress={() => {
+                  this.state.gdcc != null ? this.props.navigation.navigate('LotteryDetails', { lid: 9999, title: this.state.gdcc.symbol, tokenKey: this.state.gdcc.token_key, address: this.state.loginfo.Address }) : null
+                }}
+                underlayColor="#03d2a6"
+                activeOpacity={1}
               >
-                <TouchableHighlight
-                  style={[styles.swiperTouch, styles.swiperAssets]}
-                  activeOpacity={0.9}
-                >
-                  <>
-                    <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')}</Text>
-                    <View style={styles.swiperCoin}>
-                      <Text allowFontScaling={false} style={styles.swiperCoinNumber}>0.00</Text>
-                      <Text allowFontScaling={false} style={styles.swiperCoinMark}></Text>
-                    </View>
-                  </>
-                </TouchableHighlight>
-              </View>
+                <>
+                  <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')}</Text>
+                  <View style={styles.swiperCoin}>
+                    <Text allowFontScaling={false} style={styles.swiperCoinNumber}>{this.state.gdcc != null ? this.state.gdcc.bal.toFixed(0) : '0.00'}</Text>
+                  </View>
+                </>
+              </TouchableHighlight>
             </View>
             <FlatList
               data={this.state.data}
@@ -501,7 +510,7 @@ class Home extends React.Component {
               }
             />
           </Animated.ScrollView>
-        </ScrollView>
+        </>
       );
     }
   }
@@ -549,7 +558,6 @@ const styles = {
     height: 55,
     lineHeight: 55,
     fontSize: 56,
-    marginRight: 10,
     color: '#FFF',
     fontWeight: '400',
   },
@@ -561,6 +569,7 @@ const styles = {
   swiperAssets: {
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
     height: Dimensions.get('window').width / 2,
   },
   swiperImage: {

@@ -68,7 +68,6 @@ class UserDetails extends React.Component {
 
     AsyncStorage.getItem('switch')
     .then((response) => {
-      console.log(response)
       this.setState({
         switch: JSON.parse(response)
       })
@@ -151,8 +150,6 @@ class UserDetails extends React.Component {
       switch: !this.state.switch
     })
 
-    console.log(!this.state.switch)
-
     !this.state.switch ? I18n.locale = 'en' : I18n.locale = 'zh';
     AsyncStorage.setItem('switch', !this.state.switch ? JSON.stringify(true) : JSON.stringify(false));
   }
@@ -165,7 +162,7 @@ class UserDetails extends React.Component {
       >
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <View style={styles.container}>
-          <View style={styles.lists}>
+          <View style={[styles.lists, {display: 'none'}]}>
             <View style={styles.list}>
               <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.phone')}</Text>
               <Text allowFontScaling={false} style={styles.text}>{this.state.loginfo.Phone}</Text>
@@ -224,17 +221,118 @@ class UserDetails extends React.Component {
           <View style={styles.lists}>
             <TouchableHighlight
               style={[styles.list, styles.listRows]}
-              onPress={this.out.bind(this)}
+              onPress={() => {
+                this.props.navigation.navigate('PrimaryFirst', {account: this.state.loginfo.Address})
+              }}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.primary')}</Text>
+                <Ionicons
+                  name={'ios-arrow-forward'}
+                  size={20}
+                />
+              </>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
+              onPress={() => {
+                this.props.navigation.navigate('SeniorFirst', {account: this.state.loginfo.Address})
+              }}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.senior')}</Text>
+                <Ionicons
+                  name={'ios-arrow-forward'}
+                  size={20}
+                />
+              </>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.lists}>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
+              onPress={() => {
+                this.props.navigation.navigate('WeChat', {account: this.state.loginfo.Address})
+              }}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.wechat')}</Text>
+                <Ionicons
+                  name={'ios-arrow-forward'}
+                  size={20}
+                />
+              </>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
+              onPress={() => {
+                this.props.navigation.navigate('Alipay', {account: this.state.loginfo.Address})
+              }}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.alipay')}</Text>
+                <Ionicons
+                  name={'ios-arrow-forward'}
+                  size={20}
+                />
+              </>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
+              onPress={() => {
+                this.props.navigation.navigate('UnionPay', {account: this.state.loginfo.Address})
+              }}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.unionpay')}</Text>
+                <Ionicons
+                  name={'ios-arrow-forward'}
+                  size={20}
+                />
+              </>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.lists}>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
+              onPress={() => {
+                this.props.navigation.navigate('Change', {account: this.state.loginfo.Address})
+              }}
+              underlayColor="rgba(255, 255, 255, 1)"
+              activeOpacity={1}
+            >
+              <>
+                <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.pass')}</Text>
+                <Ionicons
+                  name={'ios-arrow-forward'}
+                  size={20}
+                />
+              </>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.lists}>
+            <TouchableHighlight
+              style={[styles.list, styles.listRows]}
               underlayColor="rgba(255, 255, 255, 1)"
               activeOpacity={1}
             >
               <>
                 <Text allowFontScaling={false} style={styles.text}>{I18n.t('set.swtich')}</Text>
                 <Switch
-                 trackColor='#18bba9'
-                 value={this.state.switch == true}
-                 onValueChange={(e) => this.switchValue(e)}
-               />
+                  trackColor='#18bba9'
+                  value={this.state.switch == true}
+                  onValueChange={(e) => this.switchValue(e)}
+                />
               </>
             </TouchableHighlight>
           </View>

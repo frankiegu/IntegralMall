@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import iconStyle from '../Styles/Icon'
+import iconStyle from './Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { I18n } from '../i18n/index';
+import { I18n } from './i18n/index';
 import {
   Text,
   View,
@@ -22,7 +22,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 
-class GrabRedEnvelopes extends React.Component {
+class OrderShow extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
       <TouchableHighlight
@@ -35,7 +35,7 @@ class GrabRedEnvelopes extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{I18n.t('record.title')}</Text>
+          }}>卖单信息</Text>
         </>
       </TouchableHighlight>
     ),
@@ -49,33 +49,50 @@ class GrabRedEnvelopes extends React.Component {
     super(props);
 
     this.state = {
-      account: this.props.navigation.state.params.account,
-      record: []
+      account: '0x83159d5c742fa2ae2cdef4b2fe93260fe9f16a34',
+      record: [],
+      loginfo: []
     };
 
-    this.redEnvelopeRecords()
+    this.fetchLoginfo()
   }
 
-  redEnvelopeRecords() {
-    fetch(`http://47.94.150.170:8080/v1/resk/redEnvelopeRecords`, {
+  fetchData(address) {
+    fetch(`http://47.94.150.170:8080/v1/otc/showPayOrder`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        account: this.state.account
+        "address": address,
+        "status": ""
       })
     })
     .then(response => response.json())
     .then(responseData => {
-      console.log(responseData.data)
       this.setState({
         record: responseData.data
       })
     })
     .catch((error) => {
       console.log('err: ', error)
+    })
+    .done();
+  }
+
+  fetchLoginfo() {
+    AsyncStorage.getItem('loginfo')
+    .then((response) => {
+      this.setState({
+        loginfo: JSON.parse(response)
+      })
+      this.fetchData(this.state.loginfo.Address)
+    })
+    .catch((error) => {
+      this.setState({
+        loginfo: null
+      })
     })
     .done();
   }
@@ -109,23 +126,18 @@ class GrabRedEnvelopes extends React.Component {
               underlayColor='transparent'
               style={styles.containerMainContent}
               onPress={() => {
-                this.props.navigation.navigate('GiveQRcode', {
-                  title: item.TokenSymbol + ' ' + I18n.t('packet.codeString'),
-                  // tokenKey: this.props.navigation.state.params.tokenKey,
-                  address: this.props.navigation.state.params.account,
-                  red_envelopes_id: item.red_envelopes_id
-                })
+
               }}
               activeOpacity={1}
             >
               <>
                 <View style={styles.lotteryHead}>
-                  <Text allowFontScaling={false} style={styles.lotteryLottery_name} numberOfLines={1}>{item.TokenSymbol} {I18n.t('record.amount')} {item.red_env_total_amount.toFixed(2)}</Text>
-                  <Text allowFontScaling={false} style={styles.lotteryLottery_time} numberOfLines={1}>{this.timeFormat(item.creation_time)}</Text>
+                  <Text allowFontScaling={false} style={styles.lotteryLottery_name} numberOfLines={1}>数量：{item.PayNumber.toFixed(2)} {item.CoinName}</Text>
+                  <Text allowFontScaling={false} style={styles.lotteryLottery_time} numberOfLines={1}>下单时间 {this.timeFormat(item.Time)}</Text>
                 </View>
                 <View style={styles.lotteryFoot}>
-                  <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{I18n.t('record.sum')} {item.red_env_total_quantity}</Text>
-                  <Text allowFontScaling={false} style={[styles.lotteryFinish_quantity, {marginTop: 5}]}>{I18n.t('record.surplus')} {item.red_env_remaining_quantity}</Text>
+                  <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.IsShip ? '收到付款并发币给买家' : '未收到付款'}</Text>
+                  <Text allowFontScaling={false} style={[styles.lotteryFinish_quantity, {marginTop: 5}]}>{item.Status == 0 ? '订单待支付' : ''}{item.Status == 1 ? '已经成功' : ''}</Text>
                 </View>
               </>
             </TouchableHighlight>
@@ -160,4 +172,4 @@ const styles = {
   }
 }
 
-module.exports = GrabRedEnvelopes;
+module.exports = OrderShow;

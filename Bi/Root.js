@@ -20,7 +20,7 @@ import {
 import Home from './Home'
 import Classify from './Classify'
 import Trend from './Trend'
-import LifeTab from './Life'
+import Transaction from './Transaction'
 import PnameDetail from './PnameDetail'
 import Web from './Mobile/Web'
 import User from './Mobile/User'
@@ -43,7 +43,16 @@ import Discover from './Discover';
 import Message from './Message';
 import MessageTab from './MessageTab';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
-
+import Change from './Mobile/Change';
+import ReChange from './Mobile/ReChange';
+import PrimaryFirst from './Certification/Primary/First';
+import SeniorFirst from './Certification/Senior/First';
+import SeniorSecond from './Certification/Senior/Second';
+import WeChat from './Mobile/WeChat';
+import Alipay from './Mobile/Alipay';
+import UnionPay from './Mobile/UnionPay';
+import Information from './Mobile/Information';
+import OrderState from './OrderState';
 import { i18n } from './i18n/index';
 
 class HomeScreen extends React.Component {
@@ -145,23 +154,27 @@ class CardScreen extends React.Component {
       <Text allowFontScaling={false} style={{
         fontSize: 17,
         fontWeight: '600',
-        color: 'rgba(0, 0, 0, 1)',
+        color: 'rgba(255, 255, 255, 1)',
         textAlign: 'center',
         marginHorizontal: 16
-      }}>发现</Text>
+      }}>{I18n.t('nav_bar.transaction')}</Text>
     ),
     tabBarVisible: false,
-    headerTitleStyle: {color: '#FFFFFF'},
     headerStyle: {
-      borderBottomWidth: 0
+      backgroundColor: '#03d2a6',
+      borderBottomWidth: 0,
+      elevation: 0,
+    },
+    headerTitleStyle: {
+      flex: 1,
+      color: '#FFFFFF',
+      textAlign: 'center',
     },
   });
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Discover />
-      </View>
+      <Transaction />
     );
   }
 }
@@ -225,7 +238,12 @@ const HomeStack = createStackNavigator({
 });
 
 const CardStack = createStackNavigator({
-  Card: CardScreen
+  Card: {
+    screen: CardScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
 });
 
 const LifeStack = createStackNavigator({
@@ -244,6 +262,19 @@ const BottomNavigatorScreen = createBottomTabNavigator({
         tabBarIcon: ({tintColor, focused}) => (
           <Ionicons
             name={focused ? 'md-home' : 'md-home'}
+            size={25}
+            style={{color: tintColor}}
+          />
+        ),
+     },
+  },
+  Card: {
+     screen: CardStack,
+     navigationOptions: {
+        tabBarLabel: I18n.t('tab_bar.transaction'),
+        tabBarIcon: ({tintColor, focused}) => (
+          <Ionicons
+            name={focused ? 'md-card' : 'md-card'}
             size={25}
             style={{color: tintColor}}
           />
@@ -280,15 +311,22 @@ const BottomNavigatorScreen = createBottomTabNavigator({
 {
   mode: 'card',
   headerMode: 'screen',
-  initialRouteName: 'Home',
+  initialRouteName: 'Card',
   tabBarOptions: {
     activeTintColor: '#07969c',
+    showLabel: true
   }
 });
 
 const stackNavigator = createStackNavigator({
   BottomNavigatorScreen: {
     screen: BottomNavigatorScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Information: {
+    screen: Information,
     navigationOptions: {
       header: null
     }
@@ -315,6 +353,27 @@ const stackNavigator = createStackNavigator({
   Search: { screen: Search },
   GiveQRcode: { screen: GiveQRcode },
   Web: { screen: Web },
+  Change: { screen: Change },
+  ReChange: { screen: ReChange },
+  PrimaryFirst: { screen: PrimaryFirst },
+  SeniorFirst: { screen: SeniorFirst },
+  SeniorSecond: { screen: SeniorSecond },
+  WeChat: { screen: WeChat },
+  Alipay: { screen: Alipay },
+  UnionPay: { screen: UnionPay },
+}, {
+  // navigationOptions: ({ navigation }) => {
+  //   const routeName = navigation.state.routeName;
+  //   console.log('navigation 对象', navigation.state);
+  //   return {
+  //     title: routeName,
+  //   };
+  // },
+  // transitionConfig: () => ({
+  //   screenInterpolator: (props) => {
+  //     return StackViewTransitionConfigs.SlideFromRightIOS.screenInterpolator(props);
+  //   },
+  // }),
 })
 
 module.exports = stackNavigator;

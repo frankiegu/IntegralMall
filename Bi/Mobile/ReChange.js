@@ -23,7 +23,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-class Login extends React.Component {
+class ReChange extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
       <TouchableHighlight
@@ -36,7 +36,7 @@ class Login extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>{I18n.t('create.title')}</Text>
+          }}>{I18n.t('change.title')}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -50,13 +50,13 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      password: null,
+      oldPassword: null,
       smsCode: null,
     };
   }
 
   registered() {
-    fetch(`http://47.94.150.170:8080/v1/user/registered`, {
+    fetch(`http://47.94.150.170:8080/v1/user/resetPass`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -64,7 +64,7 @@ class Login extends React.Component {
       },
       body: JSON.stringify({
         "phone": this.props.navigation.state.params.phone,
-        "password": this.state.password,
+        "oldPassword": this.state.oldPassword,
         "smsCode": this.state.smsCode
       })
     })
@@ -121,7 +121,7 @@ class Login extends React.Component {
                 />
               </View>
               <View style={styles.textInputContainer}>
-                <Text>{I18n.t('login.password')}</Text>
+                <Text>{I18n.t('change.password')}</Text>
                 <TextInput
                   allowFontScaling={false}
                   style={styles.textInput}
@@ -133,7 +133,7 @@ class Login extends React.Component {
                   secureTextEntry
                   onChangeText={(params) => {
                     this.setState({
-                      password: params
+                      oldPassword: params
                     });
                   }}
                 />
@@ -170,7 +170,7 @@ class Login extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>{I18n.t('create.text')}</Text>
+                }}>{I18n.t('change.text')}</Text>
               </>
             </TouchableHighlight>
           </KeyboardAvoidingView>
@@ -227,4 +227,4 @@ const styles = {
   },
 }
 
-module.exports = Login;
+module.exports = ReChange;

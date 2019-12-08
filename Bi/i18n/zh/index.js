@@ -1,10 +1,12 @@
 export default {
   nav_bar: {
     home: '绿钻信用',
+    transaction: '交易',
     classify: '市场'
   },
   tab_bar: {
     home: '首页',
+    transaction: '交易',
     classify: '市场',
     my: '我的'
   },
@@ -89,7 +91,8 @@ export default {
     set: '个人设置',
     welcome: '欢迎使用绿钻信用',
     login: '登录',
-    register: '注册'
+    register: '注册',
+    information: '收款信息'
   },
   record: {
     title: '红包记录',
@@ -118,6 +121,12 @@ export default {
     swtich: '切换英语',
     address: '地址',
     logout: '退出登录',
+    pass: '修改密码',
+    wechat: '微信收款信息',
+    alipay: '支付宝收款信息',
+    unionpay: '银行卡收款信息',
+    primary: '初级认证',
+    senior: '高级认证'
   },
   login: {
     title: '登录',
@@ -139,5 +148,39 @@ export default {
   create: {
     title: '创建',
     text: '创建账户'
+  },
+  change: {
+    title: '修改密码',
+    password: '新密码',
+    text: '确认修改'
+  },
+  wechat: {
+    title: '微信收款信息',
+    username: '姓名',
+    account: '收款账号',
+    code: '微信收款码'
+  },
+  alipay: {
+    title: '支付宝收款信息',
+    code: '支付宝收款码'
+  },
+  unionpay: {
+    title: '银行卡收款信息',
+    number: '银行卡号',
+    bank: '开户行',
+    openAddr: '开户地址'
+  },
+  certification: {
+    primary: '初级认证',
+    senior: '高级认证',
+    name: '姓名',
+    card: '身份证号码',
+    front: '上传身份证正面照片',
+    upload: '确认上传',
+    back: '上传身份证背面照片',
+  },
+  information: {
+    alipay: '支付宝收款码',
+    wechat: '微信收款码'
   }
 };
