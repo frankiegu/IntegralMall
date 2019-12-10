@@ -182,5 +182,53 @@ export default {
   information: {
     alipay: '支付宝收款码',
     wechat: '微信收款码'
+  },
+  purchase: {
+    title: '购买',
+    remaining: '剩余数量：',
+    quota: '限额：',
+    created: '创建时间：',
+    purchase: '购买',
+    paymentPrice: '价格购买',
+    paymentPriceName: '单价',
+    paymentPriceNum: '数量购买',
+    paymentPricePlaceholderPay: '请输入购买金额',
+    paymentPricePlaceholderNum: '请输入购买数量',
+    paymentPriceAll: '全部买入',
+    actual: '实付款',
+    volume: '交易数量',
+    button: '购买'
+  },
+  orderShow: {
+    title: '出售',
+    number: '数量：',
+    time: '下单时间：'
+  },
+  status: {
+    title: '交易状态'
+  },
+  sell: {
+    title: '发起买单',
+    total: '总量',
+    min: '最小值',
+    max: '最大值',
+    coin: '币种',
+  },
+  pay: {
+    title: '交易状态',
+    id: '订单 ID',
+    coin: '币种',
+    num: '购买数量',
+    price: '购买价格',
+    unit: '购买单价',
+    time: '下单时间',
+    buyer: '买家用户',
+    buyerStatus: '订单状态',
+    seller: '卖家用户',
+    isShip: '是否发币',
+    shipTime: '发币时间',
+    shipStatus: '订单状态',
+    confirm: '是否确认收款',
+    buy: '买家尚未支付'
   }
 };

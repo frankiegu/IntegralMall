@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { I18n } from './i18n/index';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -16,7 +16,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-class OrderPay extends React.Component {
+class OrderState extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
       <Text allowFontScaling={false} style={{
@@ -25,7 +25,7 @@ class OrderPay extends React.Component {
         color: 'rgba(0, 0, 0, 1)',
         textAlign: 'center',
         marginHorizontal: 16
-      }}>交易状态</Text>
+      }}>{I18n.t('status.title')}</Text>
     ),
     tabBarVisible: false,
     headerTitleStyle: {color: '#FFFFFF'},
@@ -46,20 +46,18 @@ class OrderPay extends React.Component {
   }
 
   fetchData() {
-    fetch(`http://47.94.150.170:8080/v1/otc/showPayOrder`, {
+    fetch(`http://47.94.150.170:8080/v1/otc/orderBuyState`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "address": "0x83159d5c742fa2ae2cdef4b2fe93260fe9f16a34",
-        "status": ""
+        "oId": this.props.navigation.state.params.data.Data.orderer_id
       })
     })
     .then(response => response.json())
     .then(responseData => {
-      console.log(responseData.data)
       this.setState({
         order: responseData.data
       })
@@ -74,7 +72,7 @@ class OrderPay extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-        <Image style={styles.image} source={require('./imgs/loading.png')} />
+        <Image style={styles.image} source={require('../imgs/loading.png')} />
         <View>
           <Text allowFontScaling={false}>{this.state.order != null ? this.state.order.Message : null}</Text>
         </View>
@@ -98,4 +96,4 @@ const styles = {
   }
 }
 
-module.exports = OrderPay;
+module.exports = OrderState;

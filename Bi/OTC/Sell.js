@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import iconStyle from './Styles/Icon'
+import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { I18n } from './i18n/index';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
@@ -25,8 +25,6 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 
-let PickerItem = Picker.Item
-
 class Sell extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
@@ -40,7 +38,7 @@ class Sell extends React.Component {
             color: 'rgba(0, 0, 0, .9)',
             textAlign: 'center',
             marginHorizontal: 16
-          }}>发起卖单</Text>
+          }}>{I18n.t('sell.title')}</Text>
         </>
       </TouchableHighlight>
     ),
@@ -163,7 +161,7 @@ class Sell extends React.Component {
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <View style={[styles.container, {padding: 10}]}>
           <View style={styles.textForm}>
-            <Text allowFontScaling={false} style={styles.textLable}>总量</Text>
+            <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('sell.total')}</Text>
             <TextInput
               allowFontScaling={false}
               style={styles.textInput}
@@ -180,8 +178,8 @@ class Sell extends React.Component {
           </View>
           <View style={styles.textForm}>
             <View style={styles.textContainer}>
-              <Text allowFontScaling={false} style={styles.textLable}>最小值</Text>
-              <Text allowFontScaling={false} style={styles.textLable}>最大值</Text>
+              <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('sell.min')}</Text>
+              <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('sell.max')}</Text>
             </View>
             <View style={styles.textContainer}>
               <TextInput
@@ -213,7 +211,7 @@ class Sell extends React.Component {
             </View>
           </View>
           <View style={[styles.textForm]}>
-            <Text allowFontScaling={false} style={styles.textLable}>币种</Text>
+            <Text allowFontScaling={false} style={styles.textLable}>{I18n.t('sell.coin')}</Text>
             <Picker
               mode="dropdown"
               selectedValue={this.state.coin}

@@ -20,7 +20,6 @@ import {
 import Home from './Home'
 import Classify from './Classify'
 import Trend from './Trend'
-import Transaction from './Transaction'
 import PnameDetail from './PnameDetail'
 import Web from './Mobile/Web'
 import User from './Mobile/User'
@@ -52,8 +51,76 @@ import WeChat from './Mobile/WeChat';
 import Alipay from './Mobile/Alipay';
 import UnionPay from './Mobile/UnionPay';
 import Information from './Mobile/Information';
-import OrderState from './OrderState';
 import { i18n } from './i18n/index';
+
+import Purchase from './OTC/Purchase';
+import OrderShow from './OTC/OrderShow';
+import Sell from './OTC/Sell';
+import OrderState from './OTC/OrderState';
+import OrderPay from './OTC/OrderPay';
+
+class PurchaseScreen extends React.Component {
+  render() {
+    return (
+      <Purchase {...this.props} />
+    );
+  }
+}
+
+class OrderShowScreen extends React.Component {
+  render() {
+    return (
+      <OrderShow {...this.props} />
+    );
+  }
+}
+
+const PurchaseStack = createStackNavigator({
+  PurchaseScreen: {
+    screen: PurchaseScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+});
+
+const OrderShowStack = createStackNavigator({
+  PurchaseScreen: {
+    screen: OrderShowScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+});
+
+const TopTabNavigatorScreen = createMaterialTopTabNavigator({
+  PurchaseStack: {
+    screen: PurchaseStack,
+    navigationOptions: {
+      tabBarLabel: I18n.t('purchase.title')
+    }
+  },
+  OrderShowStack: {
+    screen: OrderShowStack,
+    navigationOptions: {
+      tabBarLabel: I18n.t('orderShow.title')
+    }
+  },
+}, {
+  tabBarOptions: {
+    style: {
+      backgroundColor: '#03d2a6',
+      elevation: 0
+    },
+    labelStyle: {
+      color: "#ffffff",
+    },
+    indicatorStyle: {
+      backgroundColor: "#ffffff",
+    },
+  },
+});
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
@@ -148,16 +215,36 @@ class LifeScreen extends React.Component {
   }
 }
 
-class CardScreen extends React.Component {
+class TransactionScreen extends React.Component {
+  static router = TopTabNavigatorScreen.router;
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
-      <Text allowFontScaling={false} style={{
-        fontSize: 17,
-        fontWeight: '600',
-        color: 'rgba(255, 255, 255, 1)',
-        textAlign: 'center',
-        marginHorizontal: 16
-      }}>{I18n.t('nav_bar.transaction')}</Text>
+      <TouchableHighlight
+        underlayColor='transparent'
+      >
+        <Text allowFontScaling={false} style={{
+          fontSize: 17,
+          fontWeight: '600',
+          color: 'rgba(255, 255, 255, 1)',
+          textAlign: 'center',
+          marginHorizontal: 16
+        }}>{I18n.t('nav_bar.transaction')}</Text>
+      </TouchableHighlight>
+    ),
+    headerRight: (
+      <TouchableHighlight
+        style={{right: 10}}
+        underlayColor='transparent'
+        onPress={() => {
+          navigation.navigate('Sell')
+        }}
+      >
+        <Ionicons
+          name={'md-add'}
+          size={24}
+          color='#FFF'
+        />
+      </TouchableHighlight>
     ),
     tabBarVisible: false,
     headerStyle: {
@@ -174,7 +261,7 @@ class CardScreen extends React.Component {
 
   render() {
     return (
-      <Transaction />
+      <TopTabNavigatorScreen navigation={this.props.navigation} />
     );
   }
 }
@@ -233,17 +320,35 @@ class ClassifyScreen extends React.Component {
   }
 }
 
+class TrendScreen extends React.Component {
+  static navigationOptions = ({navigation, screenProps}) => ({
+    headerTitle: null,
+    tabBarVisible: false,
+    headerStyle: {
+      backgroundColor: '#03d2a6',
+      borderBottomWidth: 0,
+      elevation: 0,
+    },
+    headerTitleStyle: {
+      flex: 1,
+      color: '#FFFFFF',
+      textAlign: 'center',
+    },
+  });
+
+  render() {
+    return (
+      <Trend {...this.props} />
+    );
+  }
+}
+
 const HomeStack = createStackNavigator({
   Home: HomeScreen
 });
 
-const CardStack = createStackNavigator({
-  Card: {
-    screen: CardScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
+const TransactionStack = createStackNavigator({
+  Transaction: TransactionScreen
 });
 
 const LifeStack = createStackNavigator({
@@ -252,6 +357,10 @@ const LifeStack = createStackNavigator({
 
 const UserStack = createStackNavigator({
   User: UserScreen,
+});
+
+const TrendStack = createStackNavigator({
+  Trend: TrendScreen,
 });
 
 const BottomNavigatorScreen = createBottomTabNavigator({
@@ -268,8 +377,8 @@ const BottomNavigatorScreen = createBottomTabNavigator({
         ),
      },
   },
-  Card: {
-     screen: CardStack,
+  Transaction: {
+     screen: TransactionStack,
      navigationOptions: {
         tabBarLabel: I18n.t('tab_bar.transaction'),
         tabBarIcon: ({tintColor, focused}) => (
@@ -311,7 +420,7 @@ const BottomNavigatorScreen = createBottomTabNavigator({
 {
   mode: 'card',
   headerMode: 'screen',
-  initialRouteName: 'Card',
+  initialRouteName: 'Home',
   tabBarOptions: {
     activeTintColor: '#07969c',
     showLabel: true
@@ -361,6 +470,9 @@ const stackNavigator = createStackNavigator({
   WeChat: { screen: WeChat },
   Alipay: { screen: Alipay },
   UnionPay: { screen: UnionPay },
+  Sell: { screen: Sell },
+  OrderState: { screen: OrderState },
+  OrderPay: { screen: OrderPay },
 }, {
   // navigationOptions: ({ navigation }) => {
   //   const routeName = navigation.state.routeName;

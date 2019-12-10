@@ -923,10 +923,10 @@
     eslint-plugin-react-native "3.6.0"
     prettier "1.16.4"
 
-"@react-native-community/viewpager@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/@react-native-community/viewpager/download/@react-native-community/viewpager-2.0.1.tgz#892e2148c8bca4ff157280e4be81d88be3264efc"
-  integrity sha1-iS4hSMi8pP8VcoDkvoHYi+MmTvw=
+"@react-native-community/viewpager@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.npm.taobao.org/@react-native-community/viewpager/download/@react-native-community/viewpager-3.2.0.tgz#2c01ce6f9217017ea72cc2b4b1bc1c67c94b06d1"
+  integrity sha1-LAHOb5IXAX6nLMK0sbwcZ8lLBtE=
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"
@@ -5470,14 +5470,6 @@ react-native-vector-icons@^4.6.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native-viewpager@^0.2.13:
-  version "0.2.13"
-  resolved "https://registry.npm.taobao.org/react-native-viewpager/download/react-native-viewpager-0.2.13.tgz#75e421ae90e89efcd77d2c077c0525382b7c39c5"
-  integrity sha1-deQhrpDonvzXfSwHfAUlOCt8OcU=
-  dependencies:
-    react-timer-mixin "^0.13.3"
-    warning "^2.1.0"
-
 react-native-webview@^7.4.2:
   version "7.4.2"
   resolved "https://registry.npm.taobao.org/react-native-webview/download/react-native-webview-7.4.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-webview%2Fdownload%2Freact-native-webview-7.4.2.tgz#4206ef92c95bcb7207fdade608e5f5a1f62a3f83"
@@ -5593,11 +5585,6 @@ react-test-renderer@16.9.0:
     prop-types "^15.6.2"
     react-is "^16.9.0"
     scheduler "^0.15.0"
-
-react-timer-mixin@^0.13.3:
-  version "0.13.4"
-  resolved "https://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
-  integrity sha1-daAMPJTBOr4ptD1jtMZaiPyCZNM=
 
 react@16.9.0:
   version "16.9.0"
@@ -6749,13 +6736,6 @@ walker@^1.0.7, walker@~1.0.5:
   integrity sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
   dependencies:
     makeerror "1.0.x"
-
-warning@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npm.taobao.org/warning/download/warning-2.1.0.tgz#21220d9c63afc77a8c92111e011af705ce0c6901"
-  integrity sha1-ISINnGOvx3qMkhEeARr3Bc4MaQE=
-  dependencies:
-    loose-envify "^1.0.0"
 
 wcwidth@^1.0.1:
   version "1.0.1"

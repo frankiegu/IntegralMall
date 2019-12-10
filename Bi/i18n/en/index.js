@@ -182,5 +182,53 @@ export default {
   information: {
     alipay: 'Alipay Payment Code',
     wechat: 'Wechat Collection Code'
+  },
+  purchase: {
+    title: 'Purchase',
+    remaining: 'Remaining Quantity: ',
+    quota: 'Quota: ',
+    created: 'Created: ',
+    purchase: 'Purchase',
+    paymentPrice: 'Price Purchase',
+    paymentPriceName: 'Unit Price',
+    paymentPriceNum: 'Quantity Purchase',
+    paymentPricePlaceholderPay: 'Please enter the purchase amount.',
+    paymentPricePlaceholderNum: 'Please enter purchase quantity.',
+    paymentPriceAll: 'All in',
+    actual: 'Actual Payment',
+    volume: 'Transaction Volume',
+    button: 'Order'
+  },
+  orderShow: {
+    title: 'Sell',
+    number: 'Number: ',
+    time: 'Time: '
+  },
+  status: {
+    title: 'Trading Status'
+  },
+  sell: {
+    title: 'Initiate Payment',
+    total: 'Total',
+    min: 'Minimum Value',
+    max: 'Maximum Value',
+    coin: 'Coin',
+  },
+  pay: {
+    title: 'Trading Status',
+    id: 'Trading ID',
+    coin: 'Coin',
+    num: 'Purchase Quantity',
+    price: 'Purchase Price',
+    unit: 'Unit Purchase Price',
+    time: 'Order Time',
+    buyer: 'Buyer',
+    buyerStatus: 'Order Status',
+    seller: 'Seller',
+    isShip: 'Release',
+    shipTime: 'Release Time',
+    shipStatus: 'Order Time',
+    confirm: 'Confirm collection.',
+    buy: 'Buyer has not paid.'
   }
 };

@@ -1,60 +1,44 @@
 import React, { Component } from 'react';
-import iconStyle from './Styles/Icon'
+import iconStyle from '../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { I18n } from './i18n/index';
+import { I18n } from '../i18n/index';
 import {
   Text,
   View,
   Image,
-  Alert,
   StatusBar,
   ScrollView,
   Dimensions,
   FlatList,
   SectionList,
   Platform,
-  TextInput,
   AsyncStorage,
   RefreshControl,
   ActivityIndicator,
   TouchableHighlight,
-  KeyboardAvoidingView
 } from 'react-native';
 
 class OrderShow extends React.Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
-    headerTitle: (
-      <TouchableHighlight
-        underlayColor='transparent'
-      >
-        <>
-          <Text allowFontScaling={false} numberOfLines={1} style={{
-            fontSize: 17,
-            fontWeight: '600',
-            color: 'rgba(0, 0, 0, .9)',
-            textAlign: 'center',
-            marginHorizontal: 16
-          }}>卖单信息</Text>
-        </>
-      </TouchableHighlight>
-    ),
-    tabBarVisible: false,
-    headerStyle: {
-      elevation: 0,
-    },
-  });
-
   constructor(props) {
     super(props);
 
     this.state = {
-      account: '0x83159d5c742fa2ae2cdef4b2fe93260fe9f16a34',
       record: [],
       loginfo: []
     };
 
     this.fetchLoginfo()
+  }
+
+  componentDidMount() {
+    this.interval = this.props.navigation.addListener('didFocus', () => {
+      this.fetchLoginfo()
+    })
+  }
+
+  componentWillUnmount() {
+    this.fetchLoginfo()
+    this.interval.remove()
   }
 
   fetchData(address) {
@@ -114,8 +98,8 @@ class OrderShow extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
         <FlatList
           data={this.state.record.Data}
           horizontal={false}
@@ -126,24 +110,24 @@ class OrderShow extends React.Component {
               underlayColor='transparent'
               style={styles.containerMainContent}
               onPress={() => {
-
+                this.props.navigation.navigate('OrderPay', {data: item})
               }}
               activeOpacity={1}
             >
               <>
                 <View style={styles.lotteryHead}>
-                  <Text allowFontScaling={false} style={styles.lotteryLottery_name} numberOfLines={1}>数量：{item.PayNumber.toFixed(2)} {item.CoinName}</Text>
-                  <Text allowFontScaling={false} style={styles.lotteryLottery_time} numberOfLines={1}>下单时间 {this.timeFormat(item.Time)}</Text>
+                  <Text allowFontScaling={false} style={styles.lotteryLottery_name} numberOfLines={1}>{I18n.t('orderShow.number')}{item.PayNumber.toFixed(2)} {item.CoinName}</Text>
+                  <Text allowFontScaling={false} style={styles.lotteryLottery_time} numberOfLines={1}>{I18n.t('orderShow.time')}{this.timeFormat(item.Time)}</Text>
                 </View>
                 <View style={styles.lotteryFoot}>
-                  <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.IsShip ? '收到付款并发币给买家' : '未收到付款'}</Text>
-                  <Text allowFontScaling={false} style={[styles.lotteryFinish_quantity, {marginTop: 5}]}>{item.Status == 0 ? '订单待支付' : ''}{item.Status == 1 ? '已经成功' : ''}</Text>
+                  <Text allowFontScaling={false} style={styles.lotteryFinish_quantity} numberOfLines={1}>{item.IsShip == 0 ? '卖家未收到付款' : ''}{item.IsShip == 1 ? '收到付款并发币给买家' : ''}</Text>
+                  <Text allowFontScaling={false} style={[styles.lotteryFinish_quantity, {marginTop: 5}]} numberOfLines={1}>{item.IsPay == 0 ? '买家未支付' : ''}{item.IsPay == 1 ? '买家已支付' : ''}</Text>
                 </View>
               </>
             </TouchableHighlight>
           )}
         />
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -151,7 +135,10 @@ class OrderShow extends React.Component {
 const styles = {
   container: {
     position: 'relative',
-    flex: 1,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    minHeight: '100%',
   },
   containerMainContent: {
     backgroundColor: '#FFF',

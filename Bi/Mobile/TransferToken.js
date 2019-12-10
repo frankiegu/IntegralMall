@@ -245,7 +245,7 @@ class TransferToken extends React.Component {
                   color: 'rgba(255, 255, 255, 0.9)',
                   textAlign: 'center',
                   marginHorizontal: 16
-                }}>{I18n.t('transfer.optional')}</Text>
+                }}>{I18n.t('transfer.prompt')}</Text>
               </>
             </TouchableHighlight>
           </View>
