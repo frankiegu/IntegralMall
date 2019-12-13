@@ -59,69 +59,6 @@ import Sell from './OTC/Sell';
 import OrderState from './OTC/OrderState';
 import OrderPay from './OTC/OrderPay';
 
-class PurchaseScreen extends React.Component {
-  render() {
-    return (
-      <Purchase {...this.props} />
-    );
-  }
-}
-
-class OrderShowScreen extends React.Component {
-  render() {
-    return (
-      <OrderShow {...this.props} />
-    );
-  }
-}
-
-const PurchaseStack = createStackNavigator({
-  PurchaseScreen: {
-    screen: PurchaseScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-});
-
-const OrderShowStack = createStackNavigator({
-  PurchaseScreen: {
-    screen: OrderShowScreen,
-    navigationOptions: {
-      header: null
-    }
-  },
-});
-
-const TopTabNavigatorScreen = createMaterialTopTabNavigator({
-  PurchaseStack: {
-    screen: PurchaseStack,
-    navigationOptions: {
-      tabBarLabel: I18n.t('purchase.title')
-    }
-  },
-  OrderShowStack: {
-    screen: OrderShowStack,
-    navigationOptions: {
-      tabBarLabel: I18n.t('orderShow.title')
-    }
-  },
-}, {
-  tabBarOptions: {
-    style: {
-      backgroundColor: '#03d2a6',
-      elevation: 0
-    },
-    labelStyle: {
-      color: "#ffffff",
-    },
-    indicatorStyle: {
-      backgroundColor: "#ffffff",
-    },
-  },
-});
-
-
 class HomeScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
@@ -216,7 +153,6 @@ class LifeScreen extends React.Component {
 }
 
 class TransactionScreen extends React.Component {
-  static router = TopTabNavigatorScreen.router;
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
       <TouchableHighlight
@@ -229,6 +165,21 @@ class TransactionScreen extends React.Component {
           textAlign: 'center',
           marginHorizontal: 16
         }}>{I18n.t('nav_bar.transaction')}</Text>
+      </TouchableHighlight>
+    ),
+    headerLeft: (
+      <TouchableHighlight
+        style={{left: 10}}
+        underlayColor='transparent'
+        onPress={() => {
+          navigation.navigate('OrderShow')
+        }}
+      >
+        <Ionicons
+          name={'md-menu'}
+          size={24}
+          color='#FFF'
+        />
       </TouchableHighlight>
     ),
     headerRight: (
@@ -261,7 +212,7 @@ class TransactionScreen extends React.Component {
 
   render() {
     return (
-      <TopTabNavigatorScreen navigation={this.props.navigation} />
+      <Purchase {...this.props} />
     );
   }
 }
@@ -434,12 +385,7 @@ const stackNavigator = createStackNavigator({
       header: null
     }
   },
-  Information: {
-    screen: Information,
-    navigationOptions: {
-      header: null
-    }
-  },
+  Information: { screen: Information },
   LotteryDetails: { screen: LotteryDetails },
   AnimatedTurnTableDraw: { screen: AnimatedTurnTableDraw },
   Balance: { screen: Balance },
@@ -473,6 +419,7 @@ const stackNavigator = createStackNavigator({
   Sell: { screen: Sell },
   OrderState: { screen: OrderState },
   OrderPay: { screen: OrderPay },
+  OrderShow: { screen: OrderShow },
 }, {
   // navigationOptions: ({ navigation }) => {
   //   const routeName = navigation.state.routeName;

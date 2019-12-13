@@ -186,7 +186,7 @@ export default {
   purchase: {
     title: '购买',
     remaining: '剩余数量：',
-    quota: '限额：',
+    quota: '购买限额：',
     created: '创建时间：',
     purchase: '购买',
     paymentPrice: '价格购买',
@@ -200,7 +200,7 @@ export default {
     button: '购买'
   },
   orderShow: {
-    title: '出售',
+    title: '交易列表',
     number: '数量：',
     time: '下单时间：'
   },
@@ -208,7 +208,7 @@ export default {
     title: '交易状态'
   },
   sell: {
-    title: '发起买单',
+    title: '发起卖单',
     total: '总量',
     min: '最小值',
     max: '最大值',

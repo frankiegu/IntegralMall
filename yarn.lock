@@ -5318,12 +5318,22 @@ react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
+react-native-aliyun-push@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.npm.taobao.org/react-native-aliyun-push/download/react-native-aliyun-push-1.0.21.tgz#7f4e3b4cca219be0cb2c77c4bd451762a27b02f8"
+  integrity sha1-f047TMohm+DLLHfEvUUXYqJ7Avg=
+
 react-native-camera@^3.7.2:
   version "3.7.2"
   resolved "https://registry.npm.taobao.org/react-native-camera/download/react-native-camera-3.7.2.tgz#4d20f4753468259749c49541331819637a4417d7"
   integrity sha1-TSD0dTRoJZdJxJVBMxgZY3pEF9c=
   dependencies:
     prop-types "^15.6.2"
+
+react-native-communications@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npm.taobao.org/react-native-communications/download/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
+  integrity sha1-eIO1ayCgAu63kMET+GFuqGksp5U=
 
 react-native-device-info@^5.3.0:
   version "5.3.0"
@@ -5354,10 +5364,10 @@ react-native-echarts@^0.0.1:
   resolved "https://registry.npm.taobao.org/react-native-echarts/download/react-native-echarts-0.0.1.tgz#fce7d354fea8d5a285ed2760019a8aaf2d7bd2f3"
   integrity sha1-/OfTVP6o1aKF7SdgAZqKry170vM=
 
-react-native-gesture-handler@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.npm.taobao.org/react-native-gesture-handler/download/react-native-gesture-handler-1.4.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-gesture-handler%2Fdownload%2Freact-native-gesture-handler-1.4.1.tgz#c38d9e57637b95e221722a79f2bafac62e3aeb21"
-  integrity sha1-w42eV2N7leIhcip58rr6xi466yE=
+react-native-gesture-handler@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.npm.taobao.org/react-native-gesture-handler/download/react-native-gesture-handler-1.5.2.tgz#281111550bf1eee10b7feba5278d142169892731"
+  integrity sha1-KBERVQvx7uELf+ulJ40UIWmJJzE=
   dependencies:
     hammerjs "^2.0.8"
     hoist-non-react-statics "^2.3.1"
@@ -5375,6 +5385,11 @@ react-native-image-crop-picker@^0.26.1:
   version "0.26.1"
   resolved "https://registry.npm.taobao.org/react-native-image-crop-picker/download/react-native-image-crop-picker-0.26.1.tgz#3499ff5d4a09c9a9e927eb4f6ff936015ff594f1"
   integrity sha1-NJn/XUoJyanpJ+tPb/k2AV/1lPE=
+
+react-native-modalize@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npm.taobao.org/react-native-modalize/download/react-native-modalize-1.2.3.tgz#cf41f74520e85b925abd53f31861436ba2eef8f8"
+  integrity sha1-z0H3RSDoW5JavVPzGGFDa6Lu+Pg=
 
 react-native-qrcode-svg@^5.2.0:
   version "5.2.0"

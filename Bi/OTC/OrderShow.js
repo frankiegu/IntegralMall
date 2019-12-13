@@ -19,12 +19,37 @@ import {
 } from 'react-native';
 
 class OrderShow extends React.Component {
+  static navigationOptions = ({navigation, screenProps}) => ({
+    headerTitle: (
+      <TouchableHighlight
+        underlayColor='transparent'
+      >
+        <>
+          <Text allowFontScaling={false} numberOfLines={1} style={{
+            fontSize: 17,
+            fontWeight: '600',
+            color: 'rgba(0, 0, 0, .9)',
+            textAlign: 'center',
+            marginHorizontal: 16
+          }}>{I18n.t('orderShow.title')}</Text>
+        </>
+      </TouchableHighlight>
+    ),
+    tabBarVisible: false,
+    headerStyle: {
+      elevation: 0,
+      borderBottomWidth: 0,
+    },
+  })
+
   constructor(props) {
     super(props);
 
     this.state = {
       record: [],
-      loginfo: []
+      loginfo: [],
+      status: '待支付',
+      coin: ['待支付', '成功', '超时', '撤销', '失败']
     };
 
     this.fetchLoginfo()
@@ -41,7 +66,7 @@ class OrderShow extends React.Component {
     this.interval.remove()
   }
 
-  fetchData(address) {
+  fetchData(address, status) {
     fetch(`http://47.94.150.170:8080/v1/otc/showPayOrder`, {
       method: 'POST',
       headers: {
@@ -50,7 +75,7 @@ class OrderShow extends React.Component {
       },
       body: JSON.stringify({
         "address": address,
-        "status": ""
+        "status": status.toString()
       })
     })
     .then(response => response.json())
@@ -71,7 +96,7 @@ class OrderShow extends React.Component {
       this.setState({
         loginfo: JSON.parse(response)
       })
-      this.fetchData(this.state.loginfo.Address)
+      this.fetchData(this.state.loginfo.Address, 0)
     })
     .catch((error) => {
       this.setState({
@@ -99,7 +124,25 @@ class OrderShow extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor="#03d2a6" barStyle="light-content" />
+        <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+        <View style={styles.coins} horizontal={true}>
+        {
+          this.state.coin.map((item, index) => (
+            <TouchableHighlight
+              underlayColor="rgba(255, 255, 255, 1)"
+              onPress={() => {
+                this.fetchData(this.state.loginfo.Address, index)
+              }}>
+              <Text
+                allowFontScaling={false}
+                style={[styles.coin, {
+                  fontWeight: this.state.status == item ? '800' : '400'
+                }]}
+              >{item}</Text>
+            </TouchableHighlight>
+          ))
+        }
+        </View>
         <FlatList
           data={this.state.record.Data}
           horizontal={false}
@@ -156,7 +199,21 @@ const styles = {
   },
   lotteryFinish_quantity: {
     textAlign: 'right'
-  }
+  },
+  coins: {
+    backgroundColor: '#FFF',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-around'
+  },
+  coin: {
+    padding: 10,
+    fontSize: 12,
+    width: 60,
+    textAlign: 'center'
+  },
 }
 
 module.exports = OrderShow;

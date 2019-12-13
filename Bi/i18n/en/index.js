@@ -208,7 +208,7 @@ export default {
     title: 'Trading Status'
   },
   sell: {
-    title: 'Initiate Payment',
+    title: 'Initiation of Sales Order',
     total: 'Total',
     min: 'Minimum Value',
     max: 'Maximum Value',
