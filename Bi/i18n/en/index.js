@@ -53,6 +53,7 @@ export default {
     text: 'Text copied.',
     content: 'Please confirm whether the information is filled in correctly.',
     error: 'Error',
+    login: 'Please login.',
     prompt: 'Confirm',
     cancellation: 'Cancellation',
     cancel: 'Cancel'

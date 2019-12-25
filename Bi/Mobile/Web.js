@@ -17,8 +17,36 @@ class Web extends React.Component {
         textAlign: 'center',
         marginHorizontal: 16
       }}>{navigation.state.params.title}</Text>
-    )
+    ),
+    headerRight: (
+      <>
+      {
+        navigation.state.params.save != null ? (
+          <TouchableHighlight
+            style={{paddingLeft: 10, paddingRight: 10, display: 'none'}}
+            onPress={() => {
+
+            }}
+          >
+            <Text allowFontScaling={false}>保存</Text>
+          </TouchableHighlight>
+        ) : null
+      }
+      </>
+    ),
   });
+
+  constructor(props) {
+    super(props);
+
+    console.log(this.props.navigation.state.params.save)
+    // CameraRoll.saveToCameraRoll(this.props.navigation.state.params.save)
+    //   .then(function(result) {
+    //     this.refs.toast.show("图片已保存至相册")
+    //   }).catch(function(error) {
+    //     this.refs.toast.show("保存失败")
+    //   })
+  }
 
   render() {
     return (

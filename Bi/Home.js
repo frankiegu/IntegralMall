@@ -3,7 +3,6 @@ import iconStyle from './Styles/Icon'
 import icons from './Styles/Icons'
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 import { I18n } from './i18n/index';
-import AliyunPush from 'react-native-aliyun-push';
 
 import {
   Text,
@@ -306,25 +305,13 @@ class Home extends React.Component {
     }, 1000);
   }
 
-  handleAliyunPushMessage = (e) => {
-  	console.log("Message Received. " + JSON.stringify(e));
-    // e结构说明:
-    // e.type: "notification":通知 或者 "message":消息
-    // e.title: 推送通知/消息标题
-    // e.body: 推送通知/消息具体内容
-    // e.actionIdentifier: "opened":用户点击了通知, "removed"用户删除了通知, 其他非空值:用户点击了自定义action（仅限ios）
-    // e.extras: 用户附加的{key:value}的对象
-  }
-
   componentDidMount() {
-    AliyunPush.addListener(this.handleAliyunPushMessage);
     this.interval = this.props.navigation.addListener('didFocus', () => {
       this.loginfo()
     })
   }
 
   componentWillUnmount() {
-    AliyunPush.removeListener(this.handleAliyunPushMessage);
     this.loginfo()
     this.interval.remove();
   }

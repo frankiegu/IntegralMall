@@ -2,6 +2,7 @@ import React, { Component, useRef } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { I18n } from '../i18n/index';
 import Modalize from 'react-native-modalize';
+import TouchID from 'react-native-touch-id';
 import Communications from 'react-native-communications';
 import {
   Text,
@@ -36,6 +37,8 @@ class OrderState extends React.Component {
     ),
     tabBarVisible: false,
     headerTitleStyle: {color: '#FFFFFF'},
+    headerLeft: null,
+    gesturesEnabled: false,
     headerStyle: {
       backgroundColor: '#ffffff',
       borderBottomWidth: 0,
@@ -143,11 +146,13 @@ class OrderState extends React.Component {
           {
             text: I18n.t('alert.prompt'),
             onPress: () => {
-              // this.end()
               console.log('ok')
               this.setState({
                 payStatus: 'success'
               })
+              setTimeout(() => {
+                this.props.navigation.goBack();
+              }, 1000)
             }
           }
         ]
@@ -257,6 +262,9 @@ class OrderState extends React.Component {
               this.setState({
                 payStatus: 'error'
               })
+              setTimeout(() => {
+                this.props.navigation.goBack();
+              }, 1000)
             }
           }
         ]
@@ -445,6 +453,22 @@ class OrderState extends React.Component {
                     <Text allowFontScaling={false} style={styles.text}>{this.state.alipay.Data.AliPayID}</Text>
                   </>
                 </TouchableHighlight>
+                <TouchableHighlight
+                  style={[styles.list, styles.listRows]}
+                  underlayColor="rgba(255, 255, 255, 1)"
+                  activeOpacity={1}
+                  onPress={() => {
+                    this.props.navigation.navigate('Web', {title: '收款码', uri: this.state.alipay.Data.AliPayImg, save: this.state.alipay.Data.AliPayImg})
+                  }}
+                >
+                  <>
+                    <Text allowFontScaling={false} style={styles.text}>收款码</Text>
+                    <Ionicons
+                      name={'ios-arrow-forward'}
+                      size={20}
+                    />
+                  </>
+                </TouchableHighlight>
               </View>
             ) : null
           }
@@ -485,6 +509,22 @@ class OrderState extends React.Component {
                     <Text allowFontScaling={false} style={styles.text}>{this.state.wechat.Data.WeChatID}</Text>
                   </>
                 </TouchableHighlight>
+                <TouchableHighlight
+                  style={[styles.list, styles.listRows]}
+                  underlayColor="rgba(255, 255, 255, 1)"
+                  activeOpacity={1}
+                  onPress={() => {
+                    this.props.navigation.navigate('Web', {title: '收款码', uri: this.state.wechat.Data.WeChatImg, save: this.state.wechat.Data.WeChatImg})
+                  }}
+                >
+                  <>
+                    <Text allowFontScaling={false} style={styles.text}>收款码</Text>
+                    <Ionicons
+                      name={'ios-arrow-forward'}
+                      size={20}
+                    />
+                  </>
+                </TouchableHighlight>
               </View>
             ) : null
           }
@@ -518,7 +558,7 @@ class OrderState extends React.Component {
             <View style={s.content}>
               <Text style={s.content__subheading}>切换收款方式</Text>
               <View style={s.content__checks}>
-                <TouchableOpacity style={s.content__check} activeOpacity={0.9} onPress={() => this.switch('union')}>
+                <TouchableOpacity style={s.content__check} activeOpacity={0.9} onPress={() => this.state.union ? this.switch('union') : null}>
                   <View style={s.content__checkSource}>
                     <Image style={s.content__checkImage} source={require('../../Bi/imgs/card.png')} />
                     <View style={s.content__checkTexts}>
@@ -534,7 +574,7 @@ class OrderState extends React.Component {
                     />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={s.content__check} activeOpacity={0.9} onPress={() => this.switch('wechat')}>
+                <TouchableOpacity style={s.content__check} activeOpacity={0.9} onPress={() => this.state.wechat ? this.switch('wechat') : null}>
                   <View style={s.content__checkSource}>
                     <Image style={s.content__checkImage} source={require('../../Bi/imgs/wechat.png')} />
                     <View style={s.content__checkTexts}>
@@ -550,7 +590,7 @@ class OrderState extends React.Component {
                     />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={s.content__check} activeOpacity={0.9} onPress={() => this.switch('alipay')}>
+                <TouchableOpacity style={s.content__check} activeOpacity={0.9} onPress={() => this.state.alipay ? this.switch('alipay') : null}>
                   <View style={s.content__checkSource}>
                     <Image style={s.content__checkImage} source={require('../../Bi/imgs/alipay.png')} />
                     <View style={s.content__checkTexts}>

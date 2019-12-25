@@ -32,13 +32,6 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
-        maven {
-            url "http://maven.aliyun.com/nexus/content/repositories/releases/"
-        }
-        flatDir {
-            dirs project(':react-native-aliyun-push').file('libs')
-        }
-
         google()
         jcenter()
         maven { url 'https://jitpack.io' }

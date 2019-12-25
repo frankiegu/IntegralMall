@@ -169,7 +169,7 @@ class TransactionScreen extends React.Component {
     ),
     headerLeft: (
       <TouchableHighlight
-        style={{left: 10}}
+        style={{left: 10, paddingRight: 24}}
         underlayColor='transparent'
         onPress={() => {
           navigation.navigate('OrderShow')
@@ -184,7 +184,7 @@ class TransactionScreen extends React.Component {
     ),
     headerRight: (
       <TouchableHighlight
-        style={{right: 10}}
+        style={{right: 10, paddingLeft: 24}}
         underlayColor='transparent'
         onPress={() => {
           navigation.navigate('Sell')
@@ -206,7 +206,7 @@ class TransactionScreen extends React.Component {
     headerTitleStyle: {
       flex: 1,
       color: '#FFFFFF',
-      textAlign: 'center',
+      alignSelf: 'center',
     },
   });
 

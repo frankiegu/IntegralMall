@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>telprompt</string>
@@ -49,6 +51,8 @@
 	<string>App 需要您的权限</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要使用相册是否同意？</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>需要保存图片是否同意？</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

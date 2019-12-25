@@ -53,6 +53,7 @@ export default {
     text: '已复制文本。',
     content: '请确认填写信息是否有误。',
     error: '失败',
+    login: '请登录',
     prompt: '确认',
     cancellation: '注销',
     cancel: '取消'

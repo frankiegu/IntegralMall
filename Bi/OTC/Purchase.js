@@ -12,6 +12,7 @@ import {
   SectionList,
   Platform,
   TextInput,
+  AsyncStorage,
   RefreshControl,
   ActivityIndicator,
   TouchableHighlight,
@@ -30,16 +31,19 @@ class Purchase extends React.Component {
       payNumber: null,
       detail: null,
       payOrder: null,
+      loginfo: null,
       status: 'GDCC',
       coin: ['GDCC']
     };
 
     this.fetchDataDetail(this.state.status)
+    this.fetchLoginfo()
   }
 
   componentDidMount() {
     this.interval = this.props.navigation.addListener('didFocus', () => {
       this.fetchDataDetail(this.state.status)
+      this.fetchLoginfo()
     })
   }
 
@@ -105,16 +109,42 @@ class Purchase extends React.Component {
     .done();
   }
 
+  fetchLoginfo() {
+    AsyncStorage.getItem('loginfo')
+    .then((response) => {
+      this.setState({
+        loginfo: JSON.parse(response)
+      })
+    })
+    .catch((error) => {
+      this.setState({
+        loginfo: null
+      })
+    })
+    .done();
+  }
+
   fetchDataCreateBuyOrder(data, create, cion) {
+    if (this.state.loginfo == null) {
+      Alert.alert(
+        I18n.t('alert.title'),
+        I18n.t('alert.login'),
+        [
+          {text: I18n.t('alert.prompt')}
+        ]
+      );
+
+      return
+    }
     const body = create == 'realPay' ? JSON.stringify({
       "sellId": data.SellID,
       "payNumber": parseFloat((this.state.realPay / data.Sprice).toFixed(2)),
-      "address": data.Address,
+      "address": this.state.loginfo.Address,
       "realPay": parseFloat(this.state.realPay)
     }) : JSON.stringify({
       "sellId": data.SellID,
       "payNumber": parseFloat(this.state.payNumber),
-      "address": data.Address,
+      "address": this.state.loginfo.Address,
       "realPay": parseFloat((this.state.payNumber * data.Sprice).toFixed(2))
     })
     fetch(`http://47.94.150.170:8080/v1/otc/createBuyOrder`, {

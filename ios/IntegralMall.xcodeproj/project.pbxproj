@@ -21,7 +21,6 @@
 		0A68A4C152E202C154E11E40 /* libPods-IntegralMall-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C60EACC0BCFDB194FF8C61 /* libPods-IntegralMall-tvOS.a */; };
 		0E40CDF79B344DB6A422D587 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F2B2094350048FA8B72B233 /* SimpleLineIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -532,7 +531,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				A0A1CB2567B94DFD8161469D /* Entypo.ttf in Resources */,
 				5F0DA1DC063A4F87B5B3906C /* EvilIcons.ttf in Resources */,
 				7C4258F7308A435C91A4ED99 /* Feather.ttf in Resources */,
