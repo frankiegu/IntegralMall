@@ -422,7 +422,7 @@ class Home extends React.Component {
                 <TouchableHighlight
                   style={[styles.lotteryTouch]}
                   onPress={() => {
-                    this.state.loginfo != null ? this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address }) : null
+                    this.state.loginfo != null ? this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address, cny: this.state.gdcc != null ? '¥' + this.state.gdcc.cny.toFixed(2) : '' }) : null
                   }}
                   underlayColor="#03d2a6"
                   activeOpacity={0}
@@ -435,7 +435,9 @@ class Home extends React.Component {
                     <View style={styles.lotteryFoot}>
                       <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.number}</Text>
                       <View style={styles.lotteryBuy}>
-                        <Text allowFontScaling={false} style={styles.lotteryBuyText}>0</Text>
+                        <Text allowFontScaling={false} style={styles.lotteryBuyText}>
+                          {item.cny ? '¥' + item.cny.toFixed(2) : '¥0.00'}
+                        </Text>
                       </View>
                     </View>
                   </>
@@ -466,16 +468,16 @@ class Home extends React.Component {
               <TouchableHighlight
                 style={[styles.swiperTouch, styles.swiperAssets]}
                 onPress={() => {
-                  this.state.gdcc != null ? this.props.navigation.navigate('LotteryDetails', { lid: 9999, title: this.state.gdcc.symbol, tokenKey: this.state.gdcc.token_key, address: this.state.loginfo.Address }) : null
+                  this.state.gdcc != null ? this.props.navigation.navigate('LotteryDetails', { lid: 9999, title: this.state.gdcc.symbol, tokenKey: this.state.gdcc.token_key, address: this.state.loginfo.Address, cny: this.state.gdcc != null ? '¥' + this.state.gdcc.cny.toFixed(2) : '¥0.00' }) : null
                 }}
                 underlayColor="#03d2a6"
                 activeOpacity={1}
               >
                 <>
-                  <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')}</Text>
                   <View style={styles.swiperCoin}>
                     <Text allowFontScaling={false} style={styles.swiperCoinNumber}>{this.state.gdcc != null ? this.state.gdcc.bal.toFixed(0) : '0.00'}</Text>
                   </View>
+                  <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('home.title')} {this.state.gdcc != null ? '¥' + this.state.gdcc.cny.toFixed(2) : ''}</Text>
                 </>
               </TouchableHighlight>
             </View>
@@ -489,7 +491,7 @@ class Home extends React.Component {
                   underlayColor='transparent'
                   style={[styles.lotteryTouch]}
                   onPress={() => {
-                    item.number != 0.00 ? this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address }) : null
+                    item.number != 0.00 ? this.props.navigation.navigate('LotteryDetails', { lid: item.id, title: item.name, tokenKey: item.tokenKey, address: this.state.loginfo.Address, cny: this.state.gdcc != null ? '¥' + this.state.gdcc.cny.toFixed(2) : '' }) : null
                   }}
                   underlayColor="rgba(255, 255, 255, 1)"
                   activeOpacity={1}
@@ -502,7 +504,9 @@ class Home extends React.Component {
                     <View style={styles.lotteryFoot}>
                       <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{item.number.toFixed(2)}</Text>
                       <View style={styles.lotteryBuy}>
-                        <Text allowFontScaling={false} style={styles.lotteryBuyText}>0</Text>
+                        <Text allowFontScaling={false} style={styles.lotteryBuyText}>
+                          {item.cny ? '¥' + item.cny.toFixed(2) : '¥0.00'}
+                        </Text>
                       </View>
                     </View>
                   </>
@@ -619,7 +623,6 @@ const styles = {
     textAlign: 'right'
   },
   lotteryBuy: {
-    display: 'none',
     paddingTop: 5,
     paddingBottom: 5,
     paddingLeft: 10,

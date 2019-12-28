@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* IntegralMallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* IntegralMallTests.m */; };
 		0A68A4C152E202C154E11E40 /* libPods-IntegralMall-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C60EACC0BCFDB194FF8C61 /* libPods-IntegralMall-tvOS.a */; };

@@ -12,6 +12,7 @@ import {
   SectionList,
   Platform,
   TextInput,
+  AsyncStorage,
   RefreshControl,
   ActivityIndicator,
   TouchableHighlight,
@@ -30,16 +31,19 @@ class Purchase extends React.Component {
       payNumber: null,
       detail: null,
       payOrder: null,
+      loginfo: null,
       status: 'GDCC',
-      coin: ['GDCC', 'BTC', 'ETH', 'USDT', 'HT']
+      coin: ['GDCC']
     };
 
     this.fetchDataDetail(this.state.status)
+    this.fetchLoginfo()
   }
 
   componentDidMount() {
     this.interval = this.props.navigation.addListener('didFocus', () => {
       this.fetchDataDetail(this.state.status)
+      this.fetchLoginfo()
     })
   }
 
@@ -105,16 +109,42 @@ class Purchase extends React.Component {
     .done();
   }
 
-  fetchDataCreateBuyOrder(data, create) {
+  fetchLoginfo() {
+    AsyncStorage.getItem('loginfo')
+    .then((response) => {
+      this.setState({
+        loginfo: JSON.parse(response)
+      })
+    })
+    .catch((error) => {
+      this.setState({
+        loginfo: null
+      })
+    })
+    .done();
+  }
+
+  fetchDataCreateBuyOrder(data, create, cion) {
+    if (this.state.loginfo == null) {
+      Alert.alert(
+        I18n.t('alert.title'),
+        I18n.t('alert.login'),
+        [
+          {text: I18n.t('alert.prompt')}
+        ]
+      );
+
+      return
+    }
     const body = create == 'realPay' ? JSON.stringify({
       "sellId": data.SellID,
       "payNumber": parseFloat((this.state.realPay / data.Sprice).toFixed(2)),
-      "address": data.Address,
+      "address": this.state.loginfo.Address,
       "realPay": parseFloat(this.state.realPay)
     }) : JSON.stringify({
       "sellId": data.SellID,
       "payNumber": parseFloat(this.state.payNumber),
-      "address": data.Address,
+      "address": this.state.loginfo.Address,
       "realPay": parseFloat((this.state.payNumber * data.Sprice).toFixed(2))
     })
     fetch(`http://47.94.150.170:8080/v1/otc/createBuyOrder`, {
@@ -133,7 +163,7 @@ class Purchase extends React.Component {
           realPay: null,
           payOrder: null
         });
-        this.props.navigation.navigate('OrderState', { data: responseData.data })
+        this.props.navigation.navigate('OrderState', { data: responseData.data, cion: cion, sell: data })
       } else {
         Alert.alert(
           I18n.t('alert.title'),
@@ -227,7 +257,7 @@ class Purchase extends React.Component {
               {
                 this.state.index != null ?
                     <KeyboardAvoidingView
-                      keyboardVerticalOffset={Platform.OS === 'ios' ? 140 : 0}
+                      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
                       behavior={Platform.OS === 'ios' ? "padding" : null}
                       enabled
                       style={styles.payment}
@@ -283,8 +313,8 @@ class Purchase extends React.Component {
                         />
                         <View style={styles.paymentFromText}>
                           <Text allowFontScaling={false} style={{paddingRight: 20, lineHeight: 43}}>CNY</Text>
-                          <View style={{width: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#111'}}></View>
-                          <Text allowFontScaling={false} style={{paddingLeft: 20, paddingRight: 20, lineHeight: 43}}>{I18n.t('purchase.paymentPriceAll')}</Text>
+                          <View style={{width: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#111', display: 'none'}}></View>
+                          <Text allowFontScaling={false} style={{paddingLeft: 20, paddingRight: 20, lineHeight: 43, display: 'none'}}>{I18n.t('purchase.paymentPriceAll')}</Text>
                         </View>
                         <View style={styles.paymentFromFooter}>
                           <Text allowFontScaling={false} style={styles.text}>{I18n.t('purchase.quota')}¥{(this.state.detail.Data[this.state.index].Limit_small).toFixed(2)} - ¥{(this.state.detail.Data[this.state.index].Limit_big).toFixed(2)}</Text>
@@ -293,7 +323,7 @@ class Purchase extends React.Component {
                       <View style={[styles.paymentFooter, {display: this.state.tab == 'realPay' ? 'flex' : 'none'}]}>
                         <Text allowFontScaling={false} style={styles.text}>{I18n.t('purchase.actual')}</Text>
                         <View style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-                          <Text allowFontScaling={false}>{I18n.t('purchase.volume')} {(this.state.realPay / this.state.detail.Data[this.state.index].Sprice).toFixed(4)} {this.state.detail.Data[this.state.index].CoinName}</Text>
+                          <Text allowFontScaling={false}>{I18n.t('purchase.volume')} {(this.state.realPay / this.state.detail.Data[this.state.index].Sprice).toFixed(2)} {this.state.detail.Data[this.state.index].CoinName}</Text>
                           <View style={styles.paymentFooterPrice}>
                             <Text allowFontScaling={false} style={{height: 20, fontWeight: '600'}}>¥ </Text>
                             <Text allowFontScaling={false} style={{height: 30, fontSize: 24, fontWeight: '600'}}>{(this.state.realPay) || '0.00'}</Text>
@@ -305,7 +335,7 @@ class Purchase extends React.Component {
                           style={styles.paymentButton}
                           activeOpacity={0.9}
                           onPress={() => {
-                            this.fetchDataCreateBuyOrder(this.state.detail.Data[this.state.index], 'realPay')
+                            this.fetchDataCreateBuyOrder(this.state.detail.Data[this.state.index], 'realPay', this.state.detail.Data[this.state.index])
                           }}
                         >
                           <>
@@ -329,8 +359,8 @@ class Purchase extends React.Component {
                         />
                         <View style={styles.paymentFromText}>
                           <Text allowFontScaling={false} style={{paddingRight: 20, lineHeight: 43}}>{this.state.detail.Data[this.state.index].CoinName}</Text>
-                          <View style={{width: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#111'}}></View>
-                          <Text allowFontScaling={false} style={{paddingLeft: 20, paddingRight: 20, lineHeight: 43}}>{I18n.t('purchase.paymentPriceAll')}</Text>
+                          <View style={{width: 1, marginTop: 15, marginBottom: 15, backgroundColor: '#111', display: 'none'}}></View>
+                          <Text allowFontScaling={false} style={{paddingLeft: 20, paddingRight: 20, lineHeight: 43, display: 'none'}}>{I18n.t('purchase.paymentPriceAll')}</Text>
                         </View>
                         <View style={styles.paymentFromFooter}>
                           <Text allowFontScaling={false} style={styles.text}>{I18n.t('purchase.quota')}¥{(this.state.detail.Data[this.state.index].Limit_small).toFixed(2)} - ¥{(this.state.detail.Data[this.state.index].Limit_big).toFixed(2)}</Text>
@@ -339,7 +369,7 @@ class Purchase extends React.Component {
                       <View style={[styles.paymentFooter, {display: this.state.tab == 'payNumber' ? 'flex' : 'none'}]}>
                         <Text allowFontScaling={false} style={styles.text}>{I18n.t('purchase.actual')}</Text>
                         <View style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-                          <Text allowFontScaling={false}>{I18n.t('purchase.volume')} {this.state.payNumber || '0.0000'} {this.state.detail.Data[this.state.index].CoinName}</Text>
+                          <Text allowFontScaling={false}>{I18n.t('purchase.volume')} {this.state.payNumber || '0.00'} {this.state.detail.Data[this.state.index].CoinName}</Text>
                           <View style={styles.paymentFooterPrice}>
                             <Text allowFontScaling={false} style={{height: 20, fontWeight: '600'}}>¥ </Text>
                             <Text allowFontScaling={false} style={{height: 30, fontSize: 24, fontWeight: '600'}}>{(this.state.payNumber * this.state.detail.Data[this.state.index].Sprice).toFixed(2)}</Text>
@@ -351,7 +381,7 @@ class Purchase extends React.Component {
                           style={styles.paymentButton}
                           activeOpacity={0.9}
                           onPress={() => {
-                            this.fetchDataCreateBuyOrder(this.state.detail.Data[this.state.index], 'payNumber')
+                            this.fetchDataCreateBuyOrder(this.state.detail.Data[this.state.index], 'payNumber', this.state.detail.Data[this.state.index])
                           }}
                         >
                           <>
@@ -449,11 +479,11 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginBottom: 10
+    marginBottom: 100
   },
   paymentButton: {
     width: '100%',
-    backgroundColor: 'rgb(255, 50, 50)',
+    backgroundColor: '#04c2ad',
     paddingLeft: 5,
     paddingRight: 5,
     height: 43,

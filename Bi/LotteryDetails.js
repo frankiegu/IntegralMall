@@ -219,7 +219,8 @@ class LotteryDetails extends React.Component {
                 <Text allowFontScaling={false} style={styles.swiperCoinNumber} numberOfLines={3}>{this.state.balance != null ? this.state.balance.Data[this.props.navigation.state.params.tokenKey].toFixed(2) : '0.00'}</Text>
                 <Text allowFontScaling={false} style={styles.swiperCoinMark}></Text>
               </View>
-              <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('lottery_details.title')}</Text>
+              <Text allowFontScaling={false} style={styles.swiperTotal}>{I18n.t('lottery_details.title')} {this.props.navigation.state.params.cny}</Text>
+
               <TouchableHighlight style={styles.swiperButtonInput}
                 onPress={() => {
                 this.clipboardString(this.props.navigation.state.params.tokenKey)

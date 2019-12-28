@@ -87,7 +87,7 @@ class OrderPay extends React.Component {
     return Y + '/' + M + '/' + D + ' ' + h + ':' + m + ':' + s // yyyy/mm/dd hh:mm:ss
   }
 
-  orderPayState(id) {
+  orderPayState(id, isShip) {
     this.setState({
       statusLoading: true
     })
@@ -99,7 +99,7 @@ class OrderPay extends React.Component {
       },
       body: JSON.stringify({
         "oId": id,
-        "isShip": "1"
+        "isShip": isShip.toString()
       })
     })
     .then(response => response.json())
@@ -337,7 +337,7 @@ class OrderPay extends React.Component {
                 style={[styles.paymentButton, {backgroundColor: this.state.data.IsPay ? 'rgb(255, 50, 50)' : '#999'}]}
                 activeOpacity={0.9}
                 onPress={() => {
-                  this.state.data.IsPay ? this.orderPayState(this.state.data.OrderId) : null
+                  this.state.data.IsPay ? this.orderPayState(this.state.data.OrderId, 1) : this.orderPayState(this.state.data.OrderId, 0)
                 }}
               >
                 <>

@@ -24,22 +24,19 @@ import {
 class Information extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
     headerTitle: (
-      <TouchableHighlight
-        underlayColor='transparent'
-      >
-        <>
-          <Text allowFontScaling={false} numberOfLines={1} style={{
-            fontSize: 17,
-            fontWeight: '600',
-            color: 'rgba(0, 0, 0, .9)',
-            textAlign: 'center',
-            marginHorizontal: 16
-          }}>{I18n.t('my.information')}</Text>
-        </>
-      </TouchableHighlight>
+      <Text allowFontScaling={false} style={{
+        fontSize: 17,
+        fontWeight: '600',
+        color: 'rgba(0, 0, 0, 1)',
+        textAlign: 'center',
+        marginHorizontal: 16
+      }}>{I18n.t('my.information')}</Text>
     ),
     tabBarVisible: false,
+    headerTitleStyle: {color: '#FFFFFF'},
     headerStyle: {
+      backgroundColor: '#ffffff',
+      borderBottomWidth: 0,
       elevation: 0,
     },
   });

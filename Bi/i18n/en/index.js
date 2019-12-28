@@ -53,6 +53,7 @@ export default {
     text: 'Text copied.',
     content: 'Please confirm whether the information is filled in correctly.',
     error: 'Error',
+    login: 'Please login.',
     prompt: 'Confirm',
     cancellation: 'Cancellation',
     cancel: 'Cancel'
@@ -208,7 +209,7 @@ export default {
     title: 'Trading Status'
   },
   sell: {
-    title: 'Initiate Payment',
+    title: 'Initiation of Sales Order',
     total: 'Total',
     min: 'Minimum Value',
     max: 'Maximum Value',
