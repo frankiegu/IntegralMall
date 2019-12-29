@@ -7,10 +7,19 @@
 	objects = {
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* IntegralMallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* IntegralMallTests.m */; };
+		04DAB13423A377F700D758E0 /* CloudPushSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB12D23A377F600D758E0 /* CloudPushSDK.framework */; };
+		04DAB13523A377F700D758E0 /* UTDID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13123A377F600D758E0 /* UTDID.framework */; };
+		04DAB13623A377F700D758E0 /* UTMini.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13223A377F700D758E0 /* UTMini.framework */; };
+		04DAB13723A377F700D758E0 /* AlicloudUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13323A377F700D758E0 /* AlicloudUtils.framework */; };
+		04DAB13923A3784B00D758E0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13823A3784B00D758E0 /* libz.tbd */; };
+		04DAB13B23A3785200D758E0 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13A23A3785200D758E0 /* libresolv.tbd */; };
+		04DAB13D23A3785B00D758E0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13C23A3785B00D758E0 /* libsqlite3.tbd */; };
+		04DAB13F23A3786300D758E0 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB13E23A3786300D758E0 /* CoreTelephony.framework */; };
+		04DAB14123A3786B00D758E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB14023A3786B00D758E0 /* SystemConfiguration.framework */; };
+		04DAB14323A3787500D758E0 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04DAB14223A3787500D758E0 /* UserNotifications.framework */; };
 		0A68A4C152E202C154E11E40 /* libPods-IntegralMall-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C60EACC0BCFDB194FF8C61 /* libPods-IntegralMall-tvOS.a */; };
 		0E40CDF79B344DB6A422D587 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F2B2094350048FA8B72B233 /* SimpleLineIcons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -88,6 +97,16 @@
 		044044872351CE8800181364 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		044044882351CE8800181364 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		04C2EA2D2363CDF9006F719A /* RNI18n.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; };
+		04DAB12D23A377F600D758E0 /* CloudPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudPushSDK.framework; path = "../node_modules/react-native-aliyun-push/ios/libs/CloudPushSDK.framework"; sourceTree = "<group>"; };
+		04DAB13123A377F600D758E0 /* UTDID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UTDID.framework; path = "../node_modules/react-native-aliyun-push/ios/libs/UTDID.framework"; sourceTree = "<group>"; };
+		04DAB13223A377F700D758E0 /* UTMini.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UTMini.framework; path = "../node_modules/react-native-aliyun-push/ios/libs/UTMini.framework"; sourceTree = "<group>"; };
+		04DAB13323A377F700D758E0 /* AlicloudUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlicloudUtils.framework; path = "../node_modules/react-native-aliyun-push/ios/libs/AlicloudUtils.framework"; sourceTree = "<group>"; };
+		04DAB13823A3784B00D758E0 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		04DAB13A23A3785200D758E0 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		04DAB13C23A3785B00D758E0 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		04DAB13E23A3786300D758E0 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		04DAB14023A3786B00D758E0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		04DAB14223A3787500D758E0 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		0E2527F78E1744A18E0EB3BD /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* 绿钻信用.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "绿钻信用.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = IntegralMall/AppDelegate.h; sourceTree = "<group>"; };
@@ -137,7 +156,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DAB14323A3787500D758E0 /* UserNotifications.framework in Frameworks */,
+				04DAB14123A3786B00D758E0 /* SystemConfiguration.framework in Frameworks */,
+				04DAB13F23A3786300D758E0 /* CoreTelephony.framework in Frameworks */,
+				04DAB13D23A3785B00D758E0 /* libsqlite3.tbd in Frameworks */,
+				04DAB13B23A3785200D758E0 /* libresolv.tbd in Frameworks */,
+				04DAB13923A3784B00D758E0 /* libz.tbd in Frameworks */,
 				F76E1B9A74A1C234327F50A3 /* libPods-IntegralMall.a in Frameworks */,
+				04DAB13423A377F700D758E0 /* CloudPushSDK.framework in Frameworks */,
+				04DAB13623A377F700D758E0 /* UTMini.framework in Frameworks */,
+				04DAB13523A377F700D758E0 /* UTDID.framework in Frameworks */,
+				04DAB13723A377F700D758E0 /* AlicloudUtils.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +262,16 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04DAB14223A3787500D758E0 /* UserNotifications.framework */,
+				04DAB14023A3786B00D758E0 /* SystemConfiguration.framework */,
+				04DAB13E23A3786300D758E0 /* CoreTelephony.framework */,
+				04DAB13C23A3785B00D758E0 /* libsqlite3.tbd */,
+				04DAB13A23A3785200D758E0 /* libresolv.tbd */,
+				04DAB13823A3784B00D758E0 /* libz.tbd */,
+				04DAB13323A377F700D758E0 /* AlicloudUtils.framework */,
+				04DAB12D23A377F600D758E0 /* CloudPushSDK.framework */,
+				04DAB13123A377F600D758E0 /* UTDID.framework */,
+				04DAB13223A377F700D758E0 /* UTMini.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				D04759CF43BD9EBC95D4DA20 /* libPods-IntegralMall.a */,
@@ -491,7 +530,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				A0A1CB2567B94DFD8161469D /* Entypo.ttf in Resources */,
 				5F0DA1DC063A4F87B5B3906C /* EvilIcons.ttf in Resources */,
 				7C4258F7308A435C91A4ED99 /* Feather.ttf in Resources */,
