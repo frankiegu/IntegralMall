@@ -29,7 +29,7 @@ class Home extends React.Component {
       data: [],
       list: [],
       active: '5d3912da9bbe3147969a4ad1',
-      lotterys: [],
+      business: [],
       icons: [
         {
           text: '每日签到',
@@ -61,7 +61,7 @@ class Home extends React.Component {
   }
 
   fetchData() {
-    fetch(`https://www.baimapicture.com/wp-json/wp/v2/posts?_embed=true&page=1&per_page=5&filter[category_name]=carousel`)
+    fetch(`https://www.baimapictures.com/wp-json/wp/v2/posts?_embed=true&page=1&per_page=1&filter[category_name]=carousel`)
     .then(response => response.json())
     .then(responseData => {
       this.setState({
@@ -96,11 +96,11 @@ class Home extends React.Component {
   }
 
   fetchDataLottery() {
-    fetch(`https://api.baijiasz.com/lottery/`)
+    fetch(`https://taupd.ferer.net/v1/api/products?type=business`)
     .then(response => response.json())
     .then(responseData => {
       this.setState({
-        lotterys: responseData.data.lotterys
+        business: responseData.data
       });
     })
     .catch((error) => {
@@ -142,7 +142,7 @@ class Home extends React.Component {
                         style={styles.swiperTouch}
                         activeOpacity={0.9}
                       >
-                        <Image resizeMode='cover' style={styles.swiperImage} source={{uri: item._embedded['wp:featuredmedia'][0].media_details.sizes['medium_large'].source_url}} />
+                        <Image resizeMode='cover' style={styles.swiperImage} source={{uri: item._embedded['wp:featuredmedia'][0].source_url}} />
                       </TouchableHighlight>
                     )
                   })
@@ -165,7 +165,7 @@ class Home extends React.Component {
                       >
                         <>
                           <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
-                          <Text style={iconStyle.iconText}>{item.text}</Text>
+                          <Text allowFontScaling={false} style={iconStyle.iconText}>{item.text}</Text>
                         </>
                       </TouchableHighlight>
                     )
@@ -192,36 +192,37 @@ class Home extends React.Component {
                     onPress={() => this.fetchDataDetail(item.id)}
                   >
                     <>
-                      <Text style={[styles.listName, this.state.active == item.id ? styles.listNameActive : '']}>{item.name}</Text>
+                      <Text allowFontScaling={false} style={[styles.listName, this.state.active == item.id ? styles.listNameActive : '']}>{item.name}</Text>
                     </>
                   </TouchableHighlight>
                 }
               />
             </StickyHeader>
             <FlatList
-              data={this.state.lotterys}
+              data={this.state.business}
               horizontal={false}
               numColumns={2}
               columnWrapperStyle={styles.columnStyle}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) =>
                 <TouchableHighlight
-                underlayColor='transparent'
+                  underlayColor='transparent'
                   style={[styles.lotteryTouch, index % 2 ? styles.lotteryTouchmarginLeft10 : '']}
                   onPress={() => {
-                    this.props.navigation.navigate('LotteryDetails', { lid: item.lottery_id })
+                    this.props.navigation.navigate('LotteryDetails', { id: item.id, title: item.product_name })
                   }}
                   underlayColor="rgba(255, 255, 255, 0.85)"
                   activeOpacity={0.9}
                 >
                   <>
-                    <Image resizeMode='cover' style={styles.lotteryLottery_img} source={{uri: item.lottery_img}} />
+                    <Image resizeMode='cover' style={styles.lotteryLottery_img} source={{uri: item.product_image}} />
                     <View style={styles.lotteryFoot}>
-                      <Text style={styles.lotteryLottery_name}>{item.lottery_name}</Text>
+                      <Text allowFontScaling={false} style={styles.lotteryLottery_name} numberOfLines={2}>{item.product_name}</Text>
+                      <Text allowFontScaling={false} style={styles.lotteryLottery_description} numberOfLines={1}>{item.product_business_description}</Text>
                       <View style={styles.lotteryFooter}>
-                        <Text style={styles.lotteryFinish_quantity}>{'¥' + item.finish_quantity}</Text>
+                        <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{'¥' + item.product_business_price}</Text>
                         <View style={styles.lotteryBuy}>
-                          <Text style={styles.lotteryBuyText}>看相似</Text>
+                          <Text allowFontScaling={false} style={styles.lotteryBuyText}>看相似</Text>
                         </View>
                       </View>
                     </View>
@@ -301,6 +302,11 @@ const styles = {
   },
   lotteryLottery_name: {
     fontSize: 17,
+    marginBottom: 5
+  },
+  lotteryLottery_description: {
+    fontSize: 14,
+    color: '#666',
     marginBottom: 10
   },
   lotteryFoot: {
@@ -326,6 +332,7 @@ const styles = {
     backgroundColor: '#ffe6eb',
   },
   lotteryBuyText: {
+    fontSize: 12,
     color: '#ff1b4b'
   },
   listContainer: {

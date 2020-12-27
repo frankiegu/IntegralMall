@@ -22,6 +22,7 @@ class User extends React.Component {
 
     this.state = {
       data: [],
+      user: [],
       icons: [
         {
           text: '我的积分',
@@ -96,99 +97,117 @@ class User extends React.Component {
   }
 
   render() {
-    return (
-      <ScrollView
-        contentContainerStyle={styles.container}
-      >
-        <View style={styles.backgroundSwiper}></View>
-        <View style={styles.userContainer}>
+    if (this.state.user) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <TouchableHighlight
-            style={styles.userAvatarTouch}
-            underlayColor="rgba(34, 26, 38, 0.5)"
+            underlayColor="rgba(255, 255, 255, 0.85)"
+            activeOpacity={0.85}
+            onPress={() => {
+              this.props.navigation.navigate('Login')
+            }}
           >
-            <Image resizeMode='cover' style={styles.userAvatar} source={{uri: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19948/66/3191014/6800/7429b1fd/5ae0629dN6ea95c15.png'}} />
+            <>
+              <Text allowFontScaling={false}>登录</Text>
+            </>
           </TouchableHighlight>
-          <View style={styles.userInfo}>
-            <Text style={styles.userInfotext}>你是神的一手安排</Text>
-            <View style={styles.userInfoSub}>
-              <Text style={styles.userInfoSubtext}>账号ID 801823842</Text>
-              <Text style={styles.userInfoSubtext}>青铜会员</Text>
+        </View>
+      );
+    } else {
+      return (
+        <ScrollView
+          contentContainerStyle={styles.container}
+        >
+          <View style={styles.backgroundSwiper}></View>
+          <View style={styles.userContainer}>
+            <TouchableHighlight
+              style={styles.userAvatarTouch}
+              underlayColor="rgba(34, 26, 38, 0.5)"
+            >
+              <Image resizeMode='cover' style={styles.userAvatar} source={{uri: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19948/66/3191014/6800/7429b1fd/5ae0629dN6ea95c15.png'}} />
+            </TouchableHighlight>
+            <View style={styles.userInfo}>
+              <Text style={styles.userInfotext}>你是神的一手安排</Text>
+              <View style={styles.userInfoSub}>
+                <Text style={styles.userInfoSubtext}>账号ID 801823842</Text>
+                <Text style={styles.userInfoSubtext}>青铜会员</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={iconStyle.iconContainer}>
-          <View style={iconStyle.iconHeader}>
-            <Text style={iconStyle.iconHeaderText}>玩在蜗牛</Text>
-          </View>
-          <View style={iconStyle.iconApps}>
-            {
-              this.state.icons.map((item, key) => {
-                return (
-                  <TouchableHighlight
-                    key={key}
-                    style={iconStyle.iconTouch}
-                    underlayColor="rgba(34, 26, 38, 0.5)"
-                  >
-                    <>
-                      <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
-                      <Text style={iconStyle.iconText}>{item.text}</Text>
-                    </>
-                  </TouchableHighlight>
-                )
-              })
-            }
-          </View>
-        </View>
-        <View style={iconStyle.iconContainer}>
-          <View style={iconStyle.iconHeader}>
-            <Text style={iconStyle.iconHeaderText}>蜗牛订单</Text>
-          </View>
-          <View style={iconStyle.iconApps}>
-            {
-              this.state.order.map((item, key) => {
-                return (
-                  <TouchableHighlight
-                    key={key}
-                    style={iconStyle.iconTouch}
-                    underlayColor="rgba(34, 26, 38, 0.5)"
-                  >
-                    <>
-                      <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
-                      <Text style={iconStyle.iconText}>{item.text}</Text>
-                    </>
-                  </TouchableHighlight>
-                )
-              })
-            }
-          </View>
-        </View>
-        <View style={iconStyle.iconContainer}>
-          <View style={iconStyle.iconHeader}>
-            <Text style={iconStyle.iconHeaderText}>其他信息</Text>
-          </View>
-          <View style={iconStyle.iconApps}>
-            <FlatList
-              data={this.state.other}
-              horizontal={false}
-              numColumns={4}
-              columnWrapperStyle={styles.iconColumnStyle}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item, index}) =>
-                <TouchableHighlight
-                style={[iconStyle.iconTouch4, index > 3 ? iconStyle.iconTouchTop20 : '']}
-                  underlayColor="rgba(34, 26, 38, 0.5)"
-                >
-                  <>
-                    <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
-                    <Text style={iconStyle.iconText}>{item.text}</Text>
-                  </>
-                </TouchableHighlight>
+          <View style={iconStyle.iconContainer}>
+            <View style={iconStyle.iconHeader}>
+              <Text style={iconStyle.iconHeaderText}>玩在蜗牛</Text>
+            </View>
+            <View style={iconStyle.iconApps}>
+              {
+                this.state.icons.map((item, key) => {
+                  return (
+                    <TouchableHighlight
+                      key={key}
+                      style={iconStyle.iconTouch}
+                      underlayColor="rgba(34, 26, 38, 0.5)"
+                    >
+                      <>
+                        <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                        <Text style={iconStyle.iconText}>{item.text}</Text>
+                      </>
+                    </TouchableHighlight>
+                  )
+                })
               }
-            />
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    );
+          <View style={iconStyle.iconContainer}>
+            <View style={iconStyle.iconHeader}>
+              <Text style={iconStyle.iconHeaderText}>蜗牛订单</Text>
+            </View>
+            <View style={iconStyle.iconApps}>
+              {
+                this.state.order.map((item, key) => {
+                  return (
+                    <TouchableHighlight
+                      key={key}
+                      style={iconStyle.iconTouch}
+                      underlayColor="rgba(34, 26, 38, 0.5)"
+                    >
+                      <>
+                        <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                        <Text style={iconStyle.iconText}>{item.text}</Text>
+                      </>
+                    </TouchableHighlight>
+                  )
+                })
+              }
+            </View>
+          </View>
+          <View style={iconStyle.iconContainer}>
+            <View style={iconStyle.iconHeader}>
+              <Text style={iconStyle.iconHeaderText}>其他信息</Text>
+            </View>
+            <View style={iconStyle.iconApps}>
+              <FlatList
+                data={this.state.other}
+                horizontal={false}
+                numColumns={4}
+                columnWrapperStyle={styles.iconColumnStyle}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item, index}) =>
+                  <TouchableHighlight
+                  style={[iconStyle.iconTouch4, index > 3 ? iconStyle.iconTouchTop20 : '']}
+                    underlayColor="rgba(34, 26, 38, 0.5)"
+                  >
+                    <>
+                      <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                      <Text style={iconStyle.iconText}>{item.text}</Text>
+                    </>
+                  </TouchableHighlight>
+                }
+              />
+            </View>
+          </View>
+        </ScrollView>
+      );
+    }
   }
 }
 

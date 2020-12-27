@@ -18,6 +18,7 @@ import Home from './Home'
 import Classify from './Classify'
 import Life from './Life'
 import User from './User'
+import Login from './Login'
 import LotteryDetails from './LotteryDetails';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 class SettingsScreen extends React.Component {
@@ -53,7 +54,7 @@ class HomeScreen extends React.Component {
       >
         <Ionicons
           name={'logo-apple'}
-          size={32}
+          size={30}
         />
       </TouchableHighlight>
     ),
@@ -76,7 +77,7 @@ class HomeScreen extends React.Component {
       >
         <Ionicons
           name={'md-notifications-outline'}
-          size={28}
+          size={26}
         />
       </TouchableHighlight>
     ),
@@ -345,6 +346,7 @@ const stackNavigator = createStackNavigator({
     }
   },
   DetailsScreen: { screen: DetailsScreen },
+  Login: { screen: Login },
   LotteryDetails: { screen: LotteryDetails },
   AnimatedTurnTableDraw: { screen: AnimatedTurnTableDraw },
 })
