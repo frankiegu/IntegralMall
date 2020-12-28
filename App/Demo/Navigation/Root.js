@@ -16,9 +16,11 @@ import {
 } from 'react-navigation';
 import Home from './Home'
 import Classify from './Classify'
+import Web from './Web'
 import Life from './Life'
 import User from './User'
 import Login from './Login'
+import UserLogin from './UserLogin';
 import LotteryDetails from './LotteryDetails';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 class SettingsScreen extends React.Component {
@@ -346,7 +348,9 @@ const stackNavigator = createStackNavigator({
     }
   },
   DetailsScreen: { screen: DetailsScreen },
+  Web: { screen: Web },
   Login: { screen: Login },
+  UserLogin: { screen: UserLogin },
   LotteryDetails: { screen: LotteryDetails },
   AnimatedTurnTableDraw: { screen: AnimatedTurnTableDraw },
 })

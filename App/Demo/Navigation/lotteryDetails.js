@@ -4,6 +4,7 @@ import ViewSwiper from 'react-native-swiper';
 import HTMLView from 'react-native-htmlview';
 import Modalize from 'react-native-modalize';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import faker from 'faker';
 import {
   Text,
@@ -32,6 +33,16 @@ function renderNode(node, index) {
   }
 }
 
+function isIphoneX() {
+  let screenW = Dimensions.get('window').width;
+  let screenH = Dimensions.get('window').height;
+  // iPhoneX
+  const X_WIDTH = 375;
+  const X_HEIGHT = 812;
+
+  return Platform.OS === 'ios' && ((screenH === X_HEIGHT && screenW === X_WIDTH) || (screenH === X_WIDTH && screenW === X_HEIGHT))
+}
+
 class LotteryDetails extends React.Component {
   static navigationOptions ({ navigation, screenProps }) {
     const { params } = navigation.state;
@@ -49,8 +60,6 @@ class LotteryDetails extends React.Component {
     }
   };
 
-  modal = React.createRef();
-
   constructor(props) {
     super(props);
 
@@ -60,18 +69,6 @@ class LotteryDetails extends React.Component {
     };
 
     this.fetchData(this.props.navigation.state.params.id);
-  }
-
-  openModal = () => {
-    if (this.modal.current) {
-      this.modal.current.open();
-    }
-  }
-
-  closeModal = () => {
-    if (this.modal.current) {
-      this.modal.current.close();
-    }
   }
 
   fetchData(id) {
@@ -88,20 +85,47 @@ class LotteryDetails extends React.Component {
     .done();
   }
 
+  modal = React.createRef();
+
+  openModal = () => {
+    if (this.modal.current) {
+      this.modal.current.open();
+    }
+  }
+
+  closeModal = () => {
+    if (this.modal.current) {
+      this.modal.current.close();
+    }
+  }
+
   renderContent = () => {
     return (
       <View style={s.content}>
-        <Text style={s.content__subheading}>{'Last step'.toUpperCase()}</Text>
-        <Text style={s.content__heading}>Send the message?</Text>
-        <Text style={s.content__description}>{faker.lorem.paragraph()}</Text>
-        <Text style={s.content__description}>{faker.lorem.paragraph()}</Text>
+        <Text style={s.content__heading}>产品参数</Text>
+        {
+          this.state.details.product_field.parameters && this.state.details.product_field.parameters.map((item, key) => {
+            return (
+              <TouchableHighlight
+                style={[styles.list, {paddingLeft: 0, paddingRight: 0, marginTop: 0.5, }]}
+                underlayColor="rgba(255, 255, 255, 1)"
+                activeOpacity={1}
+              >
+                <View style={styles.listRows}>
+                  <Text allowFontScaling={false} numberOfLines={1} style={styles.text}>{item.parameter_name}</Text>
+                  <Text allowFontScaling={false} numberOfLines={1} style={[styles.textArrow, styles.textDesc]}>{item.parameter_value}</Text>
+                </View>
+              </TouchableHighlight>
+            )
+          })
+        }
 
         <TouchableOpacity
           style={s.content__button}
           activeOpacity={0.9}
           onPress={this.closeModal}
         >
-          <Text style={s.content__buttonText}>{'Send'.toUpperCase()}</Text>
+          <Text style={s.content__buttonText}>完成</Text>
         </TouchableOpacity>
       </View>
     );
@@ -110,131 +134,156 @@ class LotteryDetails extends React.Component {
   render() {
     if (this.state.details) {
       return (
-        <ScrollView style={styles.container}>
-          <View style={styles.swiperContainer}>
-            <ViewSwiper
-              autoplay
-              autoplayTimeout={6}
-              dot={<View style={{backgroundColor: 'rgba(0, 133, 255, 0.3)', width: 20, height: 3}} />}
-              activeDot={<View style={{backgroundColor: 'rgba(0, 133, 255, 1)', width: 20, height: 3}} />}
-              paginationStyle={{bottom: 10}}
-            >
+        <>
+          <ScrollView style={styles.container}>
+            <View style={styles.swiperContainer}>
+              <ViewSwiper
+                autoplay
+                autoplayTimeout={6}
+                dot={<View style={{backgroundColor: 'rgba(0, 0, 0, 0.3)', width: 20, height: 3}} />}
+                activeDot={<View style={{backgroundColor: 'rgba(0, 0, 0, 1)', width: 20, height: 3}} />}
+                paginationStyle={{bottom: 10}}
+              >
+                {
+                  this.state.details.product_image_gallerys.map((item, key) => {
+                    return (
+                      <TouchableHighlight
+                        key={key}
+                        style={styles.swiperTouch}
+                        underlayColor="rgba(34, 26, 38, 0.5)"
+                      >
+                        <Image resizeMode='cover' style={styles.swiperImage} source={{uri: item}} />
+                      </TouchableHighlight>
+                    )
+                  })
+                }
+              </ViewSwiper>
+            </View>
+            <View style={styles.productHeaderContainer}>
+              <View style={[styles.productHeader, {paddingBottom: 0, paddingRight: 15, marginTop: 1, alignItems: 'flex-end'}]}>
+                {
+                  this.state.details.product_business_discount ?
+                    <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                      <Text allowFontScaling={false} style={styles.productHeaderDiscount} numberOfLines={1}>¥{this.state.details.product_business_discount}</Text>
+                      <Text allowFontScaling={false} style={styles.productHeaderPrice} numberOfLines={1}>¥{this.state.details.product_business_price}</Text>
+                    </View>
+                  :
+                    <Text allowFontScaling={false} style={styles.productHeaderDiscount} numberOfLines={1}>¥{this.state.details.product_business_price}</Text>
+                }
+                {
+                  this.state.details.product_business_quantity ? (
+                    <Text allowFontScaling={false} style={styles.productHeaderQuantity} numberOfLines={1}>限购{this.state.details.product_business_quantity}份</Text>
+                  ) : ''
+                }
+              </View>
+              <View style={styles.productHeader}>
+                <View style={styles.productHeaderTitle}>
+                  <Text allowFontScaling={false} style={styles.productHeaderName} numberOfLines={2}>{this.state.details.product_name}</Text>
+                  <Text allowFontScaling={false} style={styles.productHeaderDescription} numberOfLines={1}>{this.state.details.product_business_description}</Text>
+                </View>
+                <View style={styles.productHeaderShare}>
+                  <Text allowFontScaling={false} style={{fontSize: 12, marginRight: 5}} numberOfLines={2}>分享</Text>
+                  <Ionicons name={'ios-share-alt-outline'} size={15} />
+                </View>
+              </View>
               {
-                this.state.details.product_image_gallerys.map((item, key) => {
+                this.state.details.pages && this.state.details.pages.map((item, key) => {
                   return (
                     <TouchableHighlight
-                      key={key}
-                      style={styles.swiperTouch}
-                      underlayColor="rgba(34, 26, 38, 0.5)"
+                      style={[styles.list, {marginTop: 1}]}
+                      underlayColor="rgba(255, 255, 255, 0.85)"
+                      activeOpacity={0.85}
+                      onPress={() => {
+                        this.props.navigation.navigate('Web', { title: item.title, uri: 'https://taupd.ferer.net/mobile/pages/' + item.id })
+                      }}
                     >
-                      <Image resizeMode='cover' style={styles.swiperImage} source={{uri: item}} />
+                      <View style={styles.listRows}>
+                        <Text allowFontScaling={false} style={styles.text}>{item.title}</Text>
+                        <View style={styles.textArrow}>
+                          <Ionicons name={'ios-arrow-forward'} size={20} color='#AAA' />
+                        </View>
+                      </View>
                     </TouchableHighlight>
                   )
                 })
               }
-            </ViewSwiper>
-          </View>
-          <View style={styles.productHeaderContainer}>
-            <View style={[styles.productHeader, {paddingBottom: 0, paddingRight: 15, marginTop: 1, alignItems: 'flex-end'}]}>
-              {
-                this.state.details.product_business_discount ?
-                  <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                    <Text allowFontScaling={false} style={styles.productHeaderDiscount} numberOfLines={1}>¥{this.state.details.product_business_discount}</Text>
-                    <Text allowFontScaling={false} style={styles.productHeaderPrice} numberOfLines={1}>¥{this.state.details.product_business_price}</Text>
+            </View>
+            <View style={styles.productHeaderContainer}>
+              <View style={styles.decorationLine}>
+                <Text allowFontScaling={false} style={styles.decorationLineText} numberOfLines={1}>———  </Text>
+                <Text allowFontScaling={false} style={styles.decorationLineText} numberOfLines={1}>详细资料</Text>
+                <Text allowFontScaling={false} style={styles.decorationLineText} numberOfLines={1}>  ———</Text>
+              </View>
+              <TouchableHighlight
+                style={[styles.productHeader, {paddingRight: 15}]}
+                underlayColor="rgba(255, 255, 255, 0.85)"
+                activeOpacity={0.85}
+                onPress={this.openModal}
+              >
+                <>
+                  <Text allowFontScaling={false} style={[styles.text, {fontWeight: '800'}]} numberOfLines={2}>产品参数</Text>
+                  <View style={styles.textArrow}>
+                    <Text allowFontScaling={false} style={styles.textDesc} numberOfLines={1}>更多</Text>
+                    <Ionicons name={'ios-arrow-forward'} size={20} color='#AAA' />
                   </View>
-                :
-                  <Text allowFontScaling={false} style={styles.productHeaderDiscount} numberOfLines={1}>¥{this.state.details.product_business_price}</Text>
+                </>
+              </TouchableHighlight>
+              {
+                this.state.details.product_field.parameters && this.state.details.product_field.parameters.map((item, key) => {
+                  if (key < 4) {
+                    return (
+                      <TouchableHighlight
+                        style={[styles.list, {marginTop: 0.5}]}
+                        underlayColor="rgba(255, 255, 255, 1)"
+                        activeOpacity={1}
+                      >
+                        <View style={styles.listRows}>
+                          <Text allowFontScaling={false} numberOfLines={1} style={styles.text}>{item.parameter_name}</Text>
+                          <Text allowFontScaling={false} numberOfLines={1} style={[styles.textArrow, styles.textDesc]}>{item.parameter_value}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    )
+                  }
+                })
               }
               {
-                this.state.details.product_business_quantity ? (
-                  <Text allowFontScaling={false} style={styles.productHeaderQuantity} numberOfLines={1}>限购{this.state.details.product_business_quantity}份</Text>
+                this.state.details.product_detail ? (
+                  <Text allowFontScaling={false}>
+                    <HTMLView value={this.state.details.product_detail} renderNode={renderNode} />
+                  </Text>
                 ) : ''
               }
             </View>
-            <View style={styles.productHeader}>
-              <View style={styles.productHeaderTitle}>
-                <Text allowFontScaling={false} style={styles.productHeaderName} numberOfLines={2}>{this.state.details.product_name}</Text>
-                <Text allowFontScaling={false} style={styles.productHeaderDescription} numberOfLines={1}>{this.state.details.product_business_description}</Text>
+          </ScrollView>
+          <View style={bottomStyle.bottomButtons}>
+            <View style={bottomStyle.button}>
+              <MaterialIcons name={'home'} size={28} color='#444' />
+              <Text allowFontScaling={false} style={{fontSize: 12, color: '#666'}}>首页</Text>
+            </View>
+            <View style={bottomStyle.button}>
+              <MaterialIcons name={'shopping-cart'} size={27} color='#444' />
+              <Text allowFontScaling={false} style={{fontSize: 12, color: '#666'}}>购物车</Text>
+            </View>
+            <View style={bottomStyle.button}>
+              <MaterialIcons name={'star-border'} size={28} color='#444' />
+              <Text allowFontScaling={false} style={{fontSize: 12, color: '#666'}}>收藏</Text>
+            </View>
+            <View style={[bottomStyle.button, {flexDirection: 'row'}]}>
+              <View style={{width: 105, padding: 13, borderTopLeftRadius: 20, borderBottomLeftRadius: 20, backgroundColor: '#f97433'}}>
+                <Text allowFontScaling={false} style={{textAlign: 'center', fontWeight: '500', color: '#FFF'}}>加入购物车</Text>
               </View>
-              <View style={styles.productHeaderShare}>
-                <Text allowFontScaling={false} style={{fontSize: 12, marginRight: 5}} numberOfLines={2}>分享</Text>
-                <Ionicons
-                  name={'ios-share-alt-outline'}
-                  size={15}
-                />
+              <View style={{width: 105, padding: 13, borderTopRightRadius: 20, borderBottomRightRadius: 20, backgroundColor: '#f93333'}}>
+                <Text allowFontScaling={false} style={{textAlign: 'center', fontWeight: '500', color: '#FFF'}}>立即购买</Text>
               </View>
             </View>
-            <TouchableHighlight
-              style={[styles.list, {marginTop: 1}]}
-              underlayColor="rgba(255, 255, 255, 1)"
-              activeOpacity={1}
-              onPress={this.openModal}
-            >
-              <View style={styles.listRows}>
-                <Text allowFontScaling={false} style={styles.text}>配送服务 • 购买须知</Text>
-                <View style={styles.textArrow}>
-                  <Ionicons
-                    name={'ios-arrow-forward'}
-                    size={20}
-                    color='#AAA'
-                  />
-                </View>
-              </View>
-            </TouchableHighlight>
           </View>
-          <Modalize
-            modalStyle={{ zIndex: 9999, backgroundColor: '#FFF', position: 'absolute', bottom: -100, width: '100%' }}
-            ref={this.modal}
-            adjustToContentHeight
-            onClosed={this.onClosed}
-            // modalHeight={450}
-          >
+          <Modalize ref={this.modal} adjustToContentHeight scrollViewProps={{
+              showsVerticalScrollIndicator: false,
+              stickyHeaderIndices: [0],
+            }}>
             {this.renderContent()}
           </Modalize>
-          <View style={styles.productHeaderContainer}>
-            <View style={styles.decorationLine}>
-              <Text allowFontScaling={false} style={styles.decorationLineText} numberOfLines={1}>———  </Text>
-              <Text allowFontScaling={false} style={styles.decorationLineText} numberOfLines={1}>详细资料</Text>
-              <Text allowFontScaling={false} style={styles.decorationLineText} numberOfLines={1}>  ———</Text>
-            </View>
-            <View style={[styles.productHeader, {paddingRight: 15}]}>
-              <View style={styles.productHeaderTitle}>
-                <Text allowFontScaling={false} style={styles.productHeaderName} numberOfLines={2}>产品参数</Text>
-              </View>
-              <View style={styles.textArrow}>
-                <Text allowFontScaling={false} style={styles.textDesc} numberOfLines={1}>更多</Text>
-                <Ionicons
-                  name={'ios-arrow-forward'}
-                  size={20}
-                  color='#AAA'
-                />
-              </View>
-            </View>
-            {
-              this.state.details.product_field.parameters && this.state.details.product_field.parameters.map((item, key) => {
-                return (
-                  <TouchableHighlight
-                    style={[styles.list, {marginTop: 0.5}]}
-                    underlayColor="rgba(255, 255, 255, 1)"
-                    activeOpacity={1}
-                  >
-                    <View style={styles.listRows}>
-                      <Text allowFontScaling={false} numberOfLines={1} style={styles.text}>{item.parameter_name}</Text>
-                      <Text allowFontScaling={false} numberOfLines={1} style={[styles.textArrow, styles.textDesc]}>{item.parameter_value}</Text>
-                    </View>
-                  </TouchableHighlight>
-                )
-              })
-            }
-            {
-              this.state.details.product_detail ? (
-                <Text allowFontScaling={false}>
-                  <HTMLView value={this.state.details.product_detail} renderNode={renderNode} />
-                </Text>
-              ) : ''
-            }
-          </View>
-        </ScrollView>
+        </>
       );
     }
 
@@ -358,6 +407,29 @@ const styles = {
   }
 }
 
+const bottomStyle = {
+  bottomButtons: {
+    zIndex: 1,
+    paddingBottom: isIphoneX() ? 34 : 0,
+    position: 'absolute',
+    backgroundColor: '#FFF',
+    borderTopWidth: 0.5,
+    borderTopColor: 'rgba(143, 143, 143, 0.33)',
+    bottom: 0,
+    left: 0,
+    paddingTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  button: {
+    alignItems: 'center'
+  }
+}
+
 const s = {
   content: {
     padding: 20,
@@ -379,9 +451,10 @@ const s = {
   },
 
   content__heading: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
     color: '#333',
+    marginBottom: 20
   },
 
   content__description: {
@@ -407,17 +480,17 @@ const s = {
   },
 
   content__button: {
-    paddingVertical: 15,
-
+    marginTop: 20,
+    marginBottom: 10,
+    paddingVertical: 12,
     width: '100%',
-
     backgroundColor: '#333',
-    borderRadius: 6,
+    borderRadius: 15,
   },
 
   content__buttonText: {
     color: '#fff',
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
   },

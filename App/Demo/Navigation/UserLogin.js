@@ -20,28 +20,22 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-class Login extends React.Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
-    headerTitle: (
-      <TouchableHighlight
-        underlayColor='transparent'
-      >
-        <>
-          <Text allowFontScaling={false} numberOfLines={1} style={{
-            fontSize: 17,
-            fontWeight: '600',
-            color: 'rgba(0, 0, 0, .9)',
-            textAlign: 'center',
-            marginHorizontal: 16
-          }}>登录</Text>
-        </>
-      </TouchableHighlight>
-    ),
-    tabBarVisible: false,
-    headerStyle: {
-      elevation: 0,
-    },
-  });
+class UserLogin extends React.Component {
+  static navigationOptions ({ navigation, screenProps }) {
+    const { params } = navigation.state;
+
+    return {
+      headerTitle: (
+        <Text allowFontScaling={false} numberOfLines={1} style={{
+          fontSize: 17,
+          fontWeight: '600',
+          color: 'rgba(0, 0, 0, 1)',
+          textAlign: 'center',
+          marginHorizontal: 16
+        }}>登录</Text>
+      )
+    }
+  };
 
   constructor(props) {
     super(props);
@@ -203,4 +197,4 @@ const styles = {
   },
 }
 
-module.exports = Login;
+module.exports = UserLogin;

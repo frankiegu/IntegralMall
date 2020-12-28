@@ -12,6 +12,8 @@ import {
   Platform,
   SectionList,
   RefreshControl,
+  AsyncStorage,
+  DeviceEventEmitter,
   ActivityIndicator,
   TouchableHighlight,
 } from 'react-native';
@@ -94,6 +96,34 @@ class User extends React.Component {
         }
       ],
     };
+
+    this.fetchLoginfo()
+  }
+
+  componentDidMount() {
+    this.listener = DeviceEventEmitter.addListener('Change', () => {
+      this.fetchLoginfo()
+    });
+  }
+
+  componentWillUnmount() {
+    this.listener.remove();
+  }
+
+  fetchLoginfo() {
+    AsyncStorage.getItem('user')
+    .then((response) => {
+      this.setState({
+        user: JSON.parse(response)
+      })
+      console.log(this.state.user);
+    })
+    .catch((error) => {
+      this.setState({
+        user: null
+      })
+    })
+    .done();
   }
 
   render() {
@@ -104,11 +134,22 @@ class User extends React.Component {
             underlayColor="rgba(255, 255, 255, 0.85)"
             activeOpacity={0.85}
             onPress={() => {
-              this.props.navigation.navigate('Login')
+              this.props.navigation.navigate('UserLogin')
             }}
           >
             <>
               <Text allowFontScaling={false}>登录</Text>
+            </>
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor="rgba(255, 255, 255, 0.85)"
+            activeOpacity={0.85}
+            onPress={() => {
+              this.props.navigation.navigate('Web', { title: '注册', uri: 'https://taupd.ferer.net/mobile/user/register' })
+            }}
+          >
+            <>
+              <Text allowFontScaling={false}>注册</Text>
             </>
           </TouchableHighlight>
         </View>
