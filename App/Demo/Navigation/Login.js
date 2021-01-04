@@ -37,6 +37,16 @@ class Login extends React.Component {
         </>
       </TouchableHighlight>
     ),
+    headerRight: (
+      <TouchableHighlight
+        style={{paddingLeft: 10, paddingRight: 10}}
+        onPress={() => {
+          this.props.navigation.navigate('Web', { title: '注册', uri: 'https://taupd.ferer.net/mobile/user/register' })
+        }}
+      >
+        <Text allowFontScaling={false}>注册</Text>
+      </TouchableHighlight>
+    ),
     tabBarVisible: false,
     headerStyle: {
       elevation: 0,
@@ -48,7 +58,7 @@ class Login extends React.Component {
 
     this.state = {
       phone: "17725386753",
-      password: ""
+      password: "55555jkl"
     };
   }
 
@@ -71,8 +81,6 @@ class Login extends React.Component {
     .then(response => response.json())
     .then(responseData => {
       if (responseData.id) {
-        console.log(responseData);
-        console.log(this.props.navigation.state.params);
         AsyncStorage.setItem('user', JSON.stringify(responseData));
         this.props.navigation.goBack();
         this.props.navigation.state.params.refresh();

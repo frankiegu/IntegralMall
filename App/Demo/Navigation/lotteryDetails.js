@@ -43,7 +43,7 @@ function isIphoneX() {
   return Platform.OS === 'ios' && ((screenH === X_HEIGHT && screenW === X_WIDTH) || (screenH === X_WIDTH && screenW === X_HEIGHT))
 }
 
-class LotteryDetails extends React.Component {
+class LotteryDetails extends React.PureComponent {
   static navigationOptions ({ navigation, screenProps }) {
     const { params } = navigation.state;
 
@@ -64,9 +64,10 @@ class LotteryDetails extends React.Component {
     super(props);
 
     this.state = {
-      details: null,
-      detailss: 'null',
-    };
+      details: null
+    }
+
+    console.log(this.modal);
 
     this.fetchData(this.props.navigation.state.params.id);
   }
@@ -183,7 +184,7 @@ class LotteryDetails extends React.Component {
                 </View>
                 <View style={styles.productHeaderShare}>
                   <Text allowFontScaling={false} style={{fontSize: 12, marginRight: 5}} numberOfLines={2}>分享</Text>
-                  <Ionicons name={'ios-share-alt-outline'} size={15} />
+                  <Ionicons name={'arrow-redo'} size={14} />
                 </View>
               </View>
               {
@@ -200,7 +201,7 @@ class LotteryDetails extends React.Component {
                       <View style={styles.listRows}>
                         <Text allowFontScaling={false} style={styles.text}>{item.title}</Text>
                         <View style={styles.textArrow}>
-                          <Ionicons name={'ios-arrow-forward'} size={20} color='#AAA' />
+                          <Ionicons name={'chevron-forward-outline'} size={20} color='#AAA' />
                         </View>
                       </View>
                     </TouchableHighlight>
@@ -224,7 +225,7 @@ class LotteryDetails extends React.Component {
                   <Text allowFontScaling={false} style={[styles.text, {fontWeight: '800'}]} numberOfLines={2}>产品参数</Text>
                   <View style={styles.textArrow}>
                     <Text allowFontScaling={false} style={styles.textDesc} numberOfLines={1}>更多</Text>
-                    <Ionicons name={'ios-arrow-forward'} size={20} color='#AAA' />
+                    <Ionicons name={'chevron-forward-outline'} size={20} color='#AAA' />
                   </View>
                 </>
               </TouchableHighlight>
@@ -257,15 +258,21 @@ class LotteryDetails extends React.Component {
           </ScrollView>
           <View style={bottomStyle.bottomButtons}>
             <View style={bottomStyle.button}>
-              <MaterialIcons name={'home'} size={28} color='#444' />
+              <View style={{height: 30, width: 30, alignItems: 'center', justifyContent: 'center'}}>
+                <MaterialIcons name={'storefront'} size={26} color='#444' />
+              </View>
               <Text allowFontScaling={false} style={{fontSize: 12, color: '#666'}}>首页</Text>
             </View>
             <View style={bottomStyle.button}>
-              <MaterialIcons name={'shopping-cart'} size={27} color='#444' />
+              <View style={{height: 30, width: 30, alignItems: 'center', justifyContent: 'center'}}>
+                <Ionicons name={'cart-outline'} size={27} color='#444' />
+              </View>
               <Text allowFontScaling={false} style={{fontSize: 12, color: '#666'}}>购物车</Text>
             </View>
             <View style={bottomStyle.button}>
-              <MaterialIcons name={'star-border'} size={28} color='#444' />
+              <View style={{height: 30, width: 30, alignItems: 'center', justifyContent: 'center'}}>
+                <MaterialIcons name={'star-border'} size={27} color='#444' />
+              </View>
               <Text allowFontScaling={false} style={{fontSize: 12, color: '#666'}}>收藏</Text>
             </View>
             <View style={[bottomStyle.button, {flexDirection: 'row'}]}>
@@ -277,12 +284,6 @@ class LotteryDetails extends React.Component {
               </View>
             </View>
           </View>
-          <Modalize ref={this.modal} adjustToContentHeight scrollViewProps={{
-              showsVerticalScrollIndicator: false,
-              stickyHeaderIndices: [0],
-            }}>
-            {this.renderContent()}
-          </Modalize>
         </>
       );
     }
@@ -402,7 +403,7 @@ const styles = {
   textDesc: {
     fontSize: 14,
     color: '#aaa',
-    marginRight: 5,
+    marginRight: 0,
     textAlign: 'right'
   }
 }

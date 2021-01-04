@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import iconStyle from '../../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from './assets/Icons';
 import {
   Text,
   View,
@@ -25,74 +27,120 @@ class User extends React.Component {
     this.state = {
       data: [],
       user: [],
-      icons: [
+      number: [
         {
-          text: '我的积分',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19510/99/1997173036/5986/e640aaee/5ae06136N2f38f602.png'
+          text: '积分'
         },
         {
-          text: '我的豆子',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t1/72208/35/9347/2600/5d70c50eE77b85cdb/7b6a9fec1067db06.png'
+          text: '悦豆'
         },
         {
-          text: '购中记录',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17422/194/2017793180/12782/83f66fd3/5ae13830N1e98ef9c.png'
+          text: '收藏'
         },
         {
-          text: '全部抢购',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17722/111/1521695125/7007/bc139a6f/5acdb918N430b92ab.png'
+          text: '喜欢'
+        },
+        {
+          text: '浏览'
         }
       ],
-      order: [
-        {
-          text: '全部',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19510/99/1997173036/5986/e640aaee/5ae06136N2f38f602.png'
-        },
-        {
-          text: '待付款',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t1/72208/35/9347/2600/5d70c50eE77b85cdb/7b6a9fec1067db06.png'
-        },
-        {
-          text: '待发货',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17422/194/2017793180/12782/83f66fd3/5ae13830N1e98ef9c.png'
-        },
-        {
-          text: '待收货',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17722/111/1521695125/7007/bc139a6f/5acdb918N430b92ab.png'
-        }
-      ],
-      other: [
+      order: {
+        payment: [
+          {
+            text: '待付款',
+            img: Icon.waitPayment
+          },
+          {
+            text: '待发货',
+            img: Icon.sendGoods
+          },
+          {
+            text: '待收货',
+            img: Icon.deliveryGoods
+          },
+          {
+            text: '售后',
+            img: Icon.service
+          }
+        ],
+        lottery: [
+          {
+            text: '积分记录',
+            img: Icon.integral
+          },
+          {
+            text: '抢购记录',
+            img: Icon.purchase
+          },
+          {
+            text: '购中记录',
+            img: Icon.winning
+          },
+          {
+            text: '全部抢购',
+            img: Icon.all
+          }
+        ]
+      },
+      rows: [
         {
           text: '我的地址',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19510/99/1997173036/5986/e640aaee/5ae06136N2f38f602.png'
+          color: '#fff',
+          backgroundColor: '#4b98fe',
+          name: 'location-sharp',
+          uri: 'https://taupd.ferer.net/mobile/user/address'
         },
         {
           text: '我的收藏',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t1/72208/35/9347/2600/5d70c50eE77b85cdb/7b6a9fec1067db06.png'
+          color: '#fff',
+          backgroundColor: '#ffb000',
+          name: 'star',
+          uri: ''
         },
         {
-          text: '联系客服',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17422/194/2017793180/12782/83f66fd3/5ae13830N1e98ef9c.png'
-        },
-        {
-          text: '常见问题',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17722/111/1521695125/7007/bc139a6f/5acdb918N430b92ab.png'
+          text: '反馈联络',
+          color: '#fff',
+          backgroundColor: '#20c160',
+          name: 'chatbubbles',
+          uri: 'https://taupd.ferer.net/mobile/user/feedback'
         },
         {
           text: '分享下载',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19510/99/1997173036/5986/e640aaee/5ae06136N2f38f602.png'
+          color: '#fff',
+          backgroundColor: '#fe4b52',
+          name: 'arrow-redo',
+          uri: 'https://taupd.ferer.net/mobile/user/address'
         },
         {
-          text: '垂询联络',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t1/72208/35/9347/2600/5d70c50eE77b85cdb/7b6a9fec1067db06.png'
+          text: '常见问题',
+          color: '#fff',
+          backgroundColor: '#2095c1',
+          name: 'help-circle',
+          size: 25,
+          uri: 'https://taupd.ferer.net/mobile/user/address'
         },
         {
-          text: '蜗牛隐私',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17422/194/2017793180/12782/83f66fd3/5ae13830N1e98ef9c.png'
+          text: '常见问题',
+          color: '#fff',
+          backgroundColor: '#9cc120',
+          name: 'alert-circle',
+          size: 25,
+          style: { left: 1 },
+          uri: 'https://taupd.ferer.net/mobile/user/address'
         },
         {
-          text: '关于蜗牛',
-          img: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t17722/111/1521695125/7007/bc139a6f/5acdb918N430b92ab.png'
+          text: '隐私',
+          color: '#FFF',
+          backgroundColor: '#ff6b00',
+          name: 'shield-checkmark',
+          uri: ''
+        },
+        {
+          text: '设置',
+          color: '#FFF',
+          backgroundColor: '#666666',
+          name: 'settings-sharp',
+          uri: ''
         }
       ],
     };
@@ -116,7 +164,6 @@ class User extends React.Component {
       this.setState({
         user: JSON.parse(response)
       })
-      console.log(this.state.user);
     })
     .catch((error) => {
       this.setState({
@@ -127,29 +174,18 @@ class User extends React.Component {
   }
 
   render() {
-    if (this.state.user) {
+    if (!this.state.user.id) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.85)"
             activeOpacity={0.85}
             onPress={() => {
-              this.props.navigation.navigate('UserLogin')
+              this.props.navigation.navigate('Login')
             }}
           >
             <>
               <Text allowFontScaling={false}>登录</Text>
-            </>
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor="rgba(255, 255, 255, 0.85)"
-            activeOpacity={0.85}
-            onPress={() => {
-              this.props.navigation.navigate('Web', { title: '注册', uri: 'https://taupd.ferer.net/mobile/user/register' })
-            }}
-          >
-            <>
-              <Text allowFontScaling={false}>注册</Text>
             </>
           </TouchableHighlight>
         </View>
@@ -163,33 +199,60 @@ class User extends React.Component {
           <View style={styles.userContainer}>
             <TouchableHighlight
               style={styles.userAvatarTouch}
-              underlayColor="rgba(34, 26, 38, 0.5)"
+              underlayColor="none"
+              onPress={() => {
+                this.props.navigation.navigate('Web', { title: '编辑个人信息', uri: `https://taupd.ferer.net/mobile/user/profile/${ this.state.user.id }/edit` })
+              }}
             >
-              <Image resizeMode='cover' style={styles.userAvatar} source={{uri: 'https://m.360buyimg.com/mobilecms/s80x80_jfs/t19948/66/3191014/6800/7429b1fd/5ae0629dN6ea95c15.png'}} />
+              <Image resizeMode='cover' style={styles.userAvatar} source={{uri: this.state.user.avator}} />
             </TouchableHighlight>
             <View style={styles.userInfo}>
-              <Text style={styles.userInfotext}>你是神的一手安排</Text>
+              <Text style={styles.userInfotext}>{this.state.user.user_nickname}</Text>
               <View style={styles.userInfoSub}>
-                <Text style={styles.userInfoSubtext}>账号ID 801823842</Text>
+                <Text style={styles.userInfoSubtext}>{this.state.user.user_phone}</Text>
                 <Text style={styles.userInfoSubtext}>青铜会员</Text>
               </View>
             </View>
           </View>
           <View style={iconStyle.iconContainer}>
-            <View style={iconStyle.iconHeader}>
-              <Text style={iconStyle.iconHeaderText}>玩在蜗牛</Text>
-            </View>
             <View style={iconStyle.iconApps}>
               {
-                this.state.icons.map((item, key) => {
+                this.state.number.map((item, key) => {
                   return (
                     <TouchableHighlight
                       key={key}
-                      style={iconStyle.iconTouch}
-                      underlayColor="rgba(34, 26, 38, 0.5)"
+                      underlayColor="none"
                     >
                       <>
-                        <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                        <Text style={iconStyle.number}>{key}</Text>
+                        <Text style={iconStyle.numberText}>{item.text}</Text>
+                      </>
+                    </TouchableHighlight>
+                  )
+                })
+              }
+            </View>
+          </View>
+          <View style={iconStyle.iconContainer}>
+            <View style={iconStyle.iconHeader}>
+              <Text style={iconStyle.iconHeaderText}>支付订单</Text>
+              <View style={styles.textArrow}>
+                <Text style={iconStyle.iconHeaderTextMore}>查看订单</Text>
+                <Ionicons name={'chevron-forward-outline'} size={20} color='#AAA' />
+              </View>
+            </View>
+            <View style={iconStyle.iconApps}>
+              {
+                this.state.order.payment.map((item, key) => {
+                  return (
+                    <TouchableHighlight
+                      key={key}
+                      underlayColor="none"
+                    >
+                      <>
+                        <View style={iconStyle.iconCon}>
+                          <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                        </View>
                         <Text style={iconStyle.iconText}>{item.text}</Text>
                       </>
                     </TouchableHighlight>
@@ -200,19 +263,20 @@ class User extends React.Component {
           </View>
           <View style={iconStyle.iconContainer}>
             <View style={iconStyle.iconHeader}>
-              <Text style={iconStyle.iconHeaderText}>蜗牛订单</Text>
+              <Text style={iconStyle.iconHeaderText}>订购订单</Text>
             </View>
             <View style={iconStyle.iconApps}>
               {
-                this.state.order.map((item, key) => {
+                this.state.order.lottery.map((item, key) => {
                   return (
                     <TouchableHighlight
                       key={key}
-                      style={iconStyle.iconTouch}
-                      underlayColor="rgba(34, 26, 38, 0.5)"
+                      underlayColor="none"
                     >
                       <>
-                        <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                        <View style={iconStyle.iconCon}>
+                          <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
+                        </View>
                         <Text style={iconStyle.iconText}>{item.text}</Text>
                       </>
                     </TouchableHighlight>
@@ -223,27 +287,55 @@ class User extends React.Component {
           </View>
           <View style={iconStyle.iconContainer}>
             <View style={iconStyle.iconHeader}>
-              <Text style={iconStyle.iconHeaderText}>其他信息</Text>
+              <Text style={iconStyle.iconHeaderText}>其他服务</Text>
             </View>
             <View style={iconStyle.iconApps}>
-              <FlatList
-                data={this.state.other}
-                horizontal={false}
-                numColumns={4}
-                columnWrapperStyle={styles.iconColumnStyle}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) =>
-                  <TouchableHighlight
-                  style={[iconStyle.iconTouch4, index > 3 ? iconStyle.iconTouchTop20 : '']}
-                    underlayColor="rgba(34, 26, 38, 0.5)"
-                  >
-                    <>
-                      <Image resizeMode='cover' style={iconStyle.icon} source={{uri: item.img}} />
-                      <Text style={iconStyle.iconText}>{item.text}</Text>
-                    </>
-                  </TouchableHighlight>
-                }
-              />
+              {
+                this.state.rows.map((item, key) => {
+                  if (key < 4) {
+                    return (
+                      <TouchableHighlight
+                        key={key}
+                        underlayColor="none"
+                        onPress={() => {
+                          this.props.navigation.navigate('Web', { title: item.text, uri: item.uri + '?sign=' + this.state.user.token })
+                        }}
+                      >
+                        <>
+                          <View style={[iconStyle.iconGround, {backgroundColor: item.backgroundColor}]}>
+                            <Ionicons name={item.name} size={20} color={item.color} />
+                          </View>
+                          <Text style={iconStyle.iconText}>{item.text}</Text>
+                        </>
+                      </TouchableHighlight>
+                    )
+                  }
+                })
+              }
+            </View>
+            <View style={iconStyle.iconApps}>
+              {
+                this.state.rows.map((item, key) => {
+                  if (key > 3 && key < 8) {
+                    return (
+                      <TouchableHighlight
+                        key={key}
+                        underlayColor="none"
+                        onPress={() => {
+                          this.props.navigation.navigate('Web', { title: item.text, uri: item.uri + '?sign=' + this.state.user.token })
+                        }}
+                      >
+                        <>
+                          <View style={[iconStyle.iconGround, {backgroundColor: item.backgroundColor}]}>
+                            <Ionicons name={item.name} size={20} color={item.color} style={item.style} />
+                          </View>
+                          <Text style={iconStyle.iconText}>{item.text}</Text>
+                        </>
+                      </TouchableHighlight>
+                    )
+                  }
+                })
+              }
             </View>
           </View>
         </ScrollView>
@@ -298,7 +390,12 @@ const styles = {
     fontSize: 14,
     marginRight: 10,
     fontWeight: '400'
-  }
+  },
+  textArrow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
 }
 
 module.exports = User;

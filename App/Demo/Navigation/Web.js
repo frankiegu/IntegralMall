@@ -39,7 +39,6 @@ class Web extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.navigation.state.params.save)
     // CameraRoll.saveToCameraRoll(this.props.navigation.state.params.save)
     //   .then(function(result) {
     //     this.refs.toast.show("图片已保存至相册")

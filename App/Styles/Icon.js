@@ -11,56 +11,68 @@ const Icon = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 10,
   },
-  iconContainerBottom0: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-  },
-  iconTouch: {
-    width: Dimensions.get('window').width * 0.14,
-  },
-  iconTouch4: {
-    width: (Dimensions.get('window').width - 40) / 4,
+  iconCon: {
+    width: 50,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  iconTouchTop20: {
-    marginTop: 20
-  },
-  iconTouchBottom20: {
-    marginBottom: 20
-  },
-  iconColumnStyle: {
-    margin: 10,
-    marginRight: 10
+  iconGround: {
+    width: 38,
+    height: 38,
+    marginLeft: 6,
+    marginRight: 6,
+    borderRadius: 38,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
-    width: Dimensions.get('window').width * 0.14,
-    height: Dimensions.get('window').width * 0.14,
-    borderRadius: Dimensions.get('window').width * 0.14,
-    backgroundColor: '#d1d1d1',
+    width: 34,
+    height: 34,
     alignItems: 'center',
   },
   iconApps: {
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    // backgroundColor: '#CCC',
+    margin: 15,
+    marginTop: 5,
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   iconText: {
     fontSize: 12,
-    width: Dimensions.get('window').width * 0.14,
+    width: 50,
+    marginTop: 10,
+    textAlign: 'center',
+    color: '#666',
+  },
+  number: {
+    fontSize: 20,
+    width: 50,
+    marginTop: 10,
+    textAlign: 'center',
+    color: '#333',
+  },
+  numberText: {
+    fontSize: 12,
+    width: 50,
     marginTop: 10,
     textAlign: 'center',
     color: '#666',
   },
   iconHeader: {
-    padding: 10
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
   iconHeaderText: {
     fontSize: 14,
     color: '#000000',
+    fontWeight: '600',
+  },
+  iconHeaderTextMore: {
+    fontSize: 14,
+    color: '#aaaaaa',
     fontWeight: '600',
   }
 });

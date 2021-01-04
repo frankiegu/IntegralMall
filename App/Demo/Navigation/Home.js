@@ -220,7 +220,7 @@ class Home extends React.Component {
                       <Text allowFontScaling={false} style={styles.lotteryLottery_name} numberOfLines={2}>{item.product_name}</Text>
                       <Text allowFontScaling={false} style={styles.lotteryLottery_description} numberOfLines={1}>{item.product_business_description}</Text>
                       <View style={styles.lotteryFooter}>
-                        <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{'¥' + item.product_business_price}</Text>
+                        <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{'¥' + (item.product_business_discount ? item.product_business_discount : item.product_business_price)}</Text>
                         <View style={styles.lotteryBuy}>
                           <Text allowFontScaling={false} style={styles.lotteryBuyText}>看相似</Text>
                         </View>
