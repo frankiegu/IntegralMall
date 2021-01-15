@@ -52,6 +52,8 @@ class Web extends React.Component {
       <>
         <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
         <WebView
+          startInLoadingState={true}
+          automaticallyAdjustContentInsets={true}
           source={{uri: this.props.navigation.state.params.uri ? this.props.navigation.state.params.uri : ''}}
         />
       </>

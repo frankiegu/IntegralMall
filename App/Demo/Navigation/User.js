@@ -29,10 +29,10 @@ class User extends React.Component {
       user: [],
       number: [
         {
-          text: '积分'
+          text: '金币'
         },
         {
-          text: '悦豆'
+          text: '积分'
         },
         {
           text: '收藏'
@@ -48,19 +48,23 @@ class User extends React.Component {
         payment: [
           {
             text: '待付款',
-            img: Icon.waitPayment
+            img: Icon.waitPayment,
+            uri: 'https://taupd.ferer.net/mobile/user/order/state?status=1&'
           },
           {
             text: '待发货',
-            img: Icon.sendGoods
+            img: Icon.sendGoods,
+            uri: 'https://taupd.ferer.net/mobile/user/order/state?status=2&'
           },
           {
             text: '待收货',
-            img: Icon.deliveryGoods
+            img: Icon.deliveryGoods,
+            uri: 'https://taupd.ferer.net/mobile/user/order/state?status=3&'
           },
           {
             text: '售后',
-            img: Icon.service
+            img: Icon.service,
+            uri: 'https://taupd.ferer.net/mobile/user/order/state?status=4&'
           }
         ],
         lottery: [
@@ -84,60 +88,70 @@ class User extends React.Component {
       },
       rows: [
         {
+          type: 'navigate',
+          text: '积分商城',
+          color: '#FFF',
+          style: { left: 1 },
+          backgroundColor: '#894bfe',
+          name: 'gift',
+          uri: 'Integral'
+        },
+        {
+          type: 'web',
           text: '我的地址',
-          color: '#fff',
+          color: '#FFF',
           backgroundColor: '#4b98fe',
           name: 'location-sharp',
           uri: 'https://taupd.ferer.net/mobile/user/address'
         },
         {
+          type: 'web',
           text: '我的收藏',
-          color: '#fff',
+          color: '#FFF',
           backgroundColor: '#ffb000',
           name: 'star',
           uri: ''
         },
         {
+          type: 'web',
           text: '反馈联络',
-          color: '#fff',
+          color: '#FFF',
           backgroundColor: '#20c160',
           name: 'chatbubbles',
           uri: 'https://taupd.ferer.net/mobile/user/feedback'
         },
         {
+          type: 'web',
           text: '分享下载',
-          color: '#fff',
+          color: '#FFF',
           backgroundColor: '#fe4b52',
           name: 'arrow-redo',
-          uri: 'https://taupd.ferer.net/mobile/user/address'
+          uri: ''
         },
         {
+          type: 'web',
           text: '常见问题',
-          color: '#fff',
+          color: '#FFF',
+          style: { top: 1 },
           backgroundColor: '#2095c1',
           name: 'help-circle',
           size: 25,
-          uri: 'https://taupd.ferer.net/mobile/user/address'
+          uri: ''
         },
         {
-          text: '常见问题',
-          color: '#fff',
-          backgroundColor: '#9cc120',
-          name: 'alert-circle',
-          size: 25,
-          style: { left: 1 },
-          uri: 'https://taupd.ferer.net/mobile/user/address'
-        },
-        {
-          text: '隐私',
+          type: 'web',
+          text: '隐私安全',
           color: '#FFF',
+          style: { top: 1 },
           backgroundColor: '#ff6b00',
           name: 'shield-checkmark',
           uri: ''
         },
         {
+          type: 'web',
           text: '设置',
           color: '#FFF',
+          style: { top: 1 },
           backgroundColor: '#666666',
           name: 'settings-sharp',
           uri: ''
@@ -151,11 +165,16 @@ class User extends React.Component {
   componentDidMount() {
     this.listener = DeviceEventEmitter.addListener('Change', () => {
       this.fetchLoginfo()
-    });
+    })
+
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      this.fetchLoginfo()
+    })
   }
 
   componentWillUnmount() {
     this.listener.remove();
+    this._navListener.remove();
   }
 
   fetchLoginfo() {
@@ -164,6 +183,41 @@ class User extends React.Component {
       this.setState({
         user: JSON.parse(response)
       })
+      if (this.state.user.id) {
+        fetch(`https://taupd.ferer.net/v1/api/user/auth?sign=` + this.state.user.token, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(response => response.json())
+        .then(responseData => {
+          if (responseData.user) {
+            AsyncStorage.setItem('user', JSON.stringify(responseData.user));
+            this.setState({
+              user: responseData.user,
+              rows: responseData.rows
+            })
+          }
+
+          if (responseData.name == 'TokenExpiredError') {
+            this.setState({
+              user: []
+            })
+            AsyncStorage.removeItem('user');
+          }
+        })
+        .catch((error) => {
+          console.log('err: ', error)
+        })
+        .done()
+      } else {
+        this.setState({
+          user: null
+        })
+        AsyncStorage.removeItem('user');
+      }
     })
     .catch((error) => {
       this.setState({
@@ -174,7 +228,7 @@ class User extends React.Component {
   }
 
   render() {
-    if (!this.state.user.id) {
+    if (!this.state.user) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <TouchableHighlight
@@ -236,10 +290,18 @@ class User extends React.Component {
           <View style={iconStyle.iconContainer}>
             <View style={iconStyle.iconHeader}>
               <Text style={iconStyle.iconHeaderText}>支付订单</Text>
-              <View style={styles.textArrow}>
-                <Text style={iconStyle.iconHeaderTextMore}>查看订单</Text>
-                <Ionicons name={'chevron-forward-outline'} size={20} color='#AAA' />
-              </View>
+              <TouchableHighlight
+                style={styles.textArrow}
+                underlayColor="none"
+                onPress={() => {
+                  this.props.navigation.navigate('Web', { title: '订单状态', uri: 'https://taupd.ferer.net/mobile/user/order?status=0&sign=' + this.state.user.token })
+                }}
+              >
+                <>
+                  <Text style={iconStyle.iconHeaderTextMore}>查看全部</Text>
+                  <Ionicons name={'chevron-forward-outline'} size={20} color='#AAA' />
+                </>
+              </TouchableHighlight>
             </View>
             <View style={iconStyle.iconApps}>
               {
@@ -248,6 +310,9 @@ class User extends React.Component {
                     <TouchableHighlight
                       key={key}
                       underlayColor="none"
+                      onPress={() => {
+                        this.props.navigation.navigate('Web', { title: '订单状态', uri: item.uri + this.state.user.token })
+                      }}
                     >
                       <>
                         <View style={iconStyle.iconCon}>
@@ -263,7 +328,7 @@ class User extends React.Component {
           </View>
           <View style={iconStyle.iconContainer}>
             <View style={iconStyle.iconHeader}>
-              <Text style={iconStyle.iconHeaderText}>订购订单</Text>
+              <Text style={iconStyle.iconHeaderText}>抢购订单</Text>
             </View>
             <View style={iconStyle.iconApps}>
               {
@@ -292,18 +357,25 @@ class User extends React.Component {
             <View style={iconStyle.iconApps}>
               {
                 this.state.rows.map((item, key) => {
-                  if (key < 4) {
+                  if (key >= 0 && key <= 3) {
                     return (
                       <TouchableHighlight
                         key={key}
                         underlayColor="none"
                         onPress={() => {
-                          this.props.navigation.navigate('Web', { title: item.text, uri: item.uri + '?sign=' + this.state.user.token })
+                          switch (item.type) {
+                            case 'navigate':
+                              this.props.navigation.navigate(item.uri)
+                              break;
+                            case 'web':
+                              this.props.navigation.navigate('Web', { title: item.text, uri: item.uri })
+                              break;
+                          }
                         }}
                       >
                         <>
                           <View style={[iconStyle.iconGround, {backgroundColor: item.backgroundColor}]}>
-                            <Ionicons name={item.name} size={20} color={item.color} />
+                            <Ionicons name={item.name} size={20} color={item.color} style={item.style} />
                           </View>
                           <Text style={iconStyle.iconText}>{item.text}</Text>
                         </>
@@ -316,13 +388,51 @@ class User extends React.Component {
             <View style={iconStyle.iconApps}>
               {
                 this.state.rows.map((item, key) => {
-                  if (key > 3 && key < 8) {
+                  if (key >= 4 && key <= 7) {
                     return (
                       <TouchableHighlight
                         key={key}
                         underlayColor="none"
                         onPress={() => {
-                          this.props.navigation.navigate('Web', { title: item.text, uri: item.uri + '?sign=' + this.state.user.token })
+                          switch (item.type) {
+                            case 'navigate':
+                              this.props.navigation.navigate(item.uri)
+                              break;
+                            case 'web':
+                              this.props.navigation.navigate('Web', { title: item.text, uri: item.uri })
+                              break;
+                          }
+                        }}
+                      >
+                        <>
+                          <View style={[iconStyle.iconGround, {backgroundColor: item.backgroundColor}]}>
+                            <Ionicons name={item.name} size={20} color={item.color} style={item.style} />
+                          </View>
+                          <Text style={iconStyle.iconText}>{item.text}</Text>
+                        </>
+                      </TouchableHighlight>
+                    )
+                  }
+                })
+              }
+            </View>
+            <View style={[iconStyle.iconApps, {display: this.state.rows.length > 8 ? '' : 'none'}]}>
+              {
+                this.state.rows.map((item, key) => {
+                  if (key >= 8 && key <= 11) {
+                    return (
+                      <TouchableHighlight
+                        key={key}
+                        underlayColor="none"
+                        onPress={() => {
+                          switch (item.type) {
+                            case 'navigate':
+                              this.props.navigation.navigate(item.uri)
+                              break;
+                            case 'web':
+                              this.props.navigation.navigate('Web', { title: item.text, uri: item.uri })
+                              break;
+                          }
                         }}
                       >
                         <>
@@ -355,7 +465,7 @@ const styles = {
   backgroundSwiper: {
     position: 'absolute',
     backgroundColor: '#ffd600',
-    top: -Dimensions.get('window').width * 1.4,
+    top: -Dimensions.get('window').width * 1.45,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width * 1.8,
     borderBottomLeftRadius: 20,

@@ -2,7 +2,7 @@ import React, { Component, useRef } from 'react';
 import iconStyle from '../../Styles/Icon'
 import ViewSwiper from 'react-native-swiper';
 import HTMLView from 'react-native-htmlview';
-import Modalize from 'react-native-modalize';
+import { Modalize } from 'react-native-modalize';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import faker from 'faker';
@@ -17,6 +17,7 @@ import {
   FlatList,
   SectionList,
   Platform,
+  AsyncStorage,
   RefreshControl,
   ActivityIndicator,
   TouchableOpacity,
@@ -64,12 +65,23 @@ class LotteryDetails extends React.PureComponent {
     super(props);
 
     this.state = {
-      details: null
+      id: this.props.navigation.state.params.id,
+      details: null,
+      user: []
     }
 
-    console.log(this.modal);
+    AsyncStorage.getItem('user')
+    .then((response) => {
+      this.setState({
+        user: JSON.parse(response)
+      })
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .done();
 
-    this.fetchData(this.props.navigation.state.params.id);
+    this.fetchData(this.state.id);
   }
 
   fetchData(id) {
@@ -84,6 +96,31 @@ class LotteryDetails extends React.PureComponent {
       console.log('err: ', error)
     })
     .done();
+  }
+
+  carts(id, product_number) {
+    fetch(`https://taupd.ferer.net/v1/api/carts`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        submit: 'create',
+        product_type: 'business',
+        id,
+        product_number,
+        sign: this.state.user.token
+      })
+    })
+    .then(response => response.json())
+    .then(responseData => {
+      console.log(responseData);
+    })
+    .catch((error) => {
+      console.log('err: ', error)
+    })
+    .done()
   }
 
   modal = React.createRef();
@@ -279,11 +316,20 @@ class LotteryDetails extends React.PureComponent {
               <View style={{width: 105, padding: 13, borderTopLeftRadius: 20, borderBottomLeftRadius: 20, backgroundColor: '#f97433'}}>
                 <Text allowFontScaling={false} style={{textAlign: 'center', fontWeight: '500', color: '#FFF'}}>加入购物车</Text>
               </View>
-              <View style={{width: 105, padding: 13, borderTopRightRadius: 20, borderBottomRightRadius: 20, backgroundColor: '#f93333'}}>
+              <TouchableHighlight
+                style={{width: 105, padding: 13, borderTopRightRadius: 20, borderBottomRightRadius: 20, backgroundColor: '#f93333'}}
+                underlayColor="none"
+                onPress={() => {
+                  this.carts(this.state.id, 1)
+                }}
+              >
                 <Text allowFontScaling={false} style={{textAlign: 'center', fontWeight: '500', color: '#FFF'}}>立即购买</Text>
-              </View>
+              </TouchableHighlight>
             </View>
           </View>
+          <Modalize ref={this.modal} adjustToContentHeight>
+            {this.renderContent()}
+          </Modalize>
         </>
       );
     }

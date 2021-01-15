@@ -18,8 +18,12 @@ import Home from './Home'
 import Classify from './Classify'
 import Web from './Web'
 import Life from './Life'
+import Cart from './Cart'
+import CartManage from './CartManage'
 import User from './User'
 import Login from './Login'
+import Integral from './Integral'
+import ConfirmOrder from './ConfirmOrder'
 import LotteryDetails from './LotteryDetails';
 import AnimatedTurnTableDraw from './AnimatedTurnTableDraw';
 class SettingsScreen extends React.Component {
@@ -48,17 +52,6 @@ class DetailsScreen extends React.Component {
 
 class HomeScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
-    headerLeft: (
-      <TouchableHighlight
-        style={{left: 10}}
-        underlayColor='transparent'
-      >
-        <Ionicons
-          name={'logo-apple'}
-          size={30}
-        />
-      </TouchableHighlight>
-    ),
     headerTitle: (
       <TouchableHighlight
         underlayColor='transparent'
@@ -117,7 +110,7 @@ class LifeScreen extends React.Component {
         color: 'rgba(0, 0, 0, 1)',
         textAlign: 'center',
         marginHorizontal: 16
-      }}>生活</Text>
+      }}>发现</Text>
     ),
     headerRight: (
       <TouchableHighlight
@@ -145,50 +138,82 @@ class LifeScreen extends React.Component {
   }
 }
 
-class CardScreen extends React.Component {
-  static navigationOptions = ({navigation, screenProps}) => ({
-    headerTitle: (
-      <Text allowFontScaling={false} style={{
-        fontSize: 17,
-        fontWeight: '600',
-        color: 'rgba(0, 0, 0, 1)',
-        textAlign: 'center',
-        marginHorizontal: 16
-      }}>购物车</Text>
-    ),
-    tabBarVisible: false,
-    headerTitleStyle: {color: '#000000'},
-    headerStyle: {
-      backgroundColor: '#ffd600',
-      borderBottomWidth: 0
-    },
-  });
+class CartScreen extends React.Component {
+  static navigationOptions ({ navigation }) {
+    const { params } = navigation.state;
+
+    return {
+      headerTitle: (
+        <Text allowFontScaling={false} style={{
+          fontSize: 17,
+          fontWeight: '600',
+          color: 'rgba(0, 0, 0, 1)',
+          textAlign: 'center',
+          marginHorizontal: 16
+        }}>购物车</Text>
+      ),
+      headerRight: (
+        <TouchableHighlight
+          style={{padding: 10}}
+          activeOpacity={0.85}
+          underlayColor="none"
+          onPress={() => {
+            navigation.setParams({
+              manage: !navigation.state.params.manage
+            })
+
+            navigation.state.params.navigatePress()
+          }}
+        >
+          <Text allowFontScaling={false}>管理</Text>
+        </TouchableHighlight>
+      ),
+      tabBarVisible: false,
+      headerTitleStyle: {color: '#000000'},
+      headerStyle: {
+        backgroundColor: '#ffd600',
+        borderBottomWidth: 0
+      },
+    }
+  };
+
+  navigatePress = ()=> {
+    this.setState({
+      manage: this.props.navigation.state.params.manage
+    })
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      manage: false
+    };
+  }
+
+  componentDidMount() {
+    // static 中设置 this 方法
+    this.props.navigation.setParams({
+      navigatePress: this.navigatePress,
+      manage: false
+    })
+  }
 
   render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('DetailsScreen')}
-        />
-      </View>
-    );
+    if (!this.state.manage) {
+      return (
+        <Cart { ...this.props } />
+      );
+    } else {
+      return (
+        <CartManage { ...this.props } />
+      );
+    }
   }
 }
 
 class UserScreen extends React.Component {
   static navigationOptions = ({navigation, screenProps}) => ({
-    headerLeft: (
-      <TouchableHighlight
-        style={{left: 10}}
-        underlayColor='transparent'
-      >
-        <Ionicons
-          name={'md-settings'}
-          size={28}
-        />
-      </TouchableHighlight>
-    ),
     headerTitle: null,
     headerRight: (
       <TouchableHighlight
@@ -251,7 +276,7 @@ const HomeStack = createStackNavigator({
 });
 
 const CardStack = createStackNavigator({
-  Card: CardScreen
+  Card: CartScreen
 });
 
 const LifeStack = createStackNavigator({
@@ -296,17 +321,17 @@ const BottomNavigatorScreen = createBottomTabNavigator({
   Life: {
      screen: LifeStack,
      navigationOptions: {
-        tabBarLabel: '生活',
+        tabBarLabel: '发现',
         tabBarIcon: ({tintColor, focused}) => (
           <Ionicons
-            name={focused ? 'md-disc' : 'md-disc'}
+            name={focused ? 'earth' : 'earth'}
             size={25}
             style={{color: tintColor}}
           />
         ),
      },
   },
-  CartStack: {
+  Cart: {
      screen: CardStack,
      navigationOptions: {
         tabBarLabel: '购物车',
@@ -332,11 +357,10 @@ const BottomNavigatorScreen = createBottomTabNavigator({
         ),
      },
   },
-},
-{
+}, {
   mode: 'card',
   headerMode: 'none',
-  initialRouteName: 'Home'
+  initialRouteName: 'Cart'
 });
 
 const stackNavigator = createStackNavigator({
@@ -349,6 +373,8 @@ const stackNavigator = createStackNavigator({
   DetailsScreen: { screen: DetailsScreen },
   Web: { screen: Web },
   Login: { screen: Login },
+  Integral: { screen: Integral },
+  ConfirmOrder: { screen: ConfirmOrder },
   LotteryDetails: { screen: LotteryDetails },
   AnimatedTurnTableDraw: { screen: AnimatedTurnTableDraw },
 })

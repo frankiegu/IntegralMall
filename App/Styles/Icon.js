@@ -7,6 +7,7 @@ const screenW = Dimensions.get('window').width / 2;
 const screenH = Dimensions.get('window').height;
 const Icon = StyleSheet.create({
   iconContainer: {
+    marginTop: 0,
     margin: 10,
     backgroundColor: '#ffffff',
     borderRadius: 10,

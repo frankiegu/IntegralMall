@@ -27,8 +27,6 @@ class Home extends React.Component {
     this.state = {
       scrollY: new Animated.Value(0),
       data: [],
-      list: [],
-      active: '5d3912da9bbe3147969a4ad1',
       business: [],
       icons: [
         {
@@ -56,8 +54,18 @@ class Home extends React.Component {
     };
 
     this.fetchData();
-    this.fetchDataList();
     this.fetchDataLottery();
+  }
+
+  componentDidMount() {
+    this._navListener = this.props.navigation.addListener('didFocus', () => {
+      this.fetchData();
+      this.fetchDataLottery();
+    });
+  }
+
+  componentWillUnmount() {
+    this._navListener.remove();
   }
 
   fetchData() {
@@ -66,27 +74,6 @@ class Home extends React.Component {
     .then(responseData => {
       this.setState({
         data: responseData
-      });
-    })
-    .catch((error) => {
-      console.log('err: ', error)
-    })
-    .done();
-  }
-
-  fetchDataList() {
-    fetch(`https://app.xiaomiyoupin.com/mtop/mf/cat/list`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify([{},{}])
-    })
-    .then(response => response.json())
-    .then(responseData => {
-      this.setState({
-        list: responseData.data
       });
     })
     .catch((error) => {
@@ -112,7 +99,7 @@ class Home extends React.Component {
   render() {
     if (this.state.data.length) {
       return (
-        <View>
+        <ScrollView>
           <Animated.ScrollView
             onScroll={
               Animated.event(
@@ -149,7 +136,7 @@ class Home extends React.Component {
                 }
               </ViewSwiper>
             </View>
-            <View style={iconStyle.iconContainer}>
+            <View style={[iconStyle.iconContainer, {marginTop: 15, paddingTop: 10}]}>
               <View style={iconStyle.iconApps}>
                 {
                   this.state.icons.map((item, key) => {
@@ -173,31 +160,6 @@ class Home extends React.Component {
                 }
               </View>
             </View>
-            <StickyHeader
-              style={styles.listContainer}
-              stickyHeaderstyleDidWill={styles.listContainerDidWill}
-              stickyHeaderY={Dimensions.get('window').width / 2 + Dimensions.get('window').width * 0.14 + 65} // 滑动到多少悬浮
-              stickyScrollY={this.state.scrollY}
-            >
-              <FlatList
-                data={this.state.list}
-                horizontal={true}
-                numColumns={1}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({item, index}) =>
-                  <TouchableHighlight
-                    style={[styles.listTouch, this.state.active === item.id ? styles.listTouchActive : '']}
-                    underlayColor="rgba(255, 255, 255, 0.85)"
-                    activeOpacity={0.9}
-                    onPress={() => this.fetchDataDetail(item.id)}
-                  >
-                    <>
-                      <Text allowFontScaling={false} style={[styles.listName, this.state.active == item.id ? styles.listNameActive : '']}>{item.name}</Text>
-                    </>
-                  </TouchableHighlight>
-                }
-              />
-            </StickyHeader>
             <FlatList
               data={this.state.business}
               horizontal={false}
@@ -222,7 +184,7 @@ class Home extends React.Component {
                       <View style={styles.lotteryFooter}>
                         <Text allowFontScaling={false} style={styles.lotteryFinish_quantity}>{'¥' + (item.product_business_discount ? item.product_business_discount : item.product_business_price)}</Text>
                         <View style={styles.lotteryBuy}>
-                          <Text allowFontScaling={false} style={styles.lotteryBuyText}>看相似</Text>
+                          <Text allowFontScaling={false} style={styles.lotteryBuyText}>加入</Text>
                         </View>
                       </View>
                     </View>
@@ -231,7 +193,7 @@ class Home extends React.Component {
               }
             />
           </Animated.ScrollView>
-        </View>
+        </ScrollView>
       );
     }
 

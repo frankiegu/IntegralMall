@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
     "crypto-js": "^3.3.0",
     "faker": "^4.1.0",
     "react": "16.9.0",
@@ -20,6 +21,7 @@
     "react-native-i18n": "^2.0.15",
     "react-native-modalize": "^2.0.8",
     "react-native-reanimated": "^1.8.0",
+    "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.5.0",
     "react-native-stickyheader": "^1.1.2",
     "react-native-storage": "^1.0.1",
@@ -27,6 +29,7 @@
     "react-native-vector-icons": "7.1.0",
     "react-native-webview": "^11.0.2",
     "react-navigation": "^2.18.3",
+    "react-navigation-stack": "^2.10.2",
     "react-navigation-tabs": "^2.8.11"
   },
   "devDependencies": {
